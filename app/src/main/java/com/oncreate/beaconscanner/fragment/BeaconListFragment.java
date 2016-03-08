@@ -61,6 +61,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final int TRACKING_AGE = 10000;
     private static final long FOREGROUND_SCAN_PERIOD = 1100L;
     private static final long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
+    private static final String REGION_ID = "Beacon_Scanner_Region";
     private static final String APPLE_BEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
 
     @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
@@ -185,7 +186,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         });
 
         try {
-            mBeaconManager.startRangingBeaconsInRegion(new Region("region", null, null, null));
+            mBeaconManager.startRangingBeaconsInRegion(new Region(REGION_ID, null, null, null));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -267,16 +268,16 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void verifyBluetooth() {
         if (!mBeaconManager.checkAvailability()) {
             new AlertDialog.Builder(getActivity())
-                    .setTitle("Bluetooth not enabled")
-                    .setMessage("Please enable bluetooth in settings and restart the app to work properly.")
-                    .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.bluetooth_not_enabled))
+                    .setMessage(getString(R.string.please_enable_bluetooth))
+                    .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent bltSettingsIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
                             startActivity(bltSettingsIntent);
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -296,11 +297,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
         mBeaconManager.unbind(this);
     }
+
 }
