@@ -21,4 +21,27 @@
     <string name="please_enable_bluetooth">Please enable bluetooth in settings and restart the app
         to work properly.
     </string>
+
+    <!--Detail page strings-->
+    <string name="beacon_detail">Beacon details</string>
+    <string name="detail_uuid">UUID:\n</string>
+    <string name="detail_minor">Minor:</string>
+    <string name="detail_major">Major:</string>
+    <string name="detail_distance">Distance(m):</string>
+    <string name="detail_bluetooth_address">Bluetooth address:</string>
+    <string name="detail_manufacturer">Manufacturer:</string>
+    <string name="detail_rssi">Rssi:</string>
+    <string name="detail_service_uuid">Service UUID:</string>
+    <string name="detail_tx_power">TX power:</string>
+
+    <!--Detail fields strings-->
+    <string name="detail_field_uuid">00000000-0000-0000-0000-00000000000</string>
+    <string name="detail_field_minor">0</string>
+    <string name="detail_field_major">0</string>
+    <string name="detail_field_distance">0.000000000000000</string>
+    <string name="detail_field_bluetooth_address">5A:B5:11:A7:36:5F</string>
+    <string name="detail_field_manufacturer">533</string>
+    <string name="detail_field_rssi">-51</string>
+    <string name="detail_field_service_uuid">-1</string>
+    <string name="detail_field_tx_power">-59</string>
 </resources>

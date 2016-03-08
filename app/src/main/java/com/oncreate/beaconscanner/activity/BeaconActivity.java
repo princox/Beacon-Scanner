@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.oncreate.beaconscanner.R;
 import com.oncreate.beaconscanner.fragment.BeaconFragment;
 
 import org.altbeacon.beacon.Beacon;
@@ -27,6 +28,7 @@ public class BeaconActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         Beacon beacon = getIntent().getParcelableExtra(EXTRA_BEACON);
+        setTitle(R.string.beacon_detail);
         return BeaconFragment.newInstance(beacon);
     }
 }

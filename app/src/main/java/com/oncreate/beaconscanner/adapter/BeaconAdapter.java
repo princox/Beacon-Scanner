@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.oncreate.beaconscanner.R;
 
@@ -81,6 +82,8 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         public BeaconHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bindBeacon(Beacon beacon) {
@@ -92,6 +95,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
 
         @Override
         public void onClick(View v) {
+
             mCallback.onBeaconSelected(mBeacon);
         }
     }
