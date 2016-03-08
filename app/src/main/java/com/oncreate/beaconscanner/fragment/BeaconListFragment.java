@@ -286,13 +286,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                     .show();
         }
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mScanning) onScanFabClick();
-    }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -95,7 +95,6 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
 
         @Override
         public void onClick(View v) {
-
             mCallback.onBeaconSelected(mBeacon);
         }
     }
