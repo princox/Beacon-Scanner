@@ -286,7 +286,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                     .show();
         }
     }
-    
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
