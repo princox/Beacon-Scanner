@@ -41,6 +41,7 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -147,6 +148,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 visitSiteIntent.launchUrl(getActivity(), Uri.parse("http://www.google.com"));
                 return true;
             case R.id.menu_item_reset:
+                mBeaconStore.clearBeacons();
+                updateLayout(mBeaconStore.getBeacons());
+                onScanClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -190,7 +194,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     }
 
     @OnClick({R.id.scan_button, R.id.scan_circle})
-    void startAnim() {
+    void onScanClick() {
         if (!mBeaconManager.checkAvailability() && !mScanning) {
             verifyBluetooth();
         } else {

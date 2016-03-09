@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -46,5 +45,9 @@ public class BeaconStore {
 
     public void updateBeacons(Collection<Beacon> beacons) {
         mBeacons = (List<Beacon>) beacons;
+    }
+
+    public void clearBeacons() {
+        mBeacons.clear();
     }
 }
