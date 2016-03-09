@@ -30,6 +30,10 @@ public class BeaconStore {
         return sBeaconStore;
     }
 
+    public static void deleteInstance() {
+        sBeaconStore = null;
+    }
+
     public List<Beacon> getBeacons() {
         Collections.sort(mBeacons, new Comparator<Beacon>() {
             @Override
@@ -40,7 +44,7 @@ public class BeaconStore {
         return mBeacons;
     }
 
-    public void refreshBeacons(Collection<Beacon> beacons) {
+    public void updateBeacons(Collection<Beacon> beacons) {
         mBeacons = (List<Beacon>) beacons;
     }
 }
