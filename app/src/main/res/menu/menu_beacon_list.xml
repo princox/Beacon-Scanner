@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:id="@+id/menu_item_visit_site"
         android:orderInCategory="0"
@@ -11,14 +12,20 @@
 
     <item
         android:id="@+id/menu_item_help_feedback"
-        android:orderInCategory="50"
+        android:orderInCategory="1"
         android:title="@string/help_and_feedback"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_item_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="@string/settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_item_reset"
+        android:orderInCategory="3"
+        android:title="@string/reset"
         app:showAsAction="never"/>
 
 </menu>

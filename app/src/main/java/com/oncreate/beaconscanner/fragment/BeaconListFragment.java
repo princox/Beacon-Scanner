@@ -146,6 +146,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                         .build();
                 visitSiteIntent.launchUrl(getActivity(), Uri.parse("http://www.google.com"));
                 return true;
+            case R.id.menu_item_reset:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
