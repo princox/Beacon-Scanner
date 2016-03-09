@@ -13,9 +13,10 @@
     <string name="list_item_major_minor">Maj, Min: %1$s.%2$s</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Menu item strings -->
     <string name="start_scanning">Start scanning</string>
     <string name="stop_scanning">Stop scanning</string>
-    <string name="reset">Reset</string>
+    <string name="visit_site">Visit site</string>
     <string name="help_and_feedback"><![CDATA[Help & Feedback]]></string>
     <string name="settings">Settings</string>
 

@@ -10,7 +10,7 @@
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoOverlay="false"
     sothree:umanoPanelHeight="0dp"
-    sothree:umanoShadowHeight="4dp">
+    sothree:umanoShadowHeight="8dp">
 
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

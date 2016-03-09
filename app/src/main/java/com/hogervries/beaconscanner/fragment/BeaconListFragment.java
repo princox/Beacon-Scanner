@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -64,7 +66,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
-    private static final int TRACKING_AGE = 5000;
+    private static final int TRACKING_AGE = 2000;
     private static final long FOREGROUND_SCAN_PERIOD = 1100L;
     private static final long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
     private static final String REGION_ID = "Beacon_Scanner_Region";
@@ -76,6 +78,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     @Bind(R.id.scan_button) ImageButton mScanButton;
     @Bind(R.id.pulse_ring) ImageView mPulseRing;
     @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
+    @BindColor(R.color.colorPrimary) int mRedColor;
 
     private boolean mScanning;
     private BeaconManager mBeaconManager;
@@ -136,21 +139,23 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
-        menu.findItem(R.id.menu_start_stop_scanning)
+        menu.findItem(R.id.menu_item_toggle_scanning)
                 .setTitle(mScanning ? R.string.stop_scanning : R.string.start_scanning);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_start_stop_scanning:
+            case R.id.menu_item_toggle_scanning:
                 toggleScan();
                 if (mBeaconStore.getBeacons().isEmpty()) animateScanning();
                 return true;
-            case R.id.menu_item_reset:
-                mBeaconStore.clearBeacons();
-                updateLayout(mBeaconStore.getBeacons());
-                if (mScanning) onScanClick();
+            case R.id.menu_item_visit_site:
+                CustomTabsIntent visitSiteIntent = new CustomTabsIntent.Builder()
+                        .setShowTitle(true)
+                        .setToolbarColor(mRedColor)
+                        .build();
+                visitSiteIntent.launchUrl(getActivity(), Uri.parse("http://www.google.com/"));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
