@@ -1,4 +1,4 @@
-package com.oncreate.beaconscanner;
+package com.hogervries.beaconscanner;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

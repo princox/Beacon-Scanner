@@ -1,15 +1,12 @@
-package com.oncreate.beaconscanner.activity;
+package com.hogervries.beaconscanner.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.afollestad.assent.Assent;
-import com.afollestad.assent.AssentCallback;
-import com.afollestad.assent.PermissionResultSet;
-import com.oncreate.beaconscanner.R;
+import com.hogervries.beaconscanner.R;
 
 /**
  * Beacon Scanner, file created on 07/03/16.

@@ -1,15 +1,13 @@
-package com.oncreate.beaconscanner.fragment;
+package com.hogervries.beaconscanner.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,15 +23,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
 import com.afollestad.assent.PermissionResultSet;
-import com.oncreate.beaconscanner.BeaconStore;
-import com.oncreate.beaconscanner.R;
-import com.oncreate.beaconscanner.adapter.BeaconAdapter;
-import com.oncreate.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.BeaconStore;
+import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.adapter.BeaconAdapter;
+import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.altbeacon.beacon.Beacon;
@@ -43,7 +42,6 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -72,18 +70,12 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final String REGION_ID = "Beacon_Scanner_Region";
     private static final String APPLE_BEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.sliding_layout)
-    SlidingUpPanelLayout mPanelLayout;
-    @Bind(R.id.scan_circle)
-    ImageView mScanButton;
-    @Bind(R.id.beacon_recycler_view)
-    RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorPrimary)
-    int mPrimaryColor;
-    @Bind(R.id.ring)
-    ImageView mPulseRing;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.sliding_layout) SlidingUpPanelLayout mPanelLayout;
+    @Bind(R.id.scan_circle) ImageView mScanCircle;
+    @Bind(R.id.scan_button) ImageButton mScanButton;
+    @Bind(R.id.pulse_ring) ImageView mPulseRing;
+    @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
 
     private boolean mScanning;
     private BeaconManager mBeaconManager;
@@ -144,22 +136,21 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
+        menu.findItem(R.id.menu_start_stop_scanning)
+                .setTitle(mScanning ? R.string.stop_scanning : R.string.start_scanning);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_visit_site:
-                CustomTabsIntent visitSiteIntent = new CustomTabsIntent.Builder()
-                        .setShowTitle(true)
-                        .setToolbarColor(mPrimaryColor)
-                        .build();
-                visitSiteIntent.launchUrl(getActivity(), Uri.parse("http://www.google.com"));
+            case R.id.menu_start_stop_scanning:
+                toggleScan();
+                if (mBeaconStore.getBeacons().isEmpty()) animateScanning();
                 return true;
             case R.id.menu_item_reset:
                 mBeaconStore.clearBeacons();
                 updateLayout(mBeaconStore.getBeacons());
-                onScanClick();
+                if (mScanning) onScanClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -202,16 +193,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
     }
 
-    @OnClick({R.id.scan_button, R.id.scan_circle})
-    void onScanClick() {
-        if (!mBeaconManager.checkAvailability() && !mScanning) {
-            verifyBluetooth();
-        } else {
-            mScanning = !mScanning;
-            scan();
-        }
-    }
-
     private void updateUI() {
         if (isAdded()) {
             List<Beacon> beacons = mBeaconStore.getBeacons();
@@ -228,23 +209,46 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    @OnClick({R.id.scan_button, R.id.scan_circle})
+    void onScanClick() {
+        if (!mBeaconManager.checkAvailability() && !mScanning) {
+            verifyBluetooth();
+        } else {
+            toggleScan();
+            animateScanning();
+        }
+    }
+
     private void updateLayout(List<Beacon> beacons) {
         PanelState panelState = beacons.isEmpty() ? COLLAPSED : ANCHORED;
         mPanelLayout.setPanelState(panelState);
     }
 
-    private void animateScanButton() {
-        mScanButton.startAnimation(mScanning ?
+    private void toggleScan() {
+        mScanning = !mScanning;
+        getActivity().invalidateOptionsMenu();
+        if (mScanning) mBeaconManager.bind(this);
+        else mBeaconManager.unbind(this);
+    }
+
+    private void animateScanning() {
+        mScanCircle.startAnimation(mScanning ?
                 AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in) :
                 AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
 
-        setScanAnimation(mPulseRing);
+        mScanButton.setImageResource(mScanning ? R.drawable.ic_pulse_circle : R.drawable.ic_scan_beacons);
+
+        animatePulse();
     }
 
-    private void scan() {
-        if (mScanning) mBeaconManager.bind(this);
-        else mBeaconManager.unbind(this);
-        animateScanButton();
+    private void animatePulse() {
+        AnimationSet set = new AnimationSet(false);
+        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
+        Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
+        set.addAnimation(pulse);
+        set.addAnimation(fade);
+        if (mScanning) mPulseRing.startAnimation(set);
+        else mPulseRing.clearAnimation();
     }
 
     @Override
@@ -317,16 +321,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                     })
                     .show();
         }
-    }
-
-    private void setScanAnimation(View view) {
-        AnimationSet set = new AnimationSet(false);
-        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
-        Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
-        set.addAnimation(pulse);
-        set.addAnimation(fade);
-        if (mScanning) view.startAnimation(set);
-        else view.clearAnimation();
     }
 
     @Override

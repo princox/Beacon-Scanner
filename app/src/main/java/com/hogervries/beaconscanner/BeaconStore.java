@@ -1,4 +1,4 @@
-package com.oncreate.beaconscanner;
+package com.hogervries.beaconscanner;
 
 import org.altbeacon.beacon.Beacon;
 

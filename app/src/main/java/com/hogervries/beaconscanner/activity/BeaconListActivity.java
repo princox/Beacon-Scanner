@@ -1,11 +1,11 @@
-package com.oncreate.beaconscanner.activity;
+package com.hogervries.beaconscanner.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-import com.oncreate.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.oncreate.beaconscanner.fragment.BeaconListFragment;
+import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.fragment.BeaconListFragment;
 
 import org.altbeacon.beacon.Beacon;
 

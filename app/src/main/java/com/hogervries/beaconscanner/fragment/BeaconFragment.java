@@ -1,4 +1,4 @@
-package com.oncreate.beaconscanner.fragment;
+package com.hogervries.beaconscanner.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.oncreate.beaconscanner.R;
+import com.hogervries.beaconscanner.R;
 
 import org.altbeacon.beacon.Beacon;
 

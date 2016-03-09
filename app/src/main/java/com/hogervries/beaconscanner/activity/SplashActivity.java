@@ -1,4 +1,4 @@
-package com.oncreate.beaconscanner.activity;
+package com.hogervries.beaconscanner.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

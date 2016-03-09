@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.oncreate.beaconscanner"
+    package="com.hogervries.beaconscanner"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="com.hogervries.beaconscanner.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -27,11 +27,11 @@
         </activity>
 
         <activity
-            android:name=".activity.BeaconListActivity"
+            android:name="com.hogervries.beaconscanner.activity.BeaconListActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.BeaconActivity"
+            android:name="com.hogervries.beaconscanner.activity.BeaconActivity"
             android:screenOrientation="portrait"/>
 
     </application>
