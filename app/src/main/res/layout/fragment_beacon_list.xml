@@ -18,31 +18,32 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/scan_circle"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/circle_button_content_desc"
-                android:src="@drawable/ic_circle"/>
+        <ImageView
+            android:id="@+id/scan_circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/circle_button_content_desc"
+            android:src="@drawable/ic_circle"/>
 
-            <ImageButton
-                android:id="@+id/scan_button"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@color/colorPrimary"
-                android:contentDescription="@string/circle_button_content_desc"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_scan_beacons"/>
+        <ImageView
+            android:id="@+id/ring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/outer_ring"
+            android:contentDescription="@string/ring_pulse_desc"/>
 
-        </RelativeLayout>
+        <ImageButton
+            android:id="@+id/scan_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_circle"
+            android:contentDescription="@string/circle_button_content_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_scan_beacons"/>
 
         <include
             android:id="@+id/toolbar"

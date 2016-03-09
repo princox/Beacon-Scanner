@@ -22,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
@@ -70,11 +72,18 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final String REGION_ID = "Beacon_Scanner_Region";
     private static final String APPLE_BEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.sliding_layout) SlidingUpPanelLayout mPanelLayout;
-    @Bind(R.id.scan_circle) ImageView mScanButton;
-    @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorPrimary) int mPrimaryColor;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.sliding_layout)
+    SlidingUpPanelLayout mPanelLayout;
+    @Bind(R.id.scan_circle)
+    ImageView mScanButton;
+    @Bind(R.id.beacon_recycler_view)
+    RecyclerView mBeaconRecyclerView;
+    @BindColor(R.color.colorPrimary)
+    int mPrimaryColor;
+    @Bind(R.id.ring)
+    ImageView mPulseRing;
 
     private boolean mScanning;
     private BeaconManager mBeaconManager;
@@ -228,6 +237,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mScanButton.startAnimation(mScanning ?
                 AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in) :
                 AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
+
+        setScanAnimation(mPulseRing);
     }
 
     private void scan() {
@@ -306,6 +317,16 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                     })
                     .show();
         }
+    }
+
+    private void setScanAnimation(View view) {
+        AnimationSet set = new AnimationSet(false);
+        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
+        Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
+        set.addAnimation(pulse);
+        set.addAnimation(fade);
+        if (mScanning) view.startAnimation(set);
+        else view.clearAnimation();
     }
 
     @Override
