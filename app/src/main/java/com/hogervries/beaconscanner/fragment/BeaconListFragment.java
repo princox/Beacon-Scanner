@@ -76,6 +76,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     @Bind(R.id.sliding_layout) SlidingUpPanelLayout mPanelLayout;
     @Bind(R.id.scan_circle) ImageView mScanCircle;
     @Bind(R.id.scan_button) ImageButton mScanButton;
+    @Bind(R.id.stop_button) ImageButton mStopButton;
     @Bind(R.id.pulse_ring) ImageView mPulseRing;
     @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
     @BindColor(R.color.colorPrimary) int mRedColor;
@@ -214,7 +215,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         }
     }
 
-    @OnClick({R.id.scan_button, R.id.scan_circle})
+    @OnClick({R.id.scan_button, R.id.stop_button, R.id.scan_circle})
     void onScanClick() {
         if (!mBeaconManager.checkAvailability() && !mScanning) {
             verifyBluetooth();
@@ -242,14 +243,15 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
 
         mScanButton.setImageResource(mScanning ? R.drawable.ic_pulse_circle : R.drawable.ic_scan_beacons);
+        mStopButton.setVisibility(mScanning ? View.VISIBLE : View.INVISIBLE);
 
         animatePulse();
     }
 
     private void animatePulse() {
         AnimationSet set = new AnimationSet(false);
-        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse);
-        Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.fade);
+        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse);
+        Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_fade);
         set.addAnimation(pulse);
         set.addAnimation(fade);
         if (mScanning) mPulseRing.startAnimation(set);

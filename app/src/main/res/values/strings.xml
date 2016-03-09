@@ -49,4 +49,5 @@
     <string name="detail_field_tx_power">-59</string>
     <string name="circle_button_content_desc">Circle button</string>
     <string name="ring_pulse_desc">Pulse</string>
+    <string name="stop_button_content_desc">stop_button</string>
 </resources>

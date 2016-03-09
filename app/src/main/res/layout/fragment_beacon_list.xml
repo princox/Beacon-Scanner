@@ -18,7 +18,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
 
-
         <ImageView
             android:id="@+id/scan_circle"
             android:layout_width="150dp"
@@ -32,8 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/pulse_ring"
-            android:contentDescription="@string/ring_pulse_desc"/>
+            android:contentDescription="@string/ring_pulse_desc"
+            android:src="@drawable/pulse_ring"/>
 
         <ImageButton
             android:id="@+id/scan_button"
@@ -45,6 +44,17 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_scan_beacons"/>
 
+        <ImageButton
+            android:id="@+id/stop_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@color/colorWhite"
+            android:contentDescription="@string/stop_button_content_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_stop"
+            android:visibility="invisible"/>
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar_transparent"/>
@@ -55,7 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:clickable="true"
         android:paddingBottom="82dp">
 
         <android.support.v7.widget.RecyclerView
