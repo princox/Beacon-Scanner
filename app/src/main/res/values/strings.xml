@@ -44,4 +44,5 @@
     <string name="detail_field_rssi">-51</string>
     <string name="detail_field_service_uuid">-1</string>
     <string name="detail_field_tx_power">-59</string>
+    <string name="circle_button_content_desc">Circle button</string>
 </resources>

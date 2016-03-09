@@ -61,8 +61,6 @@ import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPS
  */
 public class BeaconListFragment extends Fragment implements BeaconConsumer {
 
-    private static final String TAG = "BeaconListFragment";
-
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
     private static final int TRACKING_AGE = 5000;
@@ -229,7 +227,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void scan() {
         if (mScanning) mBeaconManager.bind(this);
         else mBeaconManager.unbind(this);
-
         animateScanButton();
     }
 
@@ -243,7 +240,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            updateUI();
+                            if (mScanning) updateUI();
                         }
                     });
                 }
@@ -312,5 +309,4 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mBeaconManager.unbind(this);
         BeaconStore.deleteInstance();
     }
-
 }

@@ -28,6 +28,7 @@
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/circle_button_content_desc"
                 android:src="@drawable/ic_circle"/>
 
             <ImageButton
@@ -37,6 +38,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="@color/colorPrimary"
+                android:contentDescription="@string/circle_button_content_desc"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_scan_beacons"/>
 
@@ -59,16 +61,7 @@
             android:id="@+id/beacon_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/scan_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_scan_beacons"
-            android:visibility="visible"/>
-
+        
     </FrameLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
