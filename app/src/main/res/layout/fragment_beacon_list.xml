@@ -12,7 +12,6 @@
     sothree:umanoPanelHeight="0dp"
     sothree:umanoShadowHeight="4dp">
 
-    <!-- MAIN CONTENT -->
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                 android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:background="@null"
+                android:background="@color/colorPrimary"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_scan_beacons"/>
 
@@ -49,7 +48,6 @@
 
     </FrameLayout>
 
-    <!-- SLIDING LAYOUT -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <!-- SLIDING PANEL BEACON LIST -->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/scan_fab"
             android:layout_width="wrap_content"
@@ -71,8 +68,6 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_scan_beacons"
             android:visibility="visible"/>
-
-        <!-- make fab invisible -->
 
     </FrameLayout>
 
