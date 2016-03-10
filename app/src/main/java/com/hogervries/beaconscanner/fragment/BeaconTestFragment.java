@@ -147,7 +147,7 @@ public class BeaconTestFragment extends Fragment implements BeaconConsumer {
     }
 
     private void setSlideLayout(List<Beacon> beacons) {
-        if (!beacons.isEmpty() && mSlideLayout.getVisibility() == View.GONE) {
+        if (!beacons.isEmpty() && mSlideLayout.getVisibility() == View.INVISIBLE) {
             slideUpBeaconList();
         } else if (beacons.isEmpty() && mSlideLayout.getVisibility() == View.VISIBLE) {
             slideDownBeaconList();
@@ -160,7 +160,7 @@ public class BeaconTestFragment extends Fragment implements BeaconConsumer {
     }
 
     private void slideDownBeaconList() {
-        mSlideLayout.setVisibility(View.GONE);
+        mSlideLayout.setVisibility(View.INVISIBLE);
         mSlideLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
     }
 
