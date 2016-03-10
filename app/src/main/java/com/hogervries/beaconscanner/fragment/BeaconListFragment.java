@@ -156,7 +156,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                         .setShowTitle(true)
                         .setToolbarColor(mRedColor)
                         .build();
-                visitSiteIntent.launchUrl(getActivity(), Uri.parse("http://www.google.com/"));
+                visitSiteIntent.launchUrl(getActivity(), Uri.parse("https://github.com/Boyd261/Beacon-Scanner"));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
