@@ -5,26 +5,15 @@
 
     <item
         android:id="@+id/menu_item_toggle_scanning"
-        android:orderInCategory="0"
+        android:icon="@drawable/ic_menu_stop"
+        android:visible="false"
         android:title="@string/start_scanning"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_item_visit_site"
         android:orderInCategory="1"
         android:title="@string/visit_site"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_item_help_feedback"
-        android:orderInCategory="2"
-        android:title="@string/help_and_feedback"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_item_settings"
-        android:orderInCategory="3"
-        android:title="@string/settings"
         app:showAsAction="never"/>
 
 </menu>

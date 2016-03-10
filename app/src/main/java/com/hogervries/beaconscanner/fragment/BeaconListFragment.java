@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -140,8 +143,10 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
-        menu.findItem(R.id.menu_item_toggle_scanning)
-                .setTitle(mScanning ? R.string.stop_scanning : R.string.start_scanning);
+        MenuItem scanItem = menu.findItem(R.id.menu_item_toggle_scanning);
+        scanItem.setTitle(mScanning ? R.string.stop_scanning : R.string.start_scanning);
+        scanItem.setVisible(!mBeaconStore.getBeacons().isEmpty());
+        scanItem.setIcon(!(mScanning || mBeaconStore.getBeacons().isEmpty()) ? R.drawable.ic_scan_beacons : R.drawable.ic_menu_stop);
     }
 
     @Override
@@ -149,7 +154,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         switch (item.getItemId()) {
             case R.id.menu_item_toggle_scanning:
                 toggleScan();
-                if (mBeaconStore.getBeacons().isEmpty()) animateScanning();
                 return true;
             case R.id.menu_item_visit_site:
                 CustomTabsIntent visitSiteIntent = new CustomTabsIntent.Builder()
@@ -202,7 +206,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void updateUI() {
         if (isAdded()) {
             List<Beacon> beacons = mBeaconStore.getBeacons();
-
             if (mBeaconAdapter == null) {
                 mBeaconAdapter = new BeaconAdapter(beacons, mCallback, getActivity());
                 mBeaconRecyclerView.setAdapter(mBeaconAdapter);
@@ -210,7 +213,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 mBeaconAdapter.setBeacons(beacons);
                 mBeaconAdapter.notifyDataSetChanged();
             }
-
             updateLayout(beacons);
         }
     }
@@ -226,6 +228,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     }
 
     private void updateLayout(List<Beacon> beacons) {
+        getActivity().invalidateOptionsMenu();
         PanelState panelState = beacons.isEmpty() ? COLLAPSED : ANCHORED;
         mPanelLayout.setPanelState(panelState);
     }
@@ -254,6 +257,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         Animation fade = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_fade);
         set.addAnimation(pulse);
         set.addAnimation(fade);
+
         if (mScanning) mPulseRing.startAnimation(set);
         else mPulseRing.clearAnimation();
     }
@@ -302,7 +306,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
             Assent.requestPermissions(new AssentCallback() {
                 @Override
                 public void onPermissionResult(PermissionResultSet permissionResultSet) {
-                    // Intentionally left
+                    // Intentionally left blank
                 }
             }, PERMISSION_REQUEST_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
         }
