@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
@@ -30,6 +29,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
@@ -83,6 +83,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     @Bind(R.id.pulse_ring) ImageView mPulseRing;
     @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
     @BindColor(R.color.colorPrimary) int mRedColor;
+    @Bind(R.id.tutorial_arrow) ImageView mTutorialArrow;
+    @Bind(R.id.tutorial_text) TextView mTutorialText;
 
     private boolean mScanning;
     private BeaconManager mBeaconManager;
@@ -120,6 +122,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         initToolbar();
 
         requestPermissions();
+
+        showTutorial();
 
         mPanelLayout.setTouchEnabled(false);
 
@@ -164,6 +168,16 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showTutorial() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if (prefs.getBoolean("firstrun", true)) {
+            mTutorialText.setVisibility(View.VISIBLE);
+            mTutorialArrow.setVisibility(View.VISIBLE);
+            prefs.edit().putBoolean("firstrun", false).apply();
         }
     }
 
@@ -225,6 +239,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
             toggleScan();
             animateScanning();
         }
+        mTutorialText.setVisibility(View.GONE);
+        mTutorialArrow.setVisibility(View.GONE);
     }
 
     private void updateLayout(List<Beacon> beacons) {

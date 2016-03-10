@@ -59,6 +59,30 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_transparent"/>
 
+        <ImageView
+            android:id="@+id/tutorial_arrow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/arrow_tutorial"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="80dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tutorial_text"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="165dp"
+            android:layout_marginRight="95dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:text="@string/tutorial_text"
+            android:textAllCaps="true"
+            android:visibility="gone"/>
+
     </FrameLayout>
 
     <FrameLayout
