@@ -35,17 +35,17 @@
             android:src="@drawable/pulse_ring"/>
 
         <ImageButton
-            android:id="@+id/scan_button"
+            android:id="@+id/start_scan_button"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_button_circle"
             android:contentDescription="@string/circle_button_content_desc"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_scan_beacons"/>
+            android:src="@drawable/ic_bluetooth_scan"/>
 
         <ImageButton
-            android:id="@+id/stop_button"
+            android:id="@+id/stop_scan_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"

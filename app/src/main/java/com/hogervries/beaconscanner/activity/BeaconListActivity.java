@@ -1,11 +1,10 @@
 package com.hogervries.beaconscanner.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.fragment.BeaconListFragment;
+import com.hogervries.beaconscanner.fragment.BeaconTestFragment;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -17,13 +16,9 @@ import org.altbeacon.beacon.Beacon;
  */
 public class BeaconListActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
 
-    public static Intent newIntent(Context packageContext) {
-        return new Intent(packageContext, BeaconListActivity.class);
-    }
-
     @Override
     protected Fragment createFragment() {
-        return BeaconListFragment.newInstance();
+        return BeaconTestFragment.newInstance();
     }
 
     @Override

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <ImageView
+        android:id="@+id/scan_circle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/circle_button_content_desc"
+        android:src="@drawable/ic_button_circle"/>
+
+    <ImageView
+        android:id="@+id/pulse_ring"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/ring_pulse_desc"
+        android:src="@drawable/pulse_ring"/>
+
+    <ImageButton
+        android:id="@+id/start_scan_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_button_circle"
+        android:contentDescription="@string/circle_button_content_desc"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_bluetooth_scan"/>
+
+    <ImageButton
+        android:id="@+id/stop_scan_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@color/colorWhite"
+        android:contentDescription="@string/stop_button_content_desc"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_stop"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/tutorial_arrow"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/arrow_tutorial"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tutorial_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="95dp"
+        android:layout_marginTop="165dp"
+        android:text="@string/tutorial_text"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_transparent"/>
+
+    <FrameLayout
+        android:id="@+id/slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/beacon_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
