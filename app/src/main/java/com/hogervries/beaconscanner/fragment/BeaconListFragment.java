@@ -203,6 +203,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
             mStopScanItem.setVisible(true);
         } else if (beacons.isEmpty() && mSlideLayout.getVisibility() == View.VISIBLE) {
             slideDownBeaconList();
+            mStopScanItem.setVisible(false);
         }
     }
 
