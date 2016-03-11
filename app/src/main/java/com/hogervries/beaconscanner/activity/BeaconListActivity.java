@@ -3,6 +3,7 @@ package com.hogervries.beaconscanner.activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
 import com.hogervries.beaconscanner.fragment.BeaconListFragment;
 
@@ -25,5 +26,6 @@ public class BeaconListActivity extends SingleFragmentActivity implements OnBeac
     public void onBeaconSelected(Beacon beacon) {
         Intent beaconIntent = BeaconActivity.newIntent(this, beacon);
         startActivity(beaconIntent);
+        overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_transition_fade);
     }
 }

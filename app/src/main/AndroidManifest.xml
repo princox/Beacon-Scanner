@@ -27,7 +27,8 @@
 
         <activity
             android:name="com.hogervries.beaconscanner.activity.BeaconActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.BeaconListActivity"/>
 
     </application>
 
