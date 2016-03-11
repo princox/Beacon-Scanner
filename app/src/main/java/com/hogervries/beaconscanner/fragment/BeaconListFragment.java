@@ -54,11 +54,14 @@ import butterknife.OnClick;
 /**
  * Beacon Scanner, file created on 10/03/16.
  *
+ * This fragment scans for beacons.
+ * If there are beacons in the area a list will be displayed.
+ *
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
 public class BeaconListFragment extends Fragment implements BeaconConsumer {
-
+    // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private static final int TRACKING_AGE = 5000;
     private static final long FOREGROUND_SCAN_PERIOD = 1100L;
@@ -66,7 +69,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final String REGION_ID = "Beacon_scanner_region";
     private static final String APPLE_BEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
-
+    // Resources.
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.scan_circle) ImageView mScanCircleView;
     @Bind(R.id.start_scan_button) ImageButton mStartScanButton;
@@ -83,6 +86,11 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private OnBeaconSelectedListener mCallback;
     private BeaconStore mBeaconStore = BeaconStore.getInstance();
 
+    /**
+     * Creates a new instance of this fragment.
+     *
+     * @return BeaconListFragment.
+     */
     public static BeaconListFragment newInstance() {
         return new BeaconListFragment();
     }
@@ -107,17 +115,18 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View beaconListView = inflater.inflate(R.layout.fragment_beacon_test, container, false);
+        View beaconListView = inflater.inflate(R.layout.fragment_beacon_list, container, false);
+        // Binding resources to this fragments view.
         ButterKnife.bind(this, beaconListView);
-
+        // Setting toolbar.
         setToolbar();
-
+        // Request permissions for Android M and up.
         requestPermissions();
-
+        // Setting up BeaconManager.
         setUpBeaconManager();
-
+        // Setting linear layout manager as layout manager for the beacon recycler view.
         mBeaconRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        // Updates user interface so that all the right views are displayed.
         updateUI();
 
         return beaconListView;
@@ -127,6 +136,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
+        // Initializing item as member so changes to its properties can be done within other methods.
         mStopScanItem = menu.findItem(R.id.stop_scanning);
     }
 
@@ -134,12 +144,14 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stop_scanning:
+                // Clears list of beacons and stops scanning.
                 mBeaconStore.clearBeacons();
                 stopScan();
                 updateUI();
                 mStopScanItem.setVisible(false);
                 return true;
             case R.id.about_us:
+                // Launch GitHub site.
                 launchWebsite();
                 return true;
             default:
@@ -147,34 +159,47 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    /**
+     * Launches the GitHub page within a CustomTabs view.
+     */
     private void launchWebsite() {
+        // Creating instance of CustomTabsIntent with the help of its builder.
         CustomTabsIntent siteIntent = new CustomTabsIntent.Builder()
                 .setToolbarColor(mColorPrimary)
                 .setShowTitle(true)
                 .build();
+        // Launching view.
         siteIntent.launchUrl(getActivity(), Uri.parse(URL_SITE));
     }
 
+    /**
+     * Sets custom transparent toolbar as action bar.
+     */
     private void setToolbar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
 
     private void setUpBeaconManager() {
         mBeaconManager = BeaconManager.getInstanceForApplication(getActivity());
-        // Sets beacon layouts so that the app knows for what type of beacons to look
+        // Sets beacon layouts so that the app knows for what type of beacons to look.
         setBeaconLayouts();
-        // Sets scanning periods
+        // Sets scanning periods.
         mBeaconManager.setForegroundScanPeriod(FOREGROUND_SCAN_PERIOD);
         mBeaconManager.setForegroundBetweenScanPeriod(FOREGROUND_BETWEEN_SCAN_PERIOD);
-        // Initializing cache and setting tracking age
+        // Initializing cache and setting tracking age.
         BeaconManager.setUseTrackingCache(true);
         mBeaconManager.setMaxTrackingAge(TRACKING_AGE);
     }
 
+    /**
+     * Setting beacon layouts so that the beacon manager knows what type of beacon to scan for.
+     */
     private void setBeaconLayouts() {
         mBeaconManager.getBeaconParsers().clear();
         // Detect Apple iBeacon frame:
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(APPLE_BEACON_LAYOUT));
+        // Detect AltBeacon frame:
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
         // Detect the Eddystone main identifier (UID) frame:
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
         // Detect the Eddystone telemetry (TLM) frame:
@@ -183,10 +208,14 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
     }
 
+    /**
+     * Updates user interface to display views based on current state of data.
+     */
     private void updateUI() {
         List<Beacon> beacons = mBeaconStore.getBeacons();
 
         if (mBeaconAdapter == null) {
+            // Initializing BeaconAdapter.
             mBeaconAdapter = new BeaconAdapter(beacons, mCallback, getActivity());
             mBeaconRecyclerView.setAdapter(mBeaconAdapter);
         } else {
@@ -197,21 +226,34 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         setSlideLayout(beacons);
     }
 
+    /**
+     * Sets sliding layout if needed.
+     *
+     * @param beacons List of beacons.
+     */
     private void setSlideLayout(List<Beacon> beacons) {
         if (!beacons.isEmpty() && mSlideLayout.getVisibility() == View.INVISIBLE) {
+            // Animates sliding up.
             slideUpBeaconList();
             mStopScanItem.setVisible(true);
         } else if (beacons.isEmpty() && mSlideLayout.getVisibility() == View.VISIBLE) {
+            // Animates sliding down.
             slideDownBeaconList();
             mStopScanItem.setVisible(false);
         }
     }
 
+    /**
+     * Starts sliding up animation.
+     */
     private void slideUpBeaconList() {
         mSlideLayout.setVisibility(View.VISIBLE);
         mSlideLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
     }
 
+    /**
+     * Starts sliding down animation.
+     */
     private void slideDownBeaconList() {
         mSlideLayout.setVisibility(View.INVISIBLE);
         mSlideLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
@@ -226,16 +268,23 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    /**
+     * Starts scanning for beacons.
+     */
     private void startScan() {
         if (!mBeaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
             mIsScanning = true;
+            // Beacon manager binds the beacon consumer and starts service.
             mBeaconManager.bind(this);
             startScanAnimation();
         }
     }
 
+    /**
+     * Animates scan button to indicate that it's scanning.
+     */
     private void startScanAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
         mStartScanButton.setImageResource(R.drawable.ic_pulse_circle);
@@ -243,6 +292,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         pulseAnimation();
     }
 
+    /**
+     * Animates pulsing of button to indicate scanning.
+     */
     private void pulseAnimation() {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
@@ -250,12 +302,19 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mPulsingRing.startAnimation(set);
     }
 
+    /**
+     * Stops scanning for beacons.
+     */
     private void stopScan() {
         mIsScanning = false;
+        // Beacon manager unbinds the beacon consumer and stops service.
         mBeaconManager.unbind(this);
         stopScanAnimation();
     }
 
+    /**
+     * Animates stopping of scanning.
+     */
     private void stopScanAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
         mStartScanButton.setImageResource(R.drawable.ic_bluetooth_scan);
@@ -268,11 +327,15 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         mBeaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
+                // Updates list of beacons.
                 mBeaconStore.updateBeacons(collection);
+                // If this fragment is added to its parent activity it will update the UI.
                 if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            // If the app is scanning then update the UI.
+                            // This prevents showing a list when scanning has already stopped.
                             if (mIsScanning) updateUI();
                         }
                     });
@@ -281,6 +344,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         });
 
         try {
+            // Starting ranging of beacons in our defined region.
             mBeaconManager.startRangingBeaconsInRegion(new Region(REGION_ID, null, null, null));
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -302,6 +366,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         return getActivity().bindService(intent, serviceConnection, i);
     }
 
+    /**
+     * Android M and up: requests permission for location(BLE needs it).
+     */
     private void requestPermissions() {
         if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
             Assent.requestPermissions(new AssentCallback() {
@@ -313,6 +380,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    /**
+     * Requests that the user turns on bluetooth.
+     */
     private void requestBluetooth() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.bluetooth_not_enabled))
@@ -320,6 +390,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Initializing intent to go to bluetooth settings.
                         Intent bltSettingsIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
                         startActivity(bltSettingsIntent);
                     }
@@ -338,6 +409,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         super.onDestroyView();
         ButterKnife.unbind(this);
         mBeaconManager.unbind(this);
+        // Deleting instance of singleton.
         BeaconStore.deleteInstance();
     }
 }
