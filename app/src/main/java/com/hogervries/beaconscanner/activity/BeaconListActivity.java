@@ -26,6 +26,6 @@ public class BeaconListActivity extends SingleFragmentActivity implements OnBeac
     public void onBeaconSelected(Beacon beacon) {
         Intent beaconIntent = BeaconActivity.newIntent(this, beacon);
         startActivity(beaconIntent);
-        overridePendingTransition(R.anim.anim_slide_up, R.anim.anim_transition_fade);
+        overridePendingTransition(R.anim.anim_transition_up, R.anim.anim_transition_fade);
     }
 }
