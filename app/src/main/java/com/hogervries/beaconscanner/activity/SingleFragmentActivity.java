@@ -16,22 +16,24 @@ import com.hogervries.beaconscanner.R;
  */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
-    private static final String TAG = "SingleFragmentActivity";
-
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-
+    /**
+     * Creates and returns new fragment.
+     * Method must be implemented by sub classes.
+     *
+     * @return Fragment.
+     */
     protected abstract Fragment createFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
-
+        // Sets this activity for Android M and up permissions.
         Assent.setActivity(this, this);
-
+        // Gets fragment manager and current fragment in layout.
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
-
+        // Check if the fragment exists, if not it adds a new one.
         if (fragment == null) {
             fragment = createFragment();
             fragmentManager.beginTransaction()

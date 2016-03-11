@@ -4,16 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_item_toggle_scanning"
-        android:icon="@drawable/ic_menu_stop"
+        android:id="@+id/stop_scanning"
+        android:icon="@drawable/ic_menu_item_stop"
+        android:orderInCategory="0"
+        android:title="@string/stop_scanning"
         android:visible="false"
-        android:title="@string/start_scanning"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/menu_item_visit_site"
+        android:id="@+id/about_us"
         android:orderInCategory="1"
-        android:title="@string/visit_site"
+        android:title="@string/about"
         app:showAsAction="never"/>
 
 </menu>
