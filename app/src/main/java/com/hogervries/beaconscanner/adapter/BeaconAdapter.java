@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 /**
  * Beacon Scanner, file created on 07/03/16.
  *
- * @author Boyd Hogerheijde
- * @author Mitchell de Vries
+ * @author Boyd Hogerheijde.
+ * @author Mitchell de Vries.
  */
 public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHolder> {
 
