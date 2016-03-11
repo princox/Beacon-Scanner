@@ -108,6 +108,12 @@ public class BeaconTestFragment extends Fragment implements BeaconConsumer {
         return beaconListView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void setUpBeaconManager() {
         mBeaconManager = BeaconManager.getInstanceForApplication(getActivity());
         // Sets beacon layouts so that the app knows for what type of beacons to look
@@ -283,5 +289,6 @@ public class BeaconTestFragment extends Fragment implements BeaconConsumer {
         super.onDestroyView();
         ButterKnife.unbind(this);
         mBeaconManager.unbind(this);
+        BeaconStore.deleteInstance();
     }
 }
