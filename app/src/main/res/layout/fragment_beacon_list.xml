@@ -42,30 +42,6 @@
         android:src="@drawable/ic_stop"
         android:visibility="invisible"/>
 
-    <ImageView
-        android:id="@+id/tutorial_arrow"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/arrow_tutorial"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/tutorial_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginRight="95dp"
-        android:layout_marginTop="165dp"
-        android:text="@string/tutorial_text"
-        android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
-
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_transparent"/>
