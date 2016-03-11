@@ -60,7 +60,7 @@ import butterknife.OnClick;
 public class BeaconListFragment extends Fragment implements BeaconConsumer {
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private static final int TRACKING_AGE = 2000;
+    private static final int TRACKING_AGE = 5000;
     private static final long FOREGROUND_SCAN_PERIOD = 1100L;
     private static final long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
     private static final String REGION_ID = "Beacon_scanner_region";
