@@ -123,13 +123,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         return beaconListView;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
