@@ -165,6 +165,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void launchWebsite() {
         // Creating instance of CustomTabsIntent with the help of its builder.
         CustomTabsIntent siteIntent = new CustomTabsIntent.Builder()
+                .setStartAnimations(getActivity(), R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out)
                 .setToolbarColor(mColorPrimary)
                 .setShowTitle(true)
                 .build();
@@ -298,7 +299,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void pulseAnimation() {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
-        set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_fade));
+        set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_fade_out));
         mPulsingRing.startAnimation(set);
     }
 
