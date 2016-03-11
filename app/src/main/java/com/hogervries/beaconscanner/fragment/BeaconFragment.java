@@ -28,26 +28,16 @@ public class BeaconFragment extends Fragment {
 
     private static final String ARG_BEACON = "arg_beacon";
 
-    @Bind(R.id.detail_field_uuid)
-    TextView mDetailFieldUuid;
-    @Bind(R.id.detail_field_minor)
-    TextView mDetailFieldMinor;
-    @Bind(R.id.detail_field_major)
-    TextView mDetailFieldMajor;
-    @Bind(R.id.detail_field_distance)
-    TextView mDetailFieldDistance;
-    @Bind(R.id.detail_field_bluetooth_address)
-    TextView mDetailFieldBluetoothAddress;
-    @Bind(R.id.detail_field_manufacturer)
-    TextView mDetailFieldManufacturer;
-    @Bind(R.id.detail_field_rssi)
-    TextView mDetailFieldRssi;
-    @Bind(R.id.detail_field_service_uuid)
-    TextView mDetailFieldServiceUuid;
-    @Bind(R.id.detail_field_tx_power)
-    TextView mDetailFieldTxPower;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+    @Bind(R.id.detail_field_uuid) TextView mDetailFieldUuid;
+    @Bind(R.id.detail_field_minor) TextView mDetailFieldMinor;
+    @Bind(R.id.detail_field_major) TextView mDetailFieldMajor;
+    @Bind(R.id.detail_field_distance) TextView mDetailFieldDistance;
+    @Bind(R.id.detail_field_bluetooth_address) TextView mDetailFieldBluetoothAddress;
+    @Bind(R.id.detail_field_manufacturer) TextView mDetailFieldManufacturer;
+    @Bind(R.id.detail_field_rssi) TextView mDetailFieldRssi;
+    @Bind(R.id.detail_field_service_uuid) TextView mDetailFieldServiceUuid;
+    @Bind(R.id.detail_field_tx_power) TextView mDetailFieldTxPower;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     private Beacon mBeacon;
 
@@ -87,14 +77,13 @@ public class BeaconFragment extends Fragment {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_button_close);
         }
-
     }
 
     private void bindBeacon(Beacon beacon) {
         mDetailFieldUuid.setText(beacon.getId1().toString());
         mDetailFieldMajor.setText(beacon.getId2().toString());
         mDetailFieldMinor.setText(beacon.getId3().toString());
-        mDetailFieldDistance.setText(String.format("%.2f", beacon.getDistance()) + "m");
+        mDetailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
         mDetailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
         mDetailFieldManufacturer.setText(String.valueOf(beacon.getManufacturer()));
         mDetailFieldRssi.setText(String.valueOf(beacon.getRssi()));

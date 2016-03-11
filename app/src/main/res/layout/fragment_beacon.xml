@@ -19,7 +19,6 @@
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp">
@@ -122,75 +121,64 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_uuid"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_distance"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_bluetooth_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_bluetooth_address"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_minor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_minor"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_major"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_major"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_manufacturer"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_rssi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_rssi"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_service_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_service_uuid"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/detail_field_tx_power"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    tools:text="@string/detail_field_tx_power"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
 
         </LinearLayout>
     </FrameLayout>
 </FrameLayout>
-
-
