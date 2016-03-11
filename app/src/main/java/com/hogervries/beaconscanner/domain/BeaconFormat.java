@@ -15,10 +15,20 @@ public enum BeaconFormat {
 
     private String mFormat;
 
+    /**
+     * Creates a Beacon format.
+     *
+     * @param format Beacon format
+     */
     BeaconFormat(String format) {
         mFormat = format;
     }
 
+    /**
+     * Gets beacon format string.
+     *
+     * @return Beacon format
+     */
     public String getFormat() {
         return mFormat;
     }

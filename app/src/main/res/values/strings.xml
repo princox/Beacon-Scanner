@@ -10,7 +10,7 @@
 
     <!-- Menu item strings -->
     <string name="stop_scanning">Stop scanning</string>
-    <string name="about_us">About us</string>
+    <string name="about">About</string>
 
     <!-- Bluetooth -->
     <string name="bluetooth_not_enabled">Bluetooth not enabled</string>

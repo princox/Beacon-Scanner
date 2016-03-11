@@ -44,12 +44,24 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
     private OnBeaconSelectedListener mCallback;
     private Context mContext;
 
+    /**
+     * Creates a new Beacon adapter.
+     *
+     * @param beacons List of beacons.
+     * @param callback OnBeaconSelected callback.
+     * @param context Context.
+     */
     public BeaconAdapter(List<Beacon> beacons, OnBeaconSelectedListener callback, Context context) {
         mBeacons = beacons;
         mCallback = callback;
         mContext = context;
     }
 
+    /**
+     * Sets list of beacons.
+     *
+     * @param beacons List of beacons.
+     */
     public void setBeacons(List<Beacon> beacons) {
         mBeacons = beacons;
     }
@@ -62,6 +74,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
 
     @Override
     public void onBindViewHolder(BeaconHolder holder, int position) {
+        // Binds beacon to view holder.
         holder.bindBeacon(mBeacons.get(position));
     }
 
@@ -70,6 +83,9 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         return mBeacons.size();
     }
 
+    /**
+     * View holder for list items displaying beacon data.
+     */
     class BeaconHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.list_item_beacon_title) TextView mBeaconTitle;
@@ -78,13 +94,22 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
 
         private Beacon mBeacon;
 
+        /**
+         * Creates a new Beacon holder.
+         *
+         * @param itemView View holder layout.
+         */
         public BeaconHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Binds beacon to view holder to display its data.
+         *
+         * @param beacon Beacon
+         */
         public void bindBeacon(Beacon beacon) {
             mBeacon = beacon;
             mBeaconTitle.setText(mBeacon.getId1().toString());

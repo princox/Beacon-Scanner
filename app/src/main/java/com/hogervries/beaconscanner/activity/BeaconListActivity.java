@@ -26,6 +26,7 @@ public class BeaconListActivity extends SingleFragmentActivity implements OnBeac
     public void onBeaconSelected(Beacon beacon) {
         Intent beaconIntent = BeaconActivity.newIntent(this, beacon);
         startActivity(beaconIntent);
+        // Overriding screen transition animation.
         overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
     }
 }
