@@ -188,6 +188,7 @@
                     android:textSize="16sp"
                     tools:text="@string/detail_field_tx_power"/>
             </LinearLayout>
+
         </LinearLayout>
     </FrameLayout>
 </FrameLayout>

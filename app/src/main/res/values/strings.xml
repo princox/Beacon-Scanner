@@ -29,7 +29,7 @@
     <string name="detail_uuid">UUID:\n</string>
     <string name="detail_minor">Minor:</string>
     <string name="detail_major">Major:</string>
-    <string name="detail_distance">Distance(m):</string>
+    <string name="detail_distance">Distance:</string>
     <string name="detail_bluetooth_address">Bluetooth address:</string>
     <string name="detail_manufacturer">Manufacturer:</string>
     <string name="detail_rssi">Rssi:</string>

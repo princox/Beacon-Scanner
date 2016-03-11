@@ -78,20 +78,23 @@ public class BeaconFragment extends Fragment {
         return beaconView;
     }
 
-    private void setUpActionBar(){
+    private void setUpActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
+        }
+
     }
 
     private void bindBeacon(Beacon beacon) {
         mDetailFieldUuid.setText(beacon.getId1().toString());
         mDetailFieldMajor.setText(beacon.getId2().toString());
         mDetailFieldMinor.setText(beacon.getId3().toString());
-        mDetailFieldDistance.setText(String.valueOf(beacon.getDistance()));
+        mDetailFieldDistance.setText(String.format("%.2f", beacon.getDistance()) + "m");
         mDetailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
         mDetailFieldManufacturer.setText(String.valueOf(beacon.getManufacturer()));
         mDetailFieldRssi.setText(String.valueOf(beacon.getRssi()));
