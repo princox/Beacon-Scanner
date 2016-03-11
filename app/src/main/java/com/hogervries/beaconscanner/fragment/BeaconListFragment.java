@@ -320,7 +320,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
      */
     private void stopScanAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
-        mStartScanButton.setImageResource(R.drawable.ic_bluetooth_scan);
+        mStartScanButton.setImageResource(R.drawable.ic_button_scan);
         mStopScanButton.setVisibility(View.INVISIBLE);
         mPulsingRing.clearAnimation();
     }

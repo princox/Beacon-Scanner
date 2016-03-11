@@ -85,7 +85,7 @@ public class BeaconFragment extends Fragment {
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_button_close);
         }
 
     }
