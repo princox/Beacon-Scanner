@@ -84,7 +84,7 @@ public class BeaconFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24dp);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
     }
 
     private void bindBeacon(Beacon beacon) {
