@@ -35,6 +35,7 @@ import com.hogervries.beaconscanner.BeaconStore;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.domain.BeaconFormat;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -67,7 +68,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final long FOREGROUND_SCAN_PERIOD = 1100L;
     private static final long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
     private static final String REGION_ID = "Beacon_scanner_region";
-    private static final String APPLE_BEACON_LAYOUT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
     // Resources.
     @Bind(R.id.toolbar) Toolbar mToolbar;
@@ -198,7 +198,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void setBeaconLayouts() {
         mBeaconManager.getBeaconParsers().clear();
         // Detect Apple iBeacon frame:
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(APPLE_BEACON_LAYOUT));
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat()));
+        // Detect Samsung beacon frame:
+        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.SAMSUNG_BEACON.getFormat()));
         // Detect AltBeacon frame:
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
         // Detect the Eddystone main identifier (UID) frame:
