@@ -13,102 +13,103 @@
         android:id="@+id/slide_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="@dimen/status_toolbar_height"
         android:background="@android:color/white"
-        android:elevation="8dp">
+        android:elevation="@dimen/elevation_height">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:padding="@dimen/padding">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingRight="12dp">
+                android:paddingStart="@dimen/null_size"
+                android:paddingEnd="@dimen/padding_end">
 
                 <TextView
                     android:id="@+id/detail_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_uuid"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_distance"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_bluetooth_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_bluetooth_address"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_minor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_minor"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_major"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_major"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_manufacturer"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_rssi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_rssi"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_service_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_service_uuid"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_tx_power"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
                     android:text="@string/detail_tx_power"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
             </LinearLayout>
 
             <LinearLayout
@@ -120,63 +121,63 @@
                     android:id="@+id/detail_field_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_bluetooth_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_minor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_major"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_rssi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_service_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:textSize="16sp"/>
+                    android:paddingBottom="@dimen/text_view_padding_bottom"
+                    android:textSize="@dimen/medium_text_size"/>
 
                 <TextView
                     android:id="@+id/detail_field_tx_power"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/medium_text_size"/>
             </LinearLayout>
 
         </LinearLayout>

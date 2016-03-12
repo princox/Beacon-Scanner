@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/scan_circle"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/scan_circle_size"
+        android:layout_height="@dimen/scan_circle_size"
         android:layout_gravity="center"
         android:contentDescription="@string/circle_button_content_desc"
         android:src="@drawable/ic_button_circle"/>
@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/start_scan_button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/start_button_size"
+        android:layout_height="@dimen/start_button_size"
         android:layout_gravity="center"
         android:background="@drawable/ic_button_circle"
         android:contentDescription="@string/circle_button_content_desc"
@@ -33,8 +33,8 @@
 
     <ImageButton
         android:id="@+id/stop_scan_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/stop_button_size"
+        android:layout_height="@dimen/stop_button_size"
         android:layout_gravity="center"
         android:background="@color/colorWhite"
         android:contentDescription="@string/stop_button_content_desc"
@@ -50,9 +50,9 @@
         android:id="@+id/slide_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="@dimen/status_toolbar_height"
         android:background="@android:color/white"
-        android:elevation="8dp"
+        android:elevation="@dimen/elevation_height"
         android:visibility="invisible">
 
         <android.support.v7.widget.RecyclerView

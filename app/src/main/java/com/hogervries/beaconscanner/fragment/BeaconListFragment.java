@@ -180,6 +180,9 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
     }
 
+    /**
+     * Initializes beacon manager and sets all needed properties.
+     */
     private void setUpBeaconManager() {
         mBeaconManager = BeaconManager.getInstanceForApplication(getActivity());
         // Sets beacon layouts so that the app knows for what type of beacons to look.

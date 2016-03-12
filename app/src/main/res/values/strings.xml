@@ -11,10 +11,13 @@
     <!-- Menu item strings -->
     <string name="stop_scanning">Stop scanning</string>
     <string name="about">About</string>
+    <string name="settings">Settings</string>
 
     <!-- Bluetooth -->
     <string name="bluetooth_not_enabled">Bluetooth not enabled</string>
-    <string name="please_enable_bluetooth">Please enable bluetooth in settings and restart the app to work properly.</string>
+    <string name="please_enable_bluetooth">Please enable bluetooth in settings and restart the app
+        to work properly.
+    </string>
 
     <!--Detail page strings-->
     <string name="beacon_detail">Beacon details</string>
@@ -27,13 +30,12 @@
     <string name="detail_rssi">Rssi:</string>
     <string name="detail_service_uuid">Service UUID:</string>
     <string name="detail_tx_power">TX power:</string>
+    <string name="distance">%1$sm</string>
 
     <!-- Content descriptions -->
     <string name="circle_button_content_desc">Circle button</string>
     <string name="ring_pulse_desc">Pulse</string>
     <string name="stop_button_content_desc">stop_button</string>
 
-    <string name="distance">%1$sm</string>
-    <string name="settings">Settings</string>
 
 </resources>
