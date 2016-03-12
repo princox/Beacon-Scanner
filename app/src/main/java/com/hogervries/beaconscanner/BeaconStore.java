@@ -48,6 +48,7 @@ public class BeaconStore {
 
     /**
      * Get sorted list of beacons.
+     * List is sorted by distance.
      *
      * @return List of beacons.
      */

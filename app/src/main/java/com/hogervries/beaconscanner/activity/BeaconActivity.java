@@ -17,10 +17,17 @@ import org.altbeacon.beacon.Beacon;
  */
 public class BeaconActivity extends SingleFragmentActivity {
 
-    private static final String EXTRA_BEACON = "com.oncreate.beaconscanner.beacon";
+    private static final String EXTRA_BEACON = "com.hogervries.beaconscanner.beacon";
 
-    public static Intent newIntent(Context packageContext, Beacon beacon) {
-        Intent intent = new Intent(packageContext, BeaconActivity.class);
+    /**
+     * Intent builder method for building and returning an intent for this activity.
+     *
+     * @param context Context.
+     * @param beacon Given beacon.
+     * @return Intent for this activity.
+     */
+    public static Intent newIntent(Context context, Beacon beacon) {
+        Intent intent = new Intent(context, BeaconActivity.class);
         intent.putExtra(EXTRA_BEACON, beacon);
         return intent;
     }
