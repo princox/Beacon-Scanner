@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.fragment.BeaconFragment;
+import com.hogervries.beaconscanner.fragment.BeaconDetailsFragment;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -15,7 +15,7 @@ import org.altbeacon.beacon.Beacon;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconActivity extends SingleFragmentActivity {
+public class BeaconDetailsActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_BEACON = "com.hogervries.beaconscanner.beacon";
 
@@ -27,7 +27,7 @@ public class BeaconActivity extends SingleFragmentActivity {
      * @return Intent for this activity.
      */
     public static Intent newIntent(Context context, Beacon beacon) {
-        Intent intent = new Intent(context, BeaconActivity.class);
+        Intent intent = new Intent(context, BeaconDetailsActivity.class);
         intent.putExtra(EXTRA_BEACON, beacon);
         return intent;
     }
@@ -36,6 +36,6 @@ public class BeaconActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         Beacon beacon = getIntent().getParcelableExtra(EXTRA_BEACON);
         setTitle(R.string.beacon_detail);
-        return BeaconFragment.newInstance(beacon);
+        return BeaconDetailsFragment.newInstance(beacon);
     }
 }

@@ -13,9 +13,9 @@
 
     <item
         android:id="@+id/settings"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu_item_settings"
         android:orderInCategory="1"
         android:title="@string/settings"
-        android:icon="@drawable/ic_settings"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

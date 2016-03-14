@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconFragment extends Fragment {
+public class BeaconDetailsFragment extends Fragment {
 
     private static final String ARG_BEACON = "arg_beacon";
 
@@ -41,10 +41,10 @@ public class BeaconFragment extends Fragment {
 
     private Beacon mBeacon;
 
-    public static BeaconFragment newInstance(Beacon beacon) {
+    public static BeaconDetailsFragment newInstance(Beacon beacon) {
         Bundle args = new Bundle();
         args.putParcelable(ARG_BEACON, beacon);
-        BeaconFragment fragment = new BeaconFragment();
+        BeaconDetailsFragment fragment = new BeaconDetailsFragment();
         fragment.setArguments(args);
         return fragment;
     }

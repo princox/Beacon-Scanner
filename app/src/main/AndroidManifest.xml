@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH" android:required="true"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:required="true"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
-                     android:required="true"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -28,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.hogervries.beaconscanner.activity.BeaconActivity"
+            android:name=".activity.BeaconDetailsActivity"
             android:parentActivityName=".activity.ScanTransmitActivity"
             android:screenOrientation="portrait"/>
 

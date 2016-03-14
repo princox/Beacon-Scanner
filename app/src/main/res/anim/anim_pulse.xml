@@ -5,21 +5,19 @@
     android:shareInterpolator="true">
 
     <scale
-        android:duration="1000"
+        android:duration="1100"
         android:fromXScale="1"
         android:fromYScale="1"
         android:pivotX="50%"
         android:pivotY="50%"
         android:repeatCount="infinite"
-        android:startOffset="200"
         android:toXScale="2"
         android:toYScale="2"/>
 
     <alpha
-        android:duration="1000"
+        android:duration="1100"
         android:fromAlpha="1"
         android:repeatCount="infinite"
-        android:startOffset="200"
         android:toAlpha="0"/>
 
 </set>

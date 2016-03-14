@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,9 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
@@ -41,9 +44,11 @@ import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.BeaconTransmitter;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,6 +67,7 @@ import butterknife.OnClick;
  * @author Mitchell de Vries
  */
 public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
+    private static final String TAG = "ScanTransmitFragment";
     // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private static final int TRACKING_AGE = 5000;
@@ -72,16 +78,24 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     // Resources.
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.scan_circle) ImageView mScanCircleView;
-    @Bind(R.id.start_scan_button) ImageButton mStartScanButton;
-    @Bind(R.id.stop_scan_button) ImageButton mStopScanButton;
+    @Bind(R.id.start_scan_button) ImageButton mStartButton;
+    @Bind(R.id.stop_scan_button) ImageButton mStopButton;
     @Bind(R.id.pulse_ring) ImageView mPulsingRing;
+    @Bind(R.id.scan_transmit_switch) Switch mScanTransmitSwitch;
+    @Bind(R.id.scan_switch_button) Button mScanSwitchButton;
+    @Bind(R.id.transmit_switch_button) Button mTransmitSwitchButton;
     @Bind(R.id.slide_layout) FrameLayout mSlideLayout;
     @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorPrimary) int mColorPrimary;
+    @BindColor(R.color.colorPrimary) int mRed;
+    @BindColor(R.color.colorWhite) int mWhite;
+    @BindColor(R.color.colorGrey) int mGrey;
 
+    private boolean mModeIsTransmitting;
     private boolean mIsScanning;
+    private boolean mIsTransmitting;
     private MenuItem mStopScanItem;
     private BeaconManager mBeaconManager;
+    private BeaconTransmitter mBeaconTransmitter;
     private BeaconAdapter mBeaconAdapter;
     private OnBeaconSelectedListener mCallback;
     private BeaconStore mBeaconStore = BeaconStore.getInstance();
@@ -144,7 +158,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             case R.id.stop_scanning:
                 // Clears list of beacons and stops scanning.
                 mBeaconStore.clearBeacons();
-                stopScan();
+                stopScanning();
                 updateUI();
                 mStopScanItem.setVisible(false);
                 return true;
@@ -163,7 +177,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         // Creating instance of CustomTabsIntent with the help of its builder.
         CustomTabsIntent siteIntent = new CustomTabsIntent.Builder()
                 .setStartAnimations(getActivity(), R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out)
-                .setToolbarColor(mColorPrimary)
+                .setToolbarColor(mRed)
                 .setShowTitle(true)
                 .build();
         // Launching view.
@@ -267,35 +281,45 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
             requestLocationPermission();
         } else {
-            if (!mIsScanning) {
-                startScan();
+            if (!mModeIsTransmitting) {
+                Log.i(TAG, "onScanButtonClick: scanning");
+                toggleScanning();
             } else {
-                stopScan();
+                toggleTransmitting();
+                Log.i(TAG, "onScanButtonClick: transmitting");
             }
+        }
+    }
+
+    private void toggleScanning() {
+        if (!mIsScanning) {
+            startScanning();
+        } else {
+            stopScanning();
         }
     }
 
     /**
      * Starts scanning for beacons.
      */
-    private void startScan() {
+    private void startScanning() {
         if (!mBeaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
             mIsScanning = true;
             // Beacon manager binds the beacon consumer and starts service.
             mBeaconManager.bind(this);
-            startScanAnimation();
+            startAnimation();
         }
     }
 
     /**
      * Animates scan button to indicate that it's scanning.
      */
-    private void startScanAnimation() {
+    private void startAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
-        mStartScanButton.setImageResource(R.drawable.ic_circle);
-        mStopScanButton.setVisibility(View.VISIBLE);
+        mStartButton.setImageResource(R.drawable.ic_circle);
+        mStopButton.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
 
@@ -311,21 +335,78 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     /**
      * Stops scanning for beacons.
      */
-    private void stopScan() {
+    private void stopScanning() {
         mIsScanning = false;
         // Beacon manager unbinds the beacon consumer and stops service.
         mBeaconManager.unbind(this);
-        stopScanAnimation();
+        stopAnimation();
     }
 
     /**
      * Animates stopping of scanning.
      */
-    private void stopScanAnimation() {
+    private void stopAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
-        mStartScanButton.setImageResource(R.drawable.ic_button_scan);
-        mStopScanButton.setVisibility(View.INVISIBLE);
+        mStartButton.setImageResource(mModeIsTransmitting ? R.drawable.ic_button_transmit : R.drawable.ic_button_scan);
+        mStopButton.setVisibility(View.INVISIBLE);
         mPulsingRing.clearAnimation();
+    }
+
+    private void toggleTransmitting() {
+        if (!mIsTransmitting) {
+            startTransmitting();
+        } else {
+            stopTransmitting();
+        }
+    }
+
+    private void startTransmitting() {
+        mIsTransmitting = true;
+        Beacon beacon = new Beacon.Builder()
+                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId2("1")
+                .setId3("2")
+                .setManufacturer(0x0118)
+                .setTxPower(-59)
+                .setDataFields(Arrays.asList(new Long[]{0l}))
+                .build();
+        BeaconParser beaconParser = new BeaconParser().setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
+        mBeaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
+        mBeaconTransmitter.startAdvertising(beacon);
+        startAnimation();
+    }
+
+    private void stopTransmitting() {
+        mIsTransmitting = false;
+        mBeaconTransmitter.stopAdvertising();
+        stopAnimation();
+    }
+
+    @OnClick(R.id.scan_transmit_switch)
+    void toggleMode() {
+        if (mModeIsTransmitting) {
+            setModeScanning();
+        } else {
+            setModeTransmitting();
+        }
+    }
+
+    @OnClick(R.id.scan_switch_button)
+    void setModeScanning() {
+        mModeIsTransmitting = false;
+        mScanTransmitSwitch.setChecked(false);
+        mScanSwitchButton.setTextColor(mWhite);
+        mTransmitSwitchButton.setTextColor(mGrey);
+        mStartButton.setImageResource(R.drawable.ic_button_scan);
+    }
+
+    @OnClick(R.id.transmit_switch_button)
+    void setModeTransmitting() {
+        mModeIsTransmitting = true;
+        mScanTransmitSwitch.setChecked(true);
+        mScanSwitchButton.setTextColor(mGrey);
+        mTransmitSwitchButton.setTextColor(mWhite);
+        mStartButton.setImageResource(R.drawable.ic_button_transmit);
     }
 
     @Override
