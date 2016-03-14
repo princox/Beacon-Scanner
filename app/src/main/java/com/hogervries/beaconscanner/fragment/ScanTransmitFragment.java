@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
@@ -36,6 +38,7 @@ import com.afollestad.assent.AssentCallback;
 import com.afollestad.assent.PermissionResultSet;
 import com.hogervries.beaconscanner.BeaconStore;
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
 import com.hogervries.beaconscanner.domain.BeaconFormat;
@@ -70,9 +73,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     private static final String TAG = "ScanTransmitFragment";
     // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private static final int TRACKING_AGE = 5000;
-    private static final long FOREGROUND_SCAN_PERIOD = 1100L;
-    private static final long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
+    private int TRACKING_AGE = 5000;
+    private long FOREGROUND_SCAN_PERIOD = 1100L;
+    private long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
     private static final String REGION_ID = "Beacon_scanner_region";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
     // Resources.
@@ -124,6 +127,10 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        TRACKING_AGE = Integer.parseInt(sharedPreferences.getString("key_tracking_age", ""));
+        FOREGROUND_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_scan_period", ""));
+        FOREGROUND_BETWEEN_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_between_scan_period", ""));
     }
 
     @Nullable
@@ -163,7 +170,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 mStopScanItem.setVisible(false);
                 return true;
             case R.id.settings:
-                // TODO: 14/03/16 go to settings
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

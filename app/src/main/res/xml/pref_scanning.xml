@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="5000"
+        android:inputType="number"
+        android:key="key_tracking_age"
+        android:numeric="integer"
+        android:summary="@string/pref_scan_tracking_age_summary"
+        android:title="@string/pref_scan_tracking_age_title"/>
+
+    <EditTextPreference
+        android:defaultValue="1100"
+        android:inputType="number"
+        android:key="key_scan_period"
+        android:numeric="integer"
+        android:summary="@string/pref_scan_period_summary"
+        android:title="@string/pref_scan_period_title"/>
+
+    <EditTextPreference
+        android:defaultValue="0"
+        android:inputType="number"
+        android:key="key_between_scan_period"
+        android:numeric="integer"
+        android:summary="@string/pref_between_scan_period_summary"
+        android:title="@string/pref_between_scan_period_title"/>
+
+</PreferenceScreen>
