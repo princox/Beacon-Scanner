@@ -293,7 +293,7 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
      */
     private void startScanAnimation() {
         mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
-        mStartScanButton.setImageResource(R.drawable.ic_pulse_circle);
+        mStartScanButton.setImageResource(R.drawable.ic_circle);
         mStopScanButton.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
@@ -304,7 +304,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private void pulseAnimation() {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
-        set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse_fade));
         mPulsingRing.startAnimation(set);
     }
 
