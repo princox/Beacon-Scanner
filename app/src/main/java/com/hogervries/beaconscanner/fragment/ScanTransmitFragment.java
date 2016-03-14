@@ -61,7 +61,7 @@ import butterknife.OnClick;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconListFragment extends Fragment implements BeaconConsumer {
+public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private static final int TRACKING_AGE = 5000;
@@ -70,22 +70,14 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final String REGION_ID = "Beacon_scanner_region";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
     // Resources.
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.scan_circle)
-    ImageView mScanCircleView;
-    @Bind(R.id.start_scan_button)
-    ImageButton mStartScanButton;
-    @Bind(R.id.stop_scan_button)
-    ImageButton mStopScanButton;
-    @Bind(R.id.pulse_ring)
-    ImageView mPulsingRing;
-    @Bind(R.id.slide_layout)
-    FrameLayout mSlideLayout;
-    @Bind(R.id.beacon_recycler_view)
-    RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorPrimary)
-    int mColorPrimary;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.scan_circle) ImageView mScanCircleView;
+    @Bind(R.id.start_scan_button) ImageButton mStartScanButton;
+    @Bind(R.id.stop_scan_button) ImageButton mStopScanButton;
+    @Bind(R.id.pulse_ring) ImageView mPulsingRing;
+    @Bind(R.id.slide_layout) FrameLayout mSlideLayout;
+    @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
+    @BindColor(R.color.colorPrimary) int mColorPrimary;
 
     private boolean mIsScanning;
     private MenuItem mStopScanItem;
@@ -97,10 +89,10 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     /**
      * Creates a new instance of this fragment.
      *
-     * @return BeaconListFragment.
+     * @return ScanTransmitFragment.
      */
-    public static BeaconListFragment newInstance() {
-        return new BeaconListFragment();
+    public static ScanTransmitFragment newInstance() {
+        return new ScanTransmitFragment();
     }
 
     @Override
@@ -156,9 +148,8 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
                 updateUI();
                 mStopScanItem.setVisible(false);
                 return true;
-            case R.id.about_us:
-                // Launch GitHub site.
-                launchWebsite();
+            case R.id.settings:
+                // TODO: 14/03/16 go to settings
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -273,14 +264,14 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
     void onScanButtonClick() {
-        if (Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
+        if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
+            requestLocationPermission();
+        } else {
             if (!mIsScanning) {
                 startScan();
             } else {
                 stopScan();
             }
-        } else {
-            requestLocationPermission();
         }
     }
 

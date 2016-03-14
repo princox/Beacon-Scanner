@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.fragment.BeaconListFragment;
+import com.hogervries.beaconscanner.fragment.ScanTransmitFragment;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -15,11 +15,11 @@ import org.altbeacon.beacon.Beacon;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconListActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
+public class ScanTransmitActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
 
     @Override
     protected Fragment createFragment() {
-        return BeaconListFragment.newInstance();
+        return ScanTransmitFragment.newInstance();
     }
 
     @Override

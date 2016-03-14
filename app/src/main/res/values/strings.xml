@@ -35,7 +35,8 @@
     <!-- Content descriptions -->
     <string name="circle_button_content_desc">Circle button</string>
     <string name="ring_pulse_desc">Pulse</string>
-    <string name="stop_button_content_desc">stop_button</string>
-
-
+    <string name="stop_button_content_desc">Stop button</string>
+    <string name="scan_switch_label">Scanning</string>
+    <string name="transmit_switch_label">Transmit</string>
+    
 </resources>

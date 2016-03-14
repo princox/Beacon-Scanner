@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.hogervries.beaconscanner.activity.BeaconListActivity"
+            android:name=".activity.ScanTransmitActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>   
@@ -29,7 +29,7 @@
 
         <activity
             android:name="com.hogervries.beaconscanner.activity.BeaconActivity"
-            android:parentActivityName=".activity.BeaconListActivity"
+            android:parentActivityName=".activity.ScanTransmitActivity"
             android:screenOrientation="portrait"/>
 
     </application>
