@@ -73,9 +73,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     private static final String TAG = "ScanTransmitFragment";
     // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private int TRACKING_AGE = 5000;
-    private long FOREGROUND_SCAN_PERIOD = 1100L;
-    private long FOREGROUND_BETWEEN_SCAN_PERIOD = 0L;
+    private int TRACKING_AGE;
+    private long FOREGROUND_SCAN_PERIOD;
+    private long FOREGROUND_BETWEEN_SCAN_PERIOD;
     private static final String REGION_ID = "Beacon_scanner_region";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
     // Resources.
@@ -128,9 +128,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        TRACKING_AGE = Integer.parseInt(sharedPreferences.getString("key_tracking_age", ""));
-        FOREGROUND_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_scan_period", ""));
-        FOREGROUND_BETWEEN_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_between_scan_period", ""));
+        TRACKING_AGE = Integer.parseInt(sharedPreferences.getString("key_tracking_age", "5000"));
+        FOREGROUND_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_scan_period", "1100"));
+        FOREGROUND_BETWEEN_SCAN_PERIOD = Integer.parseInt(sharedPreferences.getString("key_between_scan_period", "0"));
     }
 
     @Nullable
