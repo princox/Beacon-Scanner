@@ -40,4 +40,18 @@
     <string name="transmit_switch_label">Transmit</string>
     <string name="stop_circle_desc">Stop circle</string>
 
+    <!-- Strings related to Settings -->
+
+    <!-- Settings Header Strings -->
+    <string name="pref_header_scanning">Scanning</string>
+
+    <!-- Scanning settings -->
+    <string name="pref_scan_tracking_age_summary">The amount of time a detected beacon stays in memory.</string>
+    <string name="pref_scan_tracking_age_title">Tracking age</string>
+    <string name="pref_scan_period_summary">How many times per second a new scan is started</string>
+    <string name="pref_scan_period_title">Scan period</string>
+    <string name="pref_between_scan_period_summary">The amount of time between a scan period</string>
+    <string name="pref_between_scan_period_title">Between scan period</string>
+    <string name="pref_header_transmit">Transmit</string>
+
 </resources>
