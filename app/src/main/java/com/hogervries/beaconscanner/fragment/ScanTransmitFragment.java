@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,7 +69,6 @@ import butterknife.OnClick;
  * @author Mitchell de Vries
  */
 public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
-    private static final String TAG = "ScanTransmitFragment";
     // Constants.
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private int TRACKING_AGE = 5000;
@@ -289,11 +287,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             requestLocationPermission();
         } else {
             if (!mModeIsTransmitting) {
-                Log.i(TAG, "onScanButtonClick: scanning");
                 toggleScanning();
             } else {
                 toggleTransmitting();
-                Log.i(TAG, "onScanButtonClick: transmitting");
             }
         }
     }

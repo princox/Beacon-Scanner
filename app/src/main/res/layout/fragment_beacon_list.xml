@@ -39,7 +39,7 @@
             android:layout_toEndOf="@id/scan_transmit_switch"
             android:padding="@dimen/padding"
             android:text="@string/transmit_switch_label"
-            android:textColor="#616161"
+            android:textColor="@color/colorGrey"
             android:textSize="@dimen/small_text_size"/>
     </RelativeLayout>
 
