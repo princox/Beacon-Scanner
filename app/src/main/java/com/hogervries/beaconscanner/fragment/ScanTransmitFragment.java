@@ -370,8 +370,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 .setTxPower(-59)
                 .setDataFields(Arrays.asList(new Long[]{0l}))
                 .build();
-        BeaconParser beaconParser = new BeaconParser().setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-        mBeaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
+        BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat());
+        mBeaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
         mBeaconTransmitter.startAdvertising(beacon);
         startAnimation();
     }
