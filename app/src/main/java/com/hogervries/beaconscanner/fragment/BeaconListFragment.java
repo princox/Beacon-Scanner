@@ -54,7 +54,7 @@ import butterknife.OnClick;
 
 /**
  * Beacon Scanner, file created on 10/03/16.
- *
+ * <p/>
  * This fragment scans for beacons.
  * If there are beacons in the area a list will be displayed.
  *
@@ -70,14 +70,22 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     private static final String REGION_ID = "Beacon_scanner_region";
     private static final String URL_SITE = "https://github.com/Boyd261/Beacon-Scanner";
     // Resources.
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.scan_circle) ImageView mScanCircleView;
-    @Bind(R.id.start_scan_button) ImageButton mStartScanButton;
-    @Bind(R.id.stop_scan_button) ImageButton mStopScanButton;
-    @Bind(R.id.pulse_ring) ImageView mPulsingRing;
-    @Bind(R.id.slide_layout) FrameLayout mSlideLayout;
-    @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorPrimary) int mColorPrimary;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.scan_circle)
+    ImageView mScanCircleView;
+    @Bind(R.id.start_scan_button)
+    ImageButton mStartScanButton;
+    @Bind(R.id.stop_scan_button)
+    ImageButton mStopScanButton;
+    @Bind(R.id.pulse_ring)
+    ImageView mPulsingRing;
+    @Bind(R.id.slide_layout)
+    FrameLayout mSlideLayout;
+    @Bind(R.id.beacon_recycler_view)
+    RecyclerView mBeaconRecyclerView;
+    @BindColor(R.color.colorPrimary)
+    int mColorPrimary;
 
     private boolean mIsScanning;
     private MenuItem mStopScanItem;
@@ -120,8 +128,6 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
         ButterKnife.bind(this, beaconListView);
         // Setting toolbar.
         setToolbar();
-        // Request permissions for Android M and up.
-        requestPermissions();
         // Setting up BeaconManager.
         setUpBeaconManager();
         // Setting linear layout manager as layout manager for the beacon recycler view.
@@ -267,10 +273,14 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
     void onScanButtonClick() {
-        if (!mIsScanning) {
-            startScan();
+        if (Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
+            if (!mIsScanning) {
+                startScan();
+            } else {
+                stopScan();
+            }
         } else {
-            stopScan();
+            requestLocationPermission();
         }
     }
 
@@ -374,15 +384,13 @@ public class BeaconListFragment extends Fragment implements BeaconConsumer {
     /**
      * Android M and up: requests permission for location(BLE needs it).
      */
-    private void requestPermissions() {
-        if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
-            Assent.requestPermissions(new AssentCallback() {
-                @Override
-                public void onPermissionResult(PermissionResultSet permissionResultSet) {
-                    // Intentionally left blank
-                }
-            }, PERMISSION_REQUEST_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
-        }
+    private void requestLocationPermission() {
+        Assent.requestPermissions(new AssentCallback() {
+            @Override
+            public void onPermissionResult(PermissionResultSet permissionResultSet) {
+                // Intentionally left blank
+            }
+        }, PERMISSION_REQUEST_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
     }
 
     /**
