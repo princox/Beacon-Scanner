@@ -42,6 +42,7 @@ import com.afollestad.assent.AssentCallback;
 import com.afollestad.assent.PermissionResultSet;
 import com.hogervries.beaconscanner.BeaconStore;
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.activity.Intro;
 import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
@@ -104,6 +105,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     private BeaconTransmitter beaconTransmitter;
     private OnBeaconSelectedListener beaconSelectedCallback;
     private BeaconStore beaconStore;
+    private SharedPreferences preferences;
+
 
     public static ScanTransmitFragment newInstance() {
         return new ScanTransmitFragment();
@@ -123,7 +126,18 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        checkFirstRun();
+
         setHasOptionsMenu(true);
+    }
+
+    private void checkFirstRun(){
+        if (preferences.getBoolean("firstrun", true)) {
+            startActivity(new Intent(getActivity(), Intro.class));
+            preferences.edit().putBoolean("firstrun", false).apply();
+        }
     }
 
     @Nullable
@@ -217,7 +231,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void setUpBeaconManager() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         beaconManager = BeaconManager.getInstanceForApplication(getActivity());
         // Sets beacon layouts so that the app knows for what type of beacons to look.
         setBeaconLayouts();

@@ -66,5 +66,6 @@
     <string name="pref_transmit_power">TX-Power</string>
     <string name="pref_transmit_beacon_uuid_summary">Select a pre-defined UUID of beacon</string>
     <string name="pref_transmit_power_summary">Signal strength of beacon</string>
+    <string name="app_intro">Intro</string>
 
 </resources>
