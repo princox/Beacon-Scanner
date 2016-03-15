@@ -28,16 +28,26 @@ public class BeaconDetailsFragment extends Fragment {
 
     private static final String ARG_BEACON = "arg_beacon";
 
-    @Bind(R.id.detail_field_uuid) TextView mDetailFieldUuid;
-    @Bind(R.id.detail_field_minor) TextView mDetailFieldMinor;
-    @Bind(R.id.detail_field_major) TextView mDetailFieldMajor;
-    @Bind(R.id.detail_field_distance) TextView mDetailFieldDistance;
-    @Bind(R.id.detail_field_bluetooth_address) TextView mDetailFieldBluetoothAddress;
-    @Bind(R.id.detail_field_manufacturer) TextView mDetailFieldManufacturer;
-    @Bind(R.id.detail_field_rssi) TextView mDetailFieldRssi;
-    @Bind(R.id.detail_field_service_uuid) TextView mDetailFieldServiceUuid;
-    @Bind(R.id.detail_field_tx_power) TextView mDetailFieldTxPower;
-    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.detail_field_uuid)
+    TextView detailFieldUuid;
+    @Bind(R.id.detail_field_minor)
+    TextView detailFieldMinor;
+    @Bind(R.id.detail_field_major)
+    TextView detailFieldMajor;
+    @Bind(R.id.detail_field_distance)
+    TextView detailFieldDistance;
+    @Bind(R.id.detail_field_bluetooth_address)
+    TextView detailFieldBluetoothAddress;
+    @Bind(R.id.detail_field_manufacturer)
+    TextView detailFieldManufacturer;
+    @Bind(R.id.detail_field_rssi)
+    TextView detailFieldRssi;
+    @Bind(R.id.detail_field_service_uuid)
+    TextView detailFieldServiceUuid;
+    @Bind(R.id.detail_field_tx_power)
+    TextView detailFieldTxPower;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     private Beacon mBeacon;
 
@@ -69,7 +79,7 @@ public class BeaconDetailsFragment extends Fragment {
     }
 
     private void setUpActionBar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
@@ -80,15 +90,15 @@ public class BeaconDetailsFragment extends Fragment {
     }
 
     private void bindBeacon(Beacon beacon) {
-        mDetailFieldUuid.setText(beacon.getId1().toString());
-        mDetailFieldMajor.setText(beacon.getId2().toString());
-        mDetailFieldMinor.setText(beacon.getId3().toString());
-        mDetailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
-        mDetailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
-        mDetailFieldManufacturer.setText(String.valueOf(beacon.getManufacturer()));
-        mDetailFieldRssi.setText(String.valueOf(beacon.getRssi()));
-        mDetailFieldServiceUuid.setText(String.valueOf(beacon.getServiceUuid()));
-        mDetailFieldTxPower.setText(String.valueOf(beacon.getTxPower()));
+        detailFieldUuid.setText(beacon.getId1().toString());
+        detailFieldMajor.setText(beacon.getId2().toString());
+        detailFieldMinor.setText(beacon.getId3().toString());
+        detailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
+        detailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
+        detailFieldManufacturer.setText(String.valueOf(beacon.getManufacturer()));
+        detailFieldRssi.setText(String.valueOf(beacon.getRssi()));
+        detailFieldServiceUuid.setText(String.valueOf(beacon.getServiceUuid()));
+        detailFieldTxPower.setText(String.valueOf(beacon.getTxPower()));
     }
 
     @Override
