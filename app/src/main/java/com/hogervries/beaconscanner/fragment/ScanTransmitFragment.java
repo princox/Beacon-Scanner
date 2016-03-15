@@ -135,14 +135,19 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         setToolbar();
         // Getting instance of beacon store.
         beaconStore = BeaconStore.getInstance();
-        // Setting up BeaconManager.
-        setUpBeaconManager();
         // Setting linear layout manager as layout manager for the beacon recycler view.
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Updates user interface so that all the right views are displayed.
         updateUI();
 
         return beaconListView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpBeaconManager();
+        setUpBeaconTransmitter();
     }
 
     @Override
@@ -232,6 +237,23 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
+    }
+
+    private void setUpBeaconTransmitter() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Beacon beacon = new Beacon.Builder()
+                .setId1(preferences.getString("key_beacon_uuid", "0"))
+                .setId2(preferences.getString("key_major", "0"))
+                .setId3(preferences.getString("key_minor", "0"))
+                .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
+                .setManufacturer(0x0118)
+                .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
+                .setDataFields(Arrays.asList(new Long[]{0l}))
+                .build();
+        BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT);
+        beaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
+        beaconTransmitter.setBeacon(beacon);
+        setAdvertisingMode();
     }
 
     private void updateUI() {
@@ -325,7 +347,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void startTransmitting() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (!beaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
@@ -334,9 +355,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             } else {
                 isTransmitting = true;
                 switchModeLayout.setVisibility(View.INVISIBLE);
-                Beacon beacon = createBeaconToTransmit(preferences);
-                BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT);
-                setUpTransmitter(beacon, beaconParser);
+                beaconTransmitter.startAdvertising();
                 startAnimation();
             }
         }
@@ -347,24 +366,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         switchModeLayout.setVisibility(View.VISIBLE);
         beaconTransmitter.stopAdvertising();
         stopAnimation();
-    }
-
-    private Beacon createBeaconToTransmit(SharedPreferences preferences) {
-        return new Beacon.Builder()
-                .setId1(preferences.getString("key_beacon_uuid", "0"))
-                .setId2(preferences.getString("key_major", "0"))
-                .setId3(preferences.getString("key_minor", "0"))
-                .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
-                .setManufacturer(0x0118)
-                .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
-                .setDataFields(Arrays.asList(new Long[]{0l}))
-                .build();
-    }
-
-    private void setUpTransmitter(Beacon beacon, BeaconParser beaconParser) {
-        beaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
-        setAdvertisingMode();
-        beaconTransmitter.startAdvertising(beacon);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
