@@ -23,9 +23,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile('com.github.afollestad:assent:0.2.0') {
-        transitive = true
-    }
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
@@ -33,4 +30,7 @@ dependencies {
     compile 'org.altbeacon:android-beacon-library:2.7.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.paolorotolo:appintro:3.4.0'
+    compile('com.github.afollestad:assent:0.2.0') {
+        transitive = true
+    }
 }

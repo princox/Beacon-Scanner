@@ -37,13 +37,14 @@
             android:parentActivityName=".activity.ScanTransmitActivity"
             android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name="com.hogervries.beaconscanner.activity.SettingsActivity"
             android:parentActivityName=".activity.ScanTransmitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeSettings"/>
 
-        <activity android:name="com.hogervries.beaconscanner.activity.Intro"/>
+        <activity android:name=".activity.IntroActivity"/>
 
     </application>
 
