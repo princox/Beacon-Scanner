@@ -27,12 +27,14 @@
 
     <PreferenceCategory android:title="@string/pref_header_transmit">
         <EditTextPreference
+            android:defaultValue="My Beacon"
             android:key="key_beacon_name"
             android:summary="@string/pref_transmit_beacon_name_summary"
             android:title="@string/pref_transmit_beacon_name"/>
 
         <ListPreference
             android:key="key_beacon_uuid"
+            android:defaultValue="00000000-0000-0000-0000-000000000000"
             android:entries="@array/uuid"
             android:entryValues="@array/uuid"
             android:summary="@string/pref_transmit_beacon_uuid_summary"
@@ -41,15 +43,18 @@
         <EditTextPreference
             android:inputType="number"
             android:key="key_major"
+            android:defaultValue="0"
             android:title="@string/pref_transmit_major"/>
 
         <EditTextPreference
+            android:defaultValue="0"
             android:inputType="number"
             android:key="key_minor"
             android:title="@string/pref_transmit_minor"/>
 
         <EditTextPreference
             android:inputType="number|numberSigned"
+            android:defaultValue="-59"
             android:key="key_power"
             android:summary="@string/pref_transmit_power_summary"
             android:title="@string/pref_transmit_power"/>
