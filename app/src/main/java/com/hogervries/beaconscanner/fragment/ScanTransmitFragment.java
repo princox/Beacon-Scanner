@@ -1,10 +1,12 @@
 package com.hogervries.beaconscanner.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
@@ -125,7 +127,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconListView = inflater.inflate(R.layout.fragment_beacon_list, container, false);
-        // Binding resources to this fragments view.
         ButterKnife.bind(this, beaconListView);
         // Setting toolbar.
         setToolbar();
@@ -386,9 +387,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         return getActivity().bindService(intent, serviceConnection, i);
     }
 
-    /**
-     * Android M and up: requests permission for location(BLE needs it).
-     */
+    @TargetApi(value = Build.VERSION_CODES.M)
     private void requestLocationPermission() {
         Assent.requestPermissions(new AssentCallback() {
             @Override
@@ -398,9 +397,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         }, PERMISSION_REQUEST_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
     }
 
-    /**
-     * Requests that the user turns on bluetooth.
-     */
     private void requestBluetooth() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.bluetooth_not_enabled))
