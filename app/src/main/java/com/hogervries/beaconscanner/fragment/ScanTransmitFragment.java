@@ -282,8 +282,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                         .setId1(preferences.getString("key_beacon_uuid", "0"))
                         .setId2(preferences.getString("key_major", "0"))
                         .setId3(preferences.getString("key_minor", "0"))
+                        .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
                         .setManufacturer(0x0118)
-                        .setTxPower(Integer.parseInt(preferences.getString("key_power", "69")))
+                        .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
                         .setDataFields(Arrays.asList(new Long[]{0l}))
                         .build();
                 BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat());
