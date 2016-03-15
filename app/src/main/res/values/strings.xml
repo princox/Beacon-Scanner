@@ -48,11 +48,11 @@
 
     <!-- Scanning settings -->
     <string name="pref_scan_tracking_age_summary">The amount of time a detected beacon stays in memory.</string>
-    <string name="pref_scan_tracking_age_title">Tracking age</string>
+    <string name="pref_scan_tracking_age_title">Tracking age(ms)</string>
     <string name="pref_scan_period_summary">How many times per second a new scan is started</string>
-    <string name="pref_scan_period_title">Scan period</string>
+    <string name="pref_scan_period_title">Scan period(ms)</string>
     <string name="pref_between_scan_period_summary">The amount of time between a scan period</string>
-    <string name="pref_between_scan_period_title">Between scan period</string>
+    <string name="pref_between_scan_period_title">Between scan period(ms)</string>
     <string name="pref_header_transmit">Transmitting</string>
     <string name="transmitting_not_supported">Transmitting not supported</string>
     <string name="transmitting_not_supported_message">Transmitting as a beacon is not supported on your
