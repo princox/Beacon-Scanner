@@ -1,6 +1,7 @@
 package com.hogervries.beaconscanner.fragment;
 
 import android.annotation.TargetApi;
+import android.bluetooth.le.AdvertiseSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -285,11 +286,21 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                         .setDataFields(Arrays.asList(new Long[]{0l}))
                         .build();
                 BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat());
-                mBeaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
-                mBeaconTransmitter.startAdvertising(beacon);
+                setUpTransmitter(beacon, beaconParser);
                 startAnimation();
             }
         }
+    }
+
+    private void setUpTransmitter(Beacon beacon, BeaconParser beaconParser) {
+        mBeaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
+        setAdvertisingMode();
+        mBeaconTransmitter.startAdvertising(beacon);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setAdvertisingMode() {
+        mBeaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
     }
 
     private void stopTransmitting() {
