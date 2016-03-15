@@ -74,34 +74,36 @@ import butterknife.OnClick;
  */
 public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
 
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private static final int PERMISSION_COARSE_LOCATION = 1;
+
+    private static final int SCANNING = 0;
+    private static final int TRANSMITTING = 1;
     private static final String REGION_ID = "Beacon_scanner_region";
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.toolbar_title) TextView mToolbarTitle;
-    @Bind(R.id.scan_circle) ImageView mScanCircleView;
-    @Bind(R.id.start_scan_button) ImageButton mStartButton;
-    @Bind(R.id.stop_scan_button) ImageButton mStopButton;
-    @Bind(R.id.pulse_ring) ImageView mPulsingRing;
-    @Bind(R.id.scan_transmit_layout) RelativeLayout mSwitchLayout;
-    @Bind(R.id.scan_transmit_switch) Switch mScanTransmitSwitch;
-    @Bind(R.id.scan_switch_button) Button mScanSwitchButton;
-    @Bind(R.id.transmit_switch_button) Button mTransmitSwitchButton;
-    @Bind(R.id.slide_layout) FrameLayout mSlideLayout;
-    @Bind(R.id.beacon_recycler_view) RecyclerView mBeaconRecyclerView;
-    @BindColor(R.color.colorWhite) int mWhite;
-    @BindColor(R.color.colorGrey) int mGrey;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar_title) TextView toolbarTitleText;
+    @Bind(R.id.scan_circle) ImageView startButtonOuterCircle;
+    @Bind(R.id.start_scan_button) ImageButton startButton;
+    @Bind(R.id.stop_scan_button) ImageButton stopButton;
+    @Bind(R.id.pulse_ring) ImageView pulsingRing;
+    @Bind(R.id.scan_transmit_layout) RelativeLayout switchModeLayout;
+    @Bind(R.id.scan_transmit_switch) Switch scanTransmitSwitch;
+    @Bind(R.id.scan_switch_button) Button scanModeButton;
+    @Bind(R.id.transmit_switch_button) Button transmitModeButton;
+    @Bind(R.id.slide_layout) FrameLayout slidingList;
+    @Bind(R.id.beacon_recycler_view) RecyclerView beaconRecycler;
+    @BindColor(R.color.colorWhite) int white;
+    @BindColor(R.color.colorGrey) int grey;
 
-    private boolean mModeIsTransmitting;
-    private boolean mIsScanning;
-    private boolean mIsTransmitting;
+    private int mode;
+    private boolean isScanning;
+    private boolean isTransmitting;
 
-    private MenuItem mStopScanItem;
-    private BeaconManager mBeaconManager;
-    private BeaconTransmitter mBeaconTransmitter;
-    private BeaconAdapter mBeaconAdapter;
-    private OnBeaconSelectedListener mCallback;
-    private BeaconStore mBeaconStore;
+    private MenuItem stopScanMenuItem;
+    private BeaconManager beaconManager;
+    private BeaconTransmitter beaconTransmitter;
+    private OnBeaconSelectedListener beaconSelectedCallback;
+    private BeaconStore beaconStore;
 
     public static ScanTransmitFragment newInstance() {
         return new ScanTransmitFragment();
@@ -111,7 +113,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (OnBeaconSelectedListener) context;
+            beaconSelectedCallback = (OnBeaconSelectedListener) context;
         } catch (ClassCastException notImplementedException) {
             throw new ClassCastException(context.toString()
                     + " must implement OnBeaconSelectedListener");
@@ -132,11 +134,11 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         // Setting toolbar.
         setToolbar();
         // Getting instance of beacon store.
-        mBeaconStore = BeaconStore.getInstance();
+        beaconStore = BeaconStore.getInstance();
         // Setting up BeaconManager.
         setUpBeaconManager();
         // Setting linear layout manager as layout manager for the beacon recycler view.
-        mBeaconRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Updates user interface so that all the right views are displayed.
         updateUI();
 
@@ -148,7 +150,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
         // Initializing item as member so changes to its properties can be done within other methods.
-        mStopScanItem = menu.findItem(R.id.stop_scanning);
+        stopScanMenuItem = menu.findItem(R.id.stop_scanning);
     }
 
     @Override
@@ -156,13 +158,14 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         switch (item.getItemId()) {
             case R.id.stop_scanning:
                 // Clears list of beacons and stops scanning.
-                mBeaconStore.clearBeacons();
+                beaconStore.clearBeacons();
                 stopScanning();
                 updateUI();
-                mStopScanItem.setVisible(false);
+                stopScanMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
+                getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,64 +173,57 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void setToolbar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
     private void setUpBeaconManager() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mBeaconManager = BeaconManager.getInstanceForApplication(getActivity());
+        beaconManager = BeaconManager.getInstanceForApplication(getActivity());
         // Sets beacon layouts so that the app knows for what type of beacons to look.
         setBeaconLayouts();
         // Sets scanning periods.
-        mBeaconManager.setForegroundScanPeriod(Integer.parseInt(preferences.getString("key_scan_period", "1100")));
+        beaconManager.setForegroundScanPeriod(Integer.parseInt(preferences.getString("key_scan_period", "1100")));
         // Sets between scanning periods.
-        mBeaconManager.setForegroundBetweenScanPeriod(Integer.parseInt(preferences.getString("key_between_scan_period", "0")));
+        beaconManager.setForegroundBetweenScanPeriod(Integer.parseInt(preferences.getString("key_between_scan_period", "0")));
         // Initializing cache and setting tracking age.
         BeaconManager.setUseTrackingCache(true);
-        mBeaconManager.setMaxTrackingAge(Integer.parseInt(preferences.getString("key_tracking_age", "5000")));
+        beaconManager.setMaxTrackingAge(Integer.parseInt(preferences.getString("key_tracking_age", "5000")));
     }
 
     private void setBeaconLayouts() {
-        mBeaconManager.getBeaconParsers().clear();
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat()));
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.SAMSUNG_BEACON.getFormat()));
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
-        mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat()));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.SAMSUNG_BEACON.getFormat()));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
     }
 
     private void updateUI() {
-        List<Beacon> beacons = mBeaconStore.getBeacons();
-        if (mBeaconAdapter == null) {
-            // Initializing BeaconAdapter.
-            mBeaconAdapter = new BeaconAdapter(beacons, mCallback, getActivity());
-            mBeaconRecyclerView.setAdapter(mBeaconAdapter);
-        } else {
-            mBeaconAdapter.setBeacons(beacons);
-            mBeaconAdapter.notifyDataSetChanged();
-        }
-        setSlideLayout(beacons);
+        List<Beacon> beacons = beaconStore.getBeacons();
+        beaconRecycler.setAdapter(new BeaconAdapter(beacons, beaconSelectedCallback, getActivity()));
+        setSlidingList(beacons);
     }
 
-    private void setSlideLayout(List<Beacon> beacons) {
-        if (!beacons.isEmpty() && mSlideLayout.getVisibility() == View.INVISIBLE) {
+    private void setSlidingList(List<Beacon> beacons) {
+        if (!beacons.isEmpty() && slidingList.getVisibility() == View.INVISIBLE) {
             slideUpBeaconList(); // Animates sliding up.
-            mStopScanItem.setVisible(true);
-        } else if (beacons.isEmpty() && mSlideLayout.getVisibility() == View.VISIBLE) {
+            stopScanMenuItem.setVisible(true);
+        } else if (beacons.isEmpty() && slidingList.getVisibility() == View.VISIBLE) {
             slideDownBeaconList(); // Animates sliding down.
-            mStopScanItem.setVisible(false);
+            stopScanMenuItem.setVisible(false);
         }
     }
 
     private void slideUpBeaconList() {
-        mSlideLayout.setVisibility(View.VISIBLE);
-        mSlideLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
+        slidingList.setVisibility(View.VISIBLE);
+        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
     }
 
     private void slideDownBeaconList() {
-        mSlideLayout.setVisibility(View.INVISIBLE);
-        mSlideLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
+        slidingList.setVisibility(View.INVISIBLE);
+        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
     }
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
@@ -235,49 +231,58 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
             requestLocationPermission();
         } else {
-            if (!mModeIsTransmitting) toggleScanning();
-            else toggleTransmitting();
+            if (mode == SCANNING) {
+                toggleScanning();
+            } else if (mode == TRANSMITTING) {
+                toggleTransmitting();
+            }
         }
     }
 
     private void toggleScanning() {
-        if (!mIsScanning) startScanning();
-        else stopScanning();
+        if (!isScanning) {
+            startScanning();
+        } else {
+            stopScanning();
+        }
     }
 
     private void startScanning() {
-        if (!mBeaconManager.checkAvailability()) {
+        if (!beaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
-            mIsScanning = true;
-            mSwitchLayout.setVisibility(View.INVISIBLE);
-            mBeaconManager.bind(this); // Beacon manager binds the beacon consumer and starts service.
+            isScanning = true;
+            switchModeLayout.setVisibility(View.INVISIBLE);
+            beaconManager.bind(this); // Beacon manager binds the beacon consumer and starts service.
             startAnimation();
         }
     }
 
     private void stopScanning() {
-        mIsScanning = false;
-        mSwitchLayout.setVisibility(View.VISIBLE);
-        mBeaconManager.unbind(this); // Beacon manager unbinds the beacon consumer and stops service.
+        isScanning = false;
+        switchModeLayout.setVisibility(View.VISIBLE);
+        beaconManager.unbind(this); // Beacon manager unbinds the beacon consumer and stops service.
         stopAnimation();
     }
 
     private void toggleTransmitting() {
-        if (!mIsTransmitting) startTransmitting();
-        else stopTransmitting();
+        if (!isTransmitting) {
+            startTransmitting();
+        } else {
+            stopTransmitting();
+        }
     }
 
     private void startTransmitting() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (!mBeaconManager.checkAvailability()) {
+        if (!beaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
             if (!(BeaconTransmitter.checkTransmissionSupported(getActivity()) == BeaconTransmitter.SUPPORTED)) {
                 notifyTransmittingNotSupported();
             } else {
-                mIsTransmitting = true;
-                mSwitchLayout.setVisibility(View.INVISIBLE);
+                isTransmitting = true;
+                switchModeLayout.setVisibility(View.INVISIBLE);
                 Beacon beacon = new Beacon.Builder()
                         .setId1(preferences.getString("key_beacon_uuid", "0"))
                         .setId2(preferences.getString("key_major", "0"))
@@ -295,74 +300,73 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void setUpTransmitter(Beacon beacon, BeaconParser beaconParser) {
-        mBeaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
+        beaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
         setAdvertisingMode();
-        mBeaconTransmitter.startAdvertising(beacon);
+        beaconTransmitter.startAdvertising(beacon);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAdvertisingMode() {
-        mBeaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
+        beaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
     }
 
     private void stopTransmitting() {
-        mIsTransmitting = false;
-        mSwitchLayout.setVisibility(View.VISIBLE);
-        mBeaconTransmitter.stopAdvertising();
+        isTransmitting = false;
+        switchModeLayout.setVisibility(View.VISIBLE);
+        beaconTransmitter.stopAdvertising();
         stopAnimation();
     }
 
     private void startAnimation() {
-        mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
-        mStartButton.setImageResource(R.drawable.ic_circle);
-        mStopButton.setVisibility(View.VISIBLE);
+        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
+        startButton.setImageResource(R.drawable.ic_circle);
+        stopButton.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
 
     private void stopAnimation() {
-        mScanCircleView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
-        mStartButton.setImageResource(mModeIsTransmitting ? R.drawable.ic_button_transmit : R.drawable.ic_button_scan);
-        mStopButton.setVisibility(View.INVISIBLE);
-        mPulsingRing.clearAnimation();
+        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
+        startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
+        stopButton.setVisibility(View.INVISIBLE);
+        pulsingRing.clearAnimation();
     }
 
     private void pulseAnimation() {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
-        mPulsingRing.startAnimation(set);
+        pulsingRing.startAnimation(set);
     }
 
     @OnClick(R.id.scan_switch_button)
     void switchToScanning() {
-        setToolbarTitle(R.string.beacon_scanner);
-        mModeIsTransmitting = false;
-        mScanTransmitSwitch.setChecked(false);
-        mScanSwitchButton.setTextColor(mWhite);
-        mTransmitSwitchButton.setTextColor(mGrey);
-        mStartButton.setImageResource(R.drawable.ic_button_scan);
+        setToolbarTitleText(R.string.beacon_scanner);
+        mode = SCANNING;
+        scanTransmitSwitch.setChecked(false);
+        scanModeButton.setTextColor(white);
+        transmitModeButton.setTextColor(grey);
+        startButton.setImageResource(R.drawable.ic_button_scan);
     }
 
     @OnClick(R.id.transmit_switch_button)
     void switchToTransmitting() {
-        setToolbarTitle(R.string.beacon_transmitter);
-        mModeIsTransmitting = true;
-        mScanTransmitSwitch.setChecked(true);
-        mScanSwitchButton.setTextColor(mGrey);
-        mTransmitSwitchButton.setTextColor(mWhite);
-        mStartButton.setImageResource(R.drawable.ic_button_transmit);
+        setToolbarTitleText(R.string.beacon_transmitter);
+        mode = TRANSMITTING;
+        scanTransmitSwitch.setChecked(true);
+        scanModeButton.setTextColor(grey);
+        transmitModeButton.setTextColor(white);
+        startButton.setImageResource(R.drawable.ic_button_transmit);
     }
 
-    private void setToolbarTitle(@StringRes int title) {
-        mToolbarTitle.setText(title);
+    private void setToolbarTitleText(@StringRes int title) {
+        toolbarTitleText.setText(title);
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        mBeaconManager.setRangeNotifier(new RangeNotifier() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-                // Updates list of beacons.
-                mBeaconStore.updateBeacons(collection);
+                beaconStore.updateBeacons(collection);
                 // If this fragment is added to its parent activity it will update the UI.
                 if (isAdded()) {
                     getActivity().runOnUiThread(new Runnable() {
@@ -370,7 +374,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                         public void run() {
                             // If the app is scanning then update the UI.
                             // This prevents showing a list when scanning has already stopped.
-                            if (mIsScanning) updateUI();
+                            if (isScanning) updateUI();
                         }
                     });
                 }
@@ -379,7 +383,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
 
         try {
             // Starting ranging of beacons in our defined region.
-            mBeaconManager.startRangingBeaconsInRegion(new Region(REGION_ID, null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region(REGION_ID, null, null, null));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -407,7 +411,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             public void onPermissionResult(PermissionResultSet permissionResultSet) {
                 // Intentionally left blank
             }
-        }, PERMISSION_REQUEST_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
+        }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
     }
 
     private void requestBluetooth() {
@@ -421,8 +425,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                         Intent bltSettingsIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
                         startActivity(bltSettingsIntent);
                     }
-                })
-                .show();
+                }).show();
     }
 
     private void notifyTransmittingNotSupported() {
@@ -434,17 +437,10 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setUpBeaconManager();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        mBeaconManager.unbind(this);
-        // Deleting instance of singleton.
+        beaconManager.unbind(this);
         BeaconStore.deleteInstance();
     }
 }

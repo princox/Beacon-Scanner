@@ -57,15 +57,6 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         mContext = context;
     }
 
-    /**
-     * Sets list of beacons.
-     *
-     * @param beacons List of beacons.
-     */
-    public void setBeacons(List<Beacon> beacons) {
-        mBeacons = beacons;
-    }
-
     @Override
     public BeaconHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View beaconItemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_beacon, parent, false);
