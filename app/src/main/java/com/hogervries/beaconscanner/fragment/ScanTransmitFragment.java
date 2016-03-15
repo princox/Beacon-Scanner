@@ -269,6 +269,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void startTransmitting() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (!mBeaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
@@ -278,11 +279,11 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 mIsTransmitting = true;
                 mSwitchLayout.setVisibility(View.INVISIBLE);
                 Beacon beacon = new Beacon.Builder()
-                        .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
-                        .setId2("1")
-                        .setId3("2")
+                        .setId1(preferences.getString("key_beacon_uuid", "0"))
+                        .setId2(preferences.getString("key_major", "0"))
+                        .setId3(preferences.getString("key_minor", "0"))
                         .setManufacturer(0x0118)
-                        .setTxPower(-59)
+                        .setTxPower(Integer.parseInt(preferences.getString("key_power", "69")))
                         .setDataFields(Arrays.asList(new Long[]{0l}))
                         .build();
                 BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat());
@@ -429,6 +430,12 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 .setMessage(getString(R.string.transmitting_not_supported_message))
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpBeaconManager();
     }
 
     @Override

@@ -1,27 +1,57 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference
-        android:defaultValue="5000"
-        android:inputType="number"
-        android:key="key_tracking_age"
-        android:numeric="integer"
-        android:summary="@string/pref_scan_tracking_age_summary"
-        android:title="@string/pref_scan_tracking_age_title"/>
+    <PreferenceCategory android:title="@string/pref_header_scanning">
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:inputType="number"
+            android:key="key_tracking_age"
+            android:summary="@string/pref_scan_tracking_age_summary"
+            android:title="@string/pref_scan_tracking_age_title"/>
 
-    <EditTextPreference
-        android:defaultValue="1100"
-        android:inputType="number"
-        android:key="key_scan_period"
-        android:numeric="integer"
-        android:summary="@string/pref_scan_period_summary"
-        android:title="@string/pref_scan_period_title"/>
+        <EditTextPreference
+            android:defaultValue="1100"
+            android:inputType="number"
+            android:key="key_scan_period"
+            android:numeric="integer"
+            android:summary="@string/pref_scan_period_summary"
+            android:title="@string/pref_scan_period_title"/>
 
-    <EditTextPreference
-        android:defaultValue="0"
-        android:inputType="number"
-        android:key="key_between_scan_period"
-        android:numeric="integer"
-        android:summary="@string/pref_between_scan_period_summary"
-        android:title="@string/pref_between_scan_period_title"/>
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="key_between_scan_period"
+            android:numeric="integer"
+            android:summary="@string/pref_between_scan_period_summary"
+            android:title="@string/pref_between_scan_period_title"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_header_transmit">
+        <EditTextPreference
+            android:key="key_beacon_name"
+            android:summary="@string/pref_transmit_beacon_name_summary"
+            android:title="@string/pref_transmit_beacon_name"/>
+
+        <ListPreference
+            android:key="key_beacon_uuid"
+            android:entries="@array/uuid"
+            android:entryValues="@array/uuid"
+            android:summary="@string/pref_transmit_beacon_uuid_summary"
+            android:title="@string/pref_transmit_beacon_uuid"/>
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="key_major"
+            android:title="@string/pref_transmit_major"/>
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="key_minor"
+            android:title="@string/pref_transmit_minor"/>
+
+        <EditTextPreference
+            android:inputType="number|numberSigned"
+            android:key="key_power"
+            android:summary="@string/pref_transmit_power_summary"
+            android:title="@string/pref_transmit_power"/>
+    </PreferenceCategory>
 </PreferenceScreen>

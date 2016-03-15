@@ -53,10 +53,18 @@
     <string name="pref_scan_period_title">Scan period</string>
     <string name="pref_between_scan_period_summary">The amount of time between a scan period</string>
     <string name="pref_between_scan_period_title">Between scan period</string>
-    <string name="pref_header_transmit">Transmit</string>
+    <string name="pref_header_transmit">Transmitting</string>
     <string name="transmitting_not_supported">Transmitting not supported</string>
     <string name="transmitting_not_supported_message">Transmitting as a beacon is not supported on your
         device.
     </string>
+    <string name="pref_transmit_beacon_name">Beacon name</string>
+    <string name="pref_transmit_beacon_uuid">UUID</string>
+    <string name="pref_transmit_major">Major</string>
+    <string name="pref_transmit_minor">Minor</string>
+    <string name="pref_transmit_beacon_name_summary">Bluetooth name of beacon</string>
+    <string name="pref_transmit_power">TX-Power</string>
+    <string name="pref_transmit_beacon_uuid_summary">Select a pre-defined UUID of beacon</string>
+    <string name="pref_transmit_power_summary">Signal strength of beacon</string>
 
 </resources>
