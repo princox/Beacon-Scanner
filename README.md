@@ -15,8 +15,6 @@ For version 1.0 we kept it simple and clean. A new version is already in the wor
 * Customisable scan settings
 * Adding your own beacon formats
 * Saving and sending log files
-* Transmitting as a beacon
-
 
 # Credits
 
@@ -24,6 +22,6 @@ A huge thanks to the guys from Radius Networks for providing a great beacon libr
 
 ##Libraries
 
-* [AltBeacon](https://altbeacon.github.io/android-beacon-library/index.html)
-* [Butterknife](http://jakewharton.github.io/butterknife/)
-* [Assent](https://github.com/afollestad/assent)
+* [AltBeacon](https://altbeacon.github.io/android-beacon-library/index.html): Beacon scan/transmit library.
+* [Butterknife](http://jakewharton.github.io/butterknife/): View injection library.
+* [Assent](https://github.com/afollestad/assent): Permissions library.
