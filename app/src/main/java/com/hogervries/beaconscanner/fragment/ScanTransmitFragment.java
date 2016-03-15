@@ -44,7 +44,6 @@ import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.domain.BeaconFormat;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -172,8 +171,20 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        beaconManager.unbind(this);
+        BeaconStore.deleteInstance();
+    }
+
     private void setToolbar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+    }
+
+    private void setToolbarTitleText(@StringRes int title) {
+        toolbarTitleText.setText(title);
     }
 
     private void setUpBeaconManager() {
@@ -192,8 +203,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
 
     private void setBeaconLayouts() {
         beaconManager.getBeaconParsers().clear();
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat()));
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconFormat.SAMSUNG_BEACON.getFormat()));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
@@ -237,6 +247,26 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 toggleTransmitting();
             }
         }
+    }
+
+    @OnClick(R.id.scan_switch_button)
+    void switchToScanning() {
+        setToolbarTitleText(R.string.beacon_scanner);
+        mode = SCANNING;
+        scanTransmitSwitch.setChecked(false);
+        scanModeButton.setTextColor(white);
+        transmitModeButton.setTextColor(grey);
+        startButton.setImageResource(R.drawable.ic_button_scan);
+    }
+
+    @OnClick(R.id.transmit_switch_button)
+    void switchToTransmitting() {
+        setToolbarTitleText(R.string.beacon_transmitter);
+        mode = TRANSMITTING;
+        scanTransmitSwitch.setChecked(true);
+        scanModeButton.setTextColor(grey);
+        transmitModeButton.setTextColor(white);
+        startButton.setImageResource(R.drawable.ic_button_transmit);
     }
 
     private void toggleScanning() {
@@ -283,20 +313,31 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             } else {
                 isTransmitting = true;
                 switchModeLayout.setVisibility(View.INVISIBLE);
-                Beacon beacon = new Beacon.Builder()
-                        .setId1(preferences.getString("key_beacon_uuid", "0"))
-                        .setId2(preferences.getString("key_major", "0"))
-                        .setId3(preferences.getString("key_minor", "0"))
-                        .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
-                        .setManufacturer(0x0118)
-                        .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
-                        .setDataFields(Arrays.asList(new Long[]{0l}))
-                        .build();
-                BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconFormat.APPLE_BEACON.getFormat());
+                Beacon beacon = createBeaconToTransmit(preferences);
+                BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT);
                 setUpTransmitter(beacon, beaconParser);
                 startAnimation();
             }
         }
+    }
+
+    private void stopTransmitting() {
+        isTransmitting = false;
+        switchModeLayout.setVisibility(View.VISIBLE);
+        beaconTransmitter.stopAdvertising();
+        stopAnimation();
+    }
+
+    private Beacon createBeaconToTransmit(SharedPreferences preferences) {
+        return new Beacon.Builder()
+                .setId1(preferences.getString("key_beacon_uuid", "0"))
+                .setId2(preferences.getString("key_major", "0"))
+                .setId3(preferences.getString("key_minor", "0"))
+                .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
+                .setManufacturer(0x0118)
+                .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
+                .setDataFields(Arrays.asList(new Long[]{0l}))
+                .build();
     }
 
     private void setUpTransmitter(Beacon beacon, BeaconParser beaconParser) {
@@ -308,13 +349,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAdvertisingMode() {
         beaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
-    }
-
-    private void stopTransmitting() {
-        isTransmitting = false;
-        switchModeLayout.setVisibility(View.VISIBLE);
-        beaconTransmitter.stopAdvertising();
-        stopAnimation();
     }
 
     private void startAnimation() {
@@ -335,30 +369,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
         pulsingRing.startAnimation(set);
-    }
-
-    @OnClick(R.id.scan_switch_button)
-    void switchToScanning() {
-        setToolbarTitleText(R.string.beacon_scanner);
-        mode = SCANNING;
-        scanTransmitSwitch.setChecked(false);
-        scanModeButton.setTextColor(white);
-        transmitModeButton.setTextColor(grey);
-        startButton.setImageResource(R.drawable.ic_button_scan);
-    }
-
-    @OnClick(R.id.transmit_switch_button)
-    void switchToTransmitting() {
-        setToolbarTitleText(R.string.beacon_transmitter);
-        mode = TRANSMITTING;
-        scanTransmitSwitch.setChecked(true);
-        scanModeButton.setTextColor(grey);
-        transmitModeButton.setTextColor(white);
-        startButton.setImageResource(R.drawable.ic_button_transmit);
-    }
-
-    private void setToolbarTitleText(@StringRes int title) {
-        toolbarTitleText.setText(title);
     }
 
     @Override
@@ -404,16 +414,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         return getActivity().bindService(intent, serviceConnection, i);
     }
 
-    @TargetApi(value = Build.VERSION_CODES.M)
-    private void requestLocationPermission() {
-        Assent.requestPermissions(new AssentCallback() {
-            @Override
-            public void onPermissionResult(PermissionResultSet permissionResultSet) {
-                // Intentionally left blank
-            }
-        }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
-    }
-
     private void requestBluetooth() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.bluetooth_not_enabled))
@@ -436,11 +436,13 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 .show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        beaconManager.unbind(this);
-        BeaconStore.deleteInstance();
+    @TargetApi(value = Build.VERSION_CODES.M)
+    private void requestLocationPermission() {
+        Assent.requestPermissions(new AssentCallback() {
+            @Override
+            public void onPermissionResult(PermissionResultSet permissionResultSet) {
+                // Intentionally left blank
+            }
+        }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
     }
 }
