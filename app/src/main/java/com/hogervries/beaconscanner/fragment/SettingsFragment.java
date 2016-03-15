@@ -1,7 +1,5 @@
 package com.hogervries.beaconscanner.fragment;
 
-import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -53,7 +51,6 @@ public class SettingsFragment extends PreferenceFragment {
         }
     };
 
-
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
@@ -64,4 +61,5 @@ public class SettingsFragment extends PreferenceFragment {
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
     }
+
 }
