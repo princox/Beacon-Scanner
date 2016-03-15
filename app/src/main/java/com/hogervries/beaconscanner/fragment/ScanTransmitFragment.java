@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -156,24 +157,41 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stop_scanning:
-                // Clears list of beacons and stops scanning.
-                beaconStore.clearBeacons();
-                stopScanning();
-                updateUI();
-                stopScanMenuItem.setVisible(false);
+                stopBluetoothProcess();
                 return true;
             case R.id.settings:
-                if (isScanning) {
-                    stopScanning();
-                } else if (isTransmitting) {
-                    stopTransmitting();
+                final Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                if (isScanning || isTransmitting) {
+                    stopBluetoothProcess();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettings(settingsIntent);
+                        }
+                    }, 400);
+                } else {
+                    stopBluetoothProcess();
+                    openSettings(settingsIntent);
                 }
-                BeaconStore.deleteInstance();
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openSettings(Intent settingsIntent) {
+        startActivity(settingsIntent);
+        getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
+    }
+
+    private void stopBluetoothProcess() {
+        if (isScanning) {
+            beaconStore.clearBeacons();
+            stopScanning();
+            updateUI();
+            stopScanMenuItem.setVisible(false);
+        } else if (isTransmitting) {
+            stopTransmitting();
         }
     }
 
@@ -302,11 +320,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     }
 
     private void toggleTransmitting() {
-        if (!isTransmitting) {
-            startTransmitting();
-        } else {
-            stopTransmitting();
-        }
+        if (!isTransmitting) startTransmitting();
+        else stopTransmitting();
     }
 
     private void startTransmitting() {
