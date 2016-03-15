@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
             case android.R.id.home:
                 Intent scanTransmitIntent = ScanTransmitActivity.newIntent(this);
                 startActivity(scanTransmitIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
