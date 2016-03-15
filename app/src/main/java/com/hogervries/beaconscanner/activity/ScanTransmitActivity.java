@@ -1,5 +1,6 @@
 package com.hogervries.beaconscanner.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
@@ -16,6 +17,10 @@ import org.altbeacon.beacon.Beacon;
  * @author Mitchell de Vries
  */
 public class ScanTransmitActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, ScanTransmitActivity.class);
+    }
 
     @Override
     protected Fragment createFragment() {

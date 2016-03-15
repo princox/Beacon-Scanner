@@ -163,6 +163,12 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 stopScanMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
+                if (isScanning) {
+                    stopScanning();
+                } else if (isTransmitting) {
+                    stopTransmitting();
+                }
+                BeaconStore.deleteInstance();
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
                 return true;
