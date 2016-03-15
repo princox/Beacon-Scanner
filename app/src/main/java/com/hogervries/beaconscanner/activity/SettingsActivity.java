@@ -21,8 +21,8 @@ public class SettingsActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case android.R.id.home:
                 Intent scanTransmitIntent = ScanTransmitActivity.newIntent(this);
+                scanTransmitIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(scanTransmitIntent);
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
