@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconParser;
@@ -21,11 +22,15 @@ import java.util.Arrays;
  */
 public class BeaconTransmitService {
 
+    private static final String TAG = "BeaconTransmitService";
+
     private Context context;
+    private SharedPreferences preferences;
     private BeaconTransmitter beaconTransmitter;
 
     public BeaconTransmitService(Context context) {
         this.context = context;
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         setUpTransmitter();
         setAdvertisingMode();
     }
@@ -45,7 +50,6 @@ public class BeaconTransmitService {
     }
 
     private Beacon createBeacon() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new Beacon.Builder()
                     .setId1(preferences.getString("key_beacon_uuid", "0"))
                     .setId2(preferences.getString("key_major", "0"))
@@ -58,7 +62,8 @@ public class BeaconTransmitService {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAdvertisingMode() {
-        beaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
+        Log.d(TAG, "setAdvertisingMode: " + Integer.parseInt(preferences.getString("key_beacon_advertisement", "10")));
+        beaconTransmitter.setAdvertiseMode(Integer.parseInt(preferences.getString("key_beacon_advertisement", "10")));
     }
 
 }

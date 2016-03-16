@@ -8,4 +8,10 @@
         <item>5AFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF</item>
         <item>B9407F30-F5F8-466E-AFF9-25556B57FE6D</item>
     </string-array>
+
+    <string-array name="advertisement">Advertisement
+        <item>10</item>
+        <item>3</item>
+        <item>1</item>
+    </string-array>
 </resources>

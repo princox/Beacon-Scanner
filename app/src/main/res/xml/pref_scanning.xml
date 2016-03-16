@@ -52,5 +52,13 @@
             android:key="key_power"
             android:summary="@string/pref_transmit_power_summary"
             android:title="@string/pref_transmit_power"/>
+
+        <ListPreference
+            android:key="key_beacon_advertisement"
+            android:defaultValue="10"
+            android:entries="@array/advertisement"
+            android:entryValues="@array/advertisement"
+            android:summary="@string/pref_transmit_beacon_advertisement_summary"
+            android:title="@string/pref_transmit_beacon_advertisement"/>
     </PreferenceCategory>
 </PreferenceScreen>
