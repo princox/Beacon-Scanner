@@ -23,13 +23,12 @@ public class IntroActivity extends AppIntro2 {
         addSlide(AppIntroFragment.newInstance("Scan", "Detect nearby beacons and show their details",
                 R.drawable.ic_button_scan, Color.parseColor("#F44336")));
 
-        addSlide(AppIntroFragment.newInstance("Transmit", "Your phone is now a beacon",
+        addSlide(AppIntroFragment.newInstance("Transmit", "You can now use your phone as a beacon",
                 R.drawable.ic_button_transmit, Color.parseColor("#4CAF50")));
 
         addSlide(AppIntroFragment.newInstance("Settings", "Fully customisable settings for scanning and transmitting",
                 R.drawable.ic_intro_setting, Color.parseColor("#2196F3")));
 
-        // Hide Skip/Done button.
         setProgressButtonEnabled(true);
     }
 
