@@ -22,13 +22,10 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("key_tracking_age"));
         bindPreferenceSummaryToValue(findPreference("key_scan_period"));
         bindPreferenceSummaryToValue(findPreference("key_between_scan_period"));
-
-        bindPreferenceSummaryToValue(findPreference("key_beacon_name"));
         bindPreferenceSummaryToValue(findPreference("key_beacon_uuid"));
         bindPreferenceSummaryToValue(findPreference("key_major"));
         bindPreferenceSummaryToValue(findPreference("key_minor"));
         bindPreferenceSummaryToValue(findPreference("key_power"));
-
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
