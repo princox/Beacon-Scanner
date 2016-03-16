@@ -36,18 +36,17 @@ import android.widget.TextView;
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
 import com.afollestad.assent.PermissionResultSet;
-import com.hogervries.beaconscanner.service.BeaconScannerService;
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.activity.SettingsActivity;
+import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.service.BeaconScannerService;
 import com.hogervries.beaconscanner.service.BeaconScannerService.OnScanBeaconsListener;
 import com.hogervries.beaconscanner.service.BeaconTransmitService;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BeaconTransmitter;
 
 import java.util.ArrayList;
@@ -173,7 +172,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Override
     public void onResume() {
         super.onResume();
-        setUpBeaconManager();
+        beaconManager = BeaconManager.getInstanceForApplication(getActivity());
         beaconScannerService = new BeaconScannerService(getActivity(), this, beaconManager);
         beaconTransmitService = new BeaconTransmitService(getActivity());
     }
@@ -200,28 +199,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     private void setToolbarTitleText(@StringRes int title) {
         toolbarTitleText.setText(title);
-    }
-
-    private void setUpBeaconManager() {
-        beaconManager = BeaconManager.getInstanceForApplication(getActivity());
-        // Sets beacon layouts so that the app knows for what type of beacons to look.
-        setBeaconLayouts();
-        // Sets scanning periods.
-        beaconManager.setForegroundScanPeriod(Integer.parseInt(preferences.getString("key_scan_period", "1100")));
-        // Sets between scanning periods.
-        beaconManager.setForegroundBetweenScanPeriod(Integer.parseInt(preferences.getString("key_between_scan_period", "0")));
-        // Initializing cache and setting tracking age.
-        BeaconManager.setUseTrackingCache(true);
-        beaconManager.setMaxTrackingAge(Integer.parseInt(preferences.getString("key_tracking_age", "5000")));
-    }
-
-    private void setBeaconLayouts() {
-        beaconManager.getBeaconParsers().clear();
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
-        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
     }
 
     private void updateUI() {

@@ -3,11 +3,14 @@ package com.hogervries.beaconscanner.service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
@@ -23,8 +26,8 @@ public class BeaconScannerService implements BeaconConsumer {
 
     private static final String REGION_ID = "Beacon_scanner_region";
 
-    private BeaconManager beaconManager;
     private Context context;
+    private BeaconManager beaconManager;
     private OnScanBeaconsListener onScanBeaconsCallback;
 
     /**
@@ -49,6 +52,28 @@ public class BeaconScannerService implements BeaconConsumer {
         }
         this.context = context;
         this.beaconManager = beaconManager;
+        setUpBeaconManager();
+        setBeaconLayouts();
+    }
+
+    private void setUpBeaconManager() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // Sets scanning periods.
+        beaconManager.setForegroundScanPeriod(Integer.parseInt(preferences.getString("key_scan_period", "1100")));
+        // Sets between scanning periods.
+        beaconManager.setForegroundBetweenScanPeriod(Integer.parseInt(preferences.getString("key_between_scan_period", "0")));
+        // Initializing cache and setting tracking age.
+        BeaconManager.setUseTrackingCache(true);
+        beaconManager.setMaxTrackingAge(Integer.parseInt(preferences.getString("key_tracking_age", "5000")));
+    }
+
+    private void setBeaconLayouts() {
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
     }
 
     @Override
