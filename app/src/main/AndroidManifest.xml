@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.ScanTransmitActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>   
@@ -33,14 +33,14 @@
         </activity>
 
         <activity
-            android:name=".activity.BeaconDetailsActivity"
-            android:parentActivityName=".activity.ScanTransmitActivity"
+            android:name=".activity.BeaconActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name="com.hogervries.beaconscanner.activity.SettingsActivity"
-            android:parentActivityName=".activity.ScanTransmitActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeSettings"/>
 

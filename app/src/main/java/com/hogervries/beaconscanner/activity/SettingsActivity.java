@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                Intent scanTransmitIntent = ScanTransmitActivity.newIntent(this);
+                Intent scanTransmitIntent = MainActivity.newIntent(this);
                 scanTransmitIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(scanTransmitIntent);
                 return true;

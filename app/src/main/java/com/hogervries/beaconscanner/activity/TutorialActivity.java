@@ -34,7 +34,7 @@ public class TutorialActivity extends AppIntro2 {
 
     @Override
     public void onDonePressed() {
-            startActivity(new Intent(this, ScanTransmitActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override

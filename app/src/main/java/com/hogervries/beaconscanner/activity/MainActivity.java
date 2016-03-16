@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.fragment.ScanTransmitFragment;
+import com.hogervries.beaconscanner.fragment.MainFragment;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -16,20 +16,20 @@ import org.altbeacon.beacon.Beacon;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class ScanTransmitActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
+public class MainActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, ScanTransmitActivity.class);
+        return new Intent(context, MainActivity.class);
     }
 
     @Override
     protected Fragment createFragment() {
-        return ScanTransmitFragment.newInstance();
+        return MainFragment.newInstance();
     }
 
     @Override
     public void onBeaconSelected(Beacon beacon) {
-        Intent beaconIntent = BeaconDetailsActivity.newIntent(this, beacon);
+        Intent beaconIntent = BeaconActivity.newIntent(this, beacon);
         startActivity(beaconIntent);
         // Overriding screen transition animation.
         overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);

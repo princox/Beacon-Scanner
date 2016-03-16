@@ -68,7 +68,7 @@ import butterknife.OnClick;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class ScanTransmitFragment extends Fragment implements OnScanBeaconsListener {
+public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     private static final int PERMISSION_COARSE_LOCATION = 1;
 
@@ -102,8 +102,8 @@ public class ScanTransmitFragment extends Fragment implements OnScanBeaconsListe
     private List<Beacon> beacons = new ArrayList<>();
     private SharedPreferences preferences;
 
-    public static ScanTransmitFragment newInstance() {
-        return new ScanTransmitFragment();
+    public static MainFragment newInstance() {
+        return new MainFragment();
     }
 
     @Override

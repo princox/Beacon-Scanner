@@ -26,7 +26,7 @@ public class BeaconTransmitService {
 
     public BeaconTransmitService(Context context) {
         this.context = context;
-        setTransmitter();
+        setUpTransmitter();
         setAdvertisingMode();
     }
 
@@ -38,7 +38,7 @@ public class BeaconTransmitService {
         beaconTransmitter.stopAdvertising();
     }
 
-    private void setTransmitter() {
+    private void setUpTransmitter() {
         BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT);
         beaconTransmitter = new BeaconTransmitter(context, beaconParser);
         beaconTransmitter.setBeacon(createBeacon());
