@@ -15,7 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().add(android.R.id.content, new SettingsFragment()).commit();
-        getSupportActionBar().setTitle(R.string.settings);
+        setTitle(R.string.settings);
     }
 
     @Override
