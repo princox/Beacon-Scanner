@@ -79,7 +79,7 @@ public class BeaconFragment extends DialogFragment {
         detailFieldMinor.setText(beacon.getId3().toString());
         detailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
         detailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
-        detailFieldBluetoothName.setText(mBeacon.getBluetoothName() != null ? mBeacon.getBluetoothName() : "unknown");
+        detailFieldBluetoothName.setText(!mBeacon.getBluetoothName().isEmpty() ? mBeacon.getBluetoothName() : "unknown");
         detailFieldRssi.setText(String.valueOf(beacon.getRssi()));
         detailFieldServiceUuid.setText(String.valueOf(beacon.getServiceUuid()));
         detailFieldTxPower.setText(String.valueOf(beacon.getTxPower()));
