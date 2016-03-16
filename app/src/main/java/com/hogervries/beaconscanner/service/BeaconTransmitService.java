@@ -22,8 +22,6 @@ import java.util.Arrays;
  */
 public class BeaconTransmitService {
 
-    private static final String TAG = "BeaconTransmitService";
-
     private Context context;
     private SharedPreferences preferences;
     private BeaconTransmitter beaconTransmitter;
@@ -62,7 +60,6 @@ public class BeaconTransmitService {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAdvertisingMode() {
-        Log.d(TAG, "setAdvertisingMode: " + Integer.parseInt(preferences.getString("key_beacon_advertisement", "10")));
         beaconTransmitter.setAdvertiseMode(Integer.parseInt(preferences.getString("key_beacon_advertisement", "10")));
     }
 

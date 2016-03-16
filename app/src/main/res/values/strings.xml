@@ -66,7 +66,7 @@
     <string name="pref_transmit_beacon_uuid_summary">Select a pre-defined UUID of beacon</string>
     <string name="pref_transmit_power_summary">Signal strength of beacon</string>
     <string name="pref_transmit_beacon_advertisement_summary">Signal frequency in Hz</string>
-    <string name="pref_transmit_beacon_advertisement">Signal frequency(Hz)</string>
+    <string name="pref_transmit_beacon_advertisement">Signal frequency(Higher is faster)</string>
     <string name="app_intro">Intro</string>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="uuid">UUID
-     <item>00000000-0000-0000-0000-000000000000</item>
+        <item>00000000-0000-0000-0000-000000000000</item>
         <item>2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6</item>
         <item>52414449-5553-4E45-5457-4F524B53434F</item>
         <item>5A4BCFCE-174E-4BAC-A814-092E77F6B7E5</item>
@@ -10,8 +10,8 @@
     </string-array>
 
     <string-array name="advertisement">Advertisement
-        <item>10</item>
-        <item>3</item>
+        <item>2</item>
         <item>1</item>
+        <item>0</item>
     </string-array>
 </resources>

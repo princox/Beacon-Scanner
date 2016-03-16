@@ -111,15 +111,6 @@
                     android:textSize="@dimen/small_text_size"/>
 
                 <TextView
-                    android:id="@+id/detail_service_uuid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_service_uuid"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/small_text_size"/>
-
-                <TextView
                     android:id="@+id/detail_tx_power"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,13 +155,6 @@
 
                 <TextView
                     android:id="@+id/detail_field_rssi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/small_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_field_service_uuid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/text_view_padding_bottom"
