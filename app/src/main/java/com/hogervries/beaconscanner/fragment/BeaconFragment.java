@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
@@ -17,6 +18,8 @@ import org.altbeacon.beacon.Beacon;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -64,7 +67,7 @@ public class BeaconFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View beaconView = inflater.inflate(R.layout.fragment_beacon, container, false);
+        View beaconView = inflater.inflate(R.layout.dialog_beacon, container, false);
         ButterKnife.bind(this, beaconView);
         // Binds beacon data to view.
         bindBeacon(mBeacon);
@@ -79,6 +82,11 @@ public class BeaconFragment extends DialogFragment {
         detailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
         detailFieldRssi.setText(String.valueOf(beacon.getRssi()));
         detailFieldTxPower.setText(String.valueOf(beacon.getTxPower()));
+    }
+
+    @OnClick(R.id.close_dialog_button)
+    void closeDialog() {
+        dismiss();
     }
 
     @Override

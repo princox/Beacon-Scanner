@@ -48,7 +48,7 @@
 
         <EditTextPreference
             android:inputType="number|numberSigned"
-            android:defaultValue="-59"
+            android:defaultValue="-69"
             android:key="key_power"
             android:summary="@string/pref_transmit_power_summary"
             android:title="@string/pref_transmit_power"/>

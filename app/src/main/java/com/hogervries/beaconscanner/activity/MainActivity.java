@@ -20,6 +20,8 @@ import org.altbeacon.beacon.Beacon;
  */
 public class MainActivity extends SingleFragmentActivity implements OnBeaconSelectedListener {
 
+    private static final String DIALOG_BEACON = "dialog_beacon";
+
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -32,6 +34,6 @@ public class MainActivity extends SingleFragmentActivity implements OnBeaconSele
     @Override
     public void onBeaconSelected(Beacon beacon) {
         BeaconFragment dialog = BeaconFragment.newInstance(beacon);
-        dialog.show(getSupportFragmentManager(), "dialog");
+        dialog.show(getSupportFragmentManager(), DIALOG_BEACON);
     }
 }

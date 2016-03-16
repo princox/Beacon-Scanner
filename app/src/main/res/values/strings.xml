@@ -26,7 +26,7 @@
     <string name="detail_minor">Minor:</string>
     <string name="detail_major">Major:</string>
     <string name="detail_distance">Distance:</string>
-    <string name="detail_bluetooth_address">Bluetooth address:</string>
+    <string name="detail_bluetooth_address">BLT address:</string>
     <string name="detail_manufacturer">Bluetooth name:</string>
     <string name="detail_rssi">Rssi:</string>
     <string name="detail_service_uuid">Service UUID:</string>
@@ -68,5 +68,6 @@
     <string name="pref_transmit_beacon_advertisement_summary">Signal frequency in Hz</string>
     <string name="pref_transmit_beacon_advertisement">Signal frequency(Higher is faster)</string>
     <string name="app_intro">Intro</string>
+    <string name="beacon_detail_close_content_desc">Beacon detail close button</string>
 
 </resources>
