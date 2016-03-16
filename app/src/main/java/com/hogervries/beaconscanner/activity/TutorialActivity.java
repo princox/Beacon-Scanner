@@ -12,7 +12,7 @@ import com.hogervries.beaconscanner.R;
  * Trifork
  * GuestAppSocial
  */
-public class IntroActivity extends AppIntro2 {
+public class TutorialActivity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {

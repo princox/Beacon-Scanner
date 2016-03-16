@@ -1,15 +1,12 @@
 package com.hogervries.beaconscanner.fragment;
 
 import android.annotation.TargetApi;
-import android.bluetooth.le.AdvertiseSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -39,22 +36,21 @@ import android.widget.TextView;
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
 import com.afollestad.assent.PermissionResultSet;
+import com.hogervries.beaconscanner.service.BeaconScannerService;
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.activity.IntroActivity;
+import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.service.BeaconScannerService.OnScanBeaconsListener;
+import com.hogervries.beaconscanner.service.BeaconTransmitService;
 
 import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BeaconTransmitter;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -72,13 +68,12 @@ import butterknife.OnClick;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
+public class ScanTransmitFragment extends Fragment implements OnScanBeaconsListener {
 
     private static final int PERMISSION_COARSE_LOCATION = 1;
 
     private static final int SCANNING = 0;
     private static final int TRANSMITTING = 1;
-    private static final String REGION_ID = "Beacon_scanner_region";
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitleText;
@@ -101,7 +96,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
 
     private MenuItem stopScanMenuItem;
     private BeaconManager beaconManager;
-    private BeaconTransmitter beaconTransmitter;
+    private BeaconScannerService beaconScannerService;
+    private BeaconTransmitService beaconTransmitService;
     private OnBeaconSelectedListener beaconSelectedCallback;
     private List<Beacon> beacons = new ArrayList<>();
     private SharedPreferences preferences;
@@ -129,9 +125,9 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         checkFirstRun();
     }
 
-    private void checkFirstRun(){
+    private void checkFirstRun() {
         if (preferences.getBoolean("firstrun", true)) {
-            startActivity(new Intent(getActivity(), IntroActivity.class));
+            startActivity(new Intent(getActivity(), TutorialActivity.class));
             preferences.edit().putBoolean("firstrun", false).apply();
         }
     }
@@ -149,13 +145,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         updateUI();
 
         return beaconListView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpBeaconManager();
-        setUpBeaconTransmitter();
     }
 
     @Override
@@ -181,6 +170,14 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpBeaconManager();
+        beaconScannerService = new BeaconScannerService(getActivity(), this, beaconManager);
+        beaconTransmitService = new BeaconTransmitService(getActivity());
+    }
+
     private void stopBluetoothProcess() {
         if (isScanning) {
             beacons.clear();
@@ -195,13 +192,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     private void openSettings(Intent settingsIntent) {
         startActivity(settingsIntent);
         getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        beaconManager.unbind(this);
     }
 
     private void setToolbar() {
@@ -232,23 +222,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT));
-    }
-
-    private void setUpBeaconTransmitter() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        Beacon beacon = new Beacon.Builder()
-                .setId1(preferences.getString("key_beacon_uuid", "0"))
-                .setId2(preferences.getString("key_major", "0"))
-                .setId3(preferences.getString("key_minor", "0"))
-                .setBluetoothName(preferences.getString("key_beacon_name", "My Beacon"))
-                .setManufacturer(0x0118)
-                .setTxPower(Integer.parseInt(preferences.getString("key_power", "-59")))
-                .setDataFields(Arrays.asList(new Long[]{0l}))
-                .build();
-        BeaconParser beaconParser = new BeaconParser().setBeaconLayout(BeaconParser.ALTBEACON_LAYOUT);
-        beaconTransmitter = new BeaconTransmitter(getActivity(), beaconParser);
-        beaconTransmitter.setBeacon(beacon);
-        setAdvertisingMode();
     }
 
     private void updateUI() {
@@ -296,16 +269,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         startButton.setImageResource(R.drawable.ic_button_scan);
     }
 
-    @OnClick(R.id.transmit_switch_button)
-    void switchToTransmitting() {
-        setToolbarTitleText(R.string.beacon_transmitter);
-        mode = TRANSMITTING;
-        scanTransmitSwitch.setChecked(true);
-        scanModeButton.setTextColor(grey);
-        transmitModeButton.setTextColor(white);
-        startButton.setImageResource(R.drawable.ic_button_transmit);
-    }
-
     private void toggleScanning() {
         if (!isScanning) startScanning();
         else stopScanning();
@@ -317,17 +280,38 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         } else {
             isScanning = true;
             switchModeLayout.setVisibility(View.INVISIBLE);
-            beaconManager.bind(this); // Beacon manager binds the beacon consumer and starts service.
+            beaconManager.bind(beaconScannerService); // Beacon manager binds the beacon consumer and starts service.
             startAnimation();
         }
+    }
+
+    @Override
+    public void onScanBeacons(Collection<Beacon> beacons) {
+        this.beacons = (List<Beacon>) beacons;
+        if (isAdded()) getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isScanning) updateUI();
+            }
+        });
     }
 
     private void stopScanning() {
         isScanning = false;
         beacons.clear();
         switchModeLayout.setVisibility(View.VISIBLE);
-        beaconManager.unbind(this); // Beacon manager unbinds the beacon consumer and stops service.
+        beaconManager.unbind(beaconScannerService); // Beacon manager unbinds the beacon consumer and stops service.
         stopAnimation();
+    }
+
+    @OnClick(R.id.transmit_switch_button)
+    void switchToTransmitting() {
+        setToolbarTitleText(R.string.beacon_transmitter);
+        mode = TRANSMITTING;
+        scanTransmitSwitch.setChecked(true);
+        scanModeButton.setTextColor(grey);
+        transmitModeButton.setTextColor(white);
+        startButton.setImageResource(R.drawable.ic_button_transmit);
     }
 
     private void toggleTransmitting() {
@@ -344,7 +328,7 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
             } else {
                 isTransmitting = true;
                 switchModeLayout.setVisibility(View.INVISIBLE);
-                beaconTransmitter.startAdvertising();
+                beaconTransmitService.startTransmitting();
                 startAnimation();
             }
         }
@@ -353,13 +337,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
     private void stopTransmitting() {
         isTransmitting = false;
         switchModeLayout.setVisibility(View.VISIBLE);
-        beaconTransmitter.stopAdvertising();
+        beaconTransmitService.stopTransmitting();
         stopAnimation();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setAdvertisingMode() {
-        beaconTransmitter.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
     }
 
     private void startAnimation() {
@@ -382,49 +361,6 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
         pulsingRing.startAnimation(set);
     }
 
-    @Override
-    public void onBeaconServiceConnect() {
-        beaconManager.setRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-                beacons = (List<Beacon>) collection;
-                // If this fragment is added to its parent activity it will update the UI.
-                if (isAdded()) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // If the app is scanning then update the UI.
-                            // This prevents showing a list when scanning has already stopped.
-                            if (isScanning) updateUI();
-                        }
-                    });
-                }
-            }
-        });
-
-        try {
-            // Starting ranging of beacons in our defined region.
-            beaconManager.startRangingBeaconsInRegion(new Region(REGION_ID, null, null, null));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return getActivity().getApplicationContext();
-    }
-
-    @Override
-    public void unbindService(ServiceConnection serviceConnection) {
-        getActivity().unbindService(serviceConnection);
-    }
-
-    @Override
-    public boolean bindService(Intent intent, ServiceConnection serviceConnection, int i) {
-        return getActivity().bindService(intent, serviceConnection, i);
-    }
-
     private void requestBluetooth() {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.bluetooth_not_enabled))
@@ -436,7 +372,8 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                         Intent bltSettingsIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
                         startActivity(bltSettingsIntent);
                     }
-                }).show();
+                })
+                .show();
     }
 
     private void notifyTransmittingNotSupported() {
@@ -455,5 +392,12 @@ public class ScanTransmitFragment extends Fragment implements BeaconConsumer {
                 // Intentionally left blank
             }
         }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        beaconManager.unbind(beaconScannerService);
     }
 }
