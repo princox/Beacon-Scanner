@@ -94,6 +94,8 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private boolean isTransmitting;
 
     private MenuItem stopScanMenuItem;
+    private MenuItem settingsMenuItem;
+
     private BeaconManager beaconManager;
     private BeaconScannerService beaconScannerService;
     private BeaconTransmitService beaconTransmitService;
@@ -134,7 +136,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View beaconListView = inflater.inflate(R.layout.fragment_beacon_list, container, false);
+        View beaconListView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, beaconListView);
         // Setting toolbar.
         setToolbar();
@@ -152,6 +154,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         inflater.inflate(R.menu.menu_beacon_list, menu);
         // Initializing item as member so changes to its properties can be done within other methods.
         stopScanMenuItem = menu.findItem(R.id.stop_scanning);
+        settingsMenuItem = menu.findItem(R.id.settings);
     }
 
     @Override
@@ -176,7 +179,16 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     public void onResume() {
         super.onResume();
         beaconManager = BeaconManager.getInstanceForApplication(getActivity());
+        initBeaconScanService();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) initBeaconTransmitService();
+    }
+
+    private void initBeaconScanService() {
         beaconScannerService = new BeaconScannerService(getActivity(), this, beaconManager);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initBeaconTransmitService() {
         beaconTransmitService = new BeaconTransmitService(getActivity());
     }
 
@@ -320,6 +332,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
         startButton.setImageResource(R.drawable.ic_circle);
         stopButton.setVisibility(View.VISIBLE);
+        settingsMenuItem.setVisible(false);
         pulseAnimation();
     }
 
@@ -327,6 +340,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
         startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
         stopButton.setVisibility(View.INVISIBLE);
+        settingsMenuItem.setVisible(true);
         pulsingRing.clearAnimation();
     }
 
@@ -359,7 +373,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
                 .show();
     }
 
-    @TargetApi(value = Build.VERSION_CODES.M)
     private void requestLocationPermission() {
         Assent.requestPermissions(new AssentCallback() {
             @Override

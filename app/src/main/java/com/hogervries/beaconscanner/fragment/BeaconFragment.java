@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +33,7 @@ public class BeaconFragment extends DialogFragment {
     @Bind(R.id.detail_field_major) TextView detailFieldMajor;
     @Bind(R.id.detail_field_distance) TextView detailFieldDistance;
     @Bind(R.id.detail_field_bluetooth_address) TextView detailFieldBluetoothAddress;
-    @Bind(R.id.detail_field_manufacturer) TextView detailFieldManufacturer;
+    @Bind(R.id.detail_field_manufacturer) TextView detailFieldBluetoothName;
     @Bind(R.id.detail_field_rssi) TextView detailFieldRssi;
     @Bind(R.id.detail_field_service_uuid) TextView detailFieldServiceUuid;
     @Bind(R.id.detail_field_tx_power) TextView detailFieldTxPower;
@@ -56,7 +52,6 @@ public class BeaconFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
@@ -73,9 +68,8 @@ public class BeaconFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconView = inflater.inflate(R.layout.fragment_beacon, container, false);
         ButterKnife.bind(this, beaconView);
-
+        // Binds beacon data to view.
         bindBeacon(mBeacon);
-
         return beaconView;
     }
 
@@ -85,7 +79,7 @@ public class BeaconFragment extends DialogFragment {
         detailFieldMinor.setText(beacon.getId3().toString());
         detailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
         detailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
-        detailFieldManufacturer.setText(String.valueOf(beacon.getManufacturer()));
+        detailFieldBluetoothName.setText(mBeacon.getBluetoothName() != null ? mBeacon.getBluetoothName() : "unknown");
         detailFieldRssi.setText(String.valueOf(beacon.getRssi()));
         detailFieldServiceUuid.setText(String.valueOf(beacon.getServiceUuid()));
         detailFieldTxPower.setText(String.valueOf(beacon.getTxPower()));
