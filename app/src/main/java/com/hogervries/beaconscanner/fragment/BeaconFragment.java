@@ -59,7 +59,7 @@ public class BeaconFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconView = inflater.inflate(R.layout.fragment_beacon, container, false);
         ButterKnife.bind(this, beaconView);
-        
+
         bindBeacon(mBeacon);
 
         return beaconView;
