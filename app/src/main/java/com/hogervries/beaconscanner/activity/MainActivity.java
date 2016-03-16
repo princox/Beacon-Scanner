@@ -1,5 +1,6 @@
 package com.hogervries.beaconscanner.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;

@@ -20,4 +20,12 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="DialogTheme"
+           parent="@android:style/Theme.Dialog">
+        <item
+            name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:windowIsFloating">false</item>
+        <item
+            name="android:windowNoTitle">true</item>
+    </style>
 </resources>

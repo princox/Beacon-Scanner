@@ -1,186 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
+    android:id="@+id/slide_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_transparent"/>
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary">
 
-    <FrameLayout
-        android:id="@+id/slide_layout"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beacon_detail"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/large_text_size"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/status_toolbar_height"
-        android:background="@android:color/white"
-        android:elevation="@dimen/elevation_height">
+        android:elevation="@dimen/elevation_height"
+        android:orientation="vertical"
+        android:padding="@dimen/padding"
+        android:background="@color/colorWhite"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/detail_uuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/text_view_padding_bottom"
+            android:text="@string/detail_uuid"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/small_text_size"/>
+
+        <TextView
+            android:id="@+id/detail_field_uuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/text_view_padding_bottom"
+            android:textAllCaps="true"
+            android:textSize="@dimen/extra_small_text_size"/>
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
 
         <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/padding">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/padding_end"
+            android:paddingStart="@dimen/null_size">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/detail_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/null_size"
-                android:paddingEnd="@dimen/padding_end">
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_distance"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_uuid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_uuid"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_distance"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_bluetooth_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_bluetooth_address"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_minor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_minor"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_major"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_manufacturer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_manufacturer"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_rssi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_rssi"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_service_uuid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_service_uuid"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_tx_power"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:text="@string/detail_tx_power"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text_size"/>
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/detail_bluetooth_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_bluetooth_address"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_uuid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/medium_text_size"/>
+            <TextView
+                android:id="@+id/detail_minor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_minor"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
+            <TextView
+                android:id="@+id/detail_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_major"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_bluetooth_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
+            <TextView
+                android:id="@+id/detail_manufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_manufacturer"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_minor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
+            <TextView
+                android:id="@+id/detail_rssi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_rssi"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
+            <TextView
+                android:id="@+id/detail_service_uuid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_service_uuid"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
 
-                <TextView
-                    android:id="@+id/detail_field_manufacturer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_field_rssi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_field_service_uuid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/text_view_padding_bottom"
-                    android:textSize="@dimen/medium_text_size"/>
-
-                <TextView
-                    android:id="@+id/detail_field_tx_power"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/medium_text_size"/>
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/detail_tx_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:text="@string/detail_tx_power"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text_size"/>
         </LinearLayout>
-    </FrameLayout>
-</FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_field_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_bluetooth_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_minor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_manufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_rssi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_service_uuid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_view_padding_bottom"
+                android:textSize="@dimen/small_text_size"/>
+
+            <TextView
+                android:id="@+id/detail_field_tx_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"/>
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
