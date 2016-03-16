@@ -75,34 +75,20 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private static final int SCANNING = 0;
     private static final int TRANSMITTING = 1;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitleText;
-    @Bind(R.id.scan_circle)
-    ImageView startButtonOuterCircle;
-    @Bind(R.id.start_scan_button)
-    ImageButton startButton;
-    @Bind(R.id.stop_scan_button)
-    ImageButton stopButton;
-    @Bind(R.id.pulse_ring)
-    ImageView pulsingRing;
-    @Bind(R.id.scan_transmit_layout)
-    RelativeLayout switchModeLayout;
-    @Bind(R.id.scan_transmit_switch)
-    Switch scanTransmitSwitch;
-    @Bind(R.id.scan_switch_button)
-    Button scanModeButton;
-    @Bind(R.id.transmit_switch_button)
-    Button transmitModeButton;
-    @Bind(R.id.slide_layout)
-    FrameLayout slidingList;
-    @Bind(R.id.beacon_recycler_view)
-    RecyclerView beaconRecycler;
-    @BindColor(R.color.colorWhite)
-    int white;
-    @BindColor(R.color.colorGrey)
-    int grey;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar_title) TextView toolbarTitleText;
+    @Bind(R.id.scan_circle) ImageView startButtonOuterCircle;
+    @Bind(R.id.start_scan_button) ImageButton startButton;
+    @Bind(R.id.stop_scan_button) ImageButton stopButton;
+    @Bind(R.id.pulse_ring) ImageView pulsingRing;
+    @Bind(R.id.scan_transmit_layout) RelativeLayout switchModeLayout;
+    @Bind(R.id.scan_transmit_switch) Switch scanTransmitSwitch;
+    @Bind(R.id.scan_switch_button) Button scanModeButton;
+    @Bind(R.id.transmit_switch_button) Button transmitModeButton;
+    @Bind(R.id.slide_layout) FrameLayout slidingList;
+    @Bind(R.id.beacon_recycler_view) RecyclerView beaconRecycler;
+    @BindColor(R.color.colorWhite) int white;
+    @BindColor(R.color.colorGrey) int grey;
 
     private int mode;
     private boolean isScanning;
@@ -139,13 +125,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         checkFirstRun();
     }
 
-    private void checkFirstRun() {
-        if (preferences.getBoolean("firstrun", true)) {
-            startActivity(new Intent(getActivity(), TutorialActivity.class));
-            preferences.edit().putBoolean("firstrun", false).apply();
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -170,13 +149,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (isScanning) killScan();
-        else if(isTransmitting) stopTransmitting();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
@@ -188,7 +160,10 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stop_scanning:
-                killScan();
+                beacons.clear();
+                stopScanning();
+                updateUI();
+                stopScanMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
@@ -200,13 +175,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void killScan() {
-        beacons.clear();
-        stopScanning();
-        updateUI();
-        stopScanMenuItem.setVisible(false);
     }
 
     private void initBeaconScanService() {
@@ -249,6 +217,17 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private void slideDownBeaconList() {
         slidingList.setVisibility(View.INVISIBLE);
         slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
+    }
+
+    @Override
+    public void onScanBeacons(Collection<Beacon> beacons) {
+        this.beacons = (List<Beacon>) beacons;
+        if (isAdded()) getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isScanning) updateUI();
+            }
+        });
     }
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
@@ -299,17 +278,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
             beaconManager.bind(beaconScannerService); // Beacon manager binds the beacon consumer and starts service.
             startAnimation();
         }
-    }
-
-    @Override
-    public void onScanBeacons(Collection<Beacon> beacons) {
-        this.beacons = (List<Beacon>) beacons;
-        if (isAdded()) getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (isScanning) updateUI();
-            }
-        });
     }
 
     private void stopScanning() {
@@ -397,6 +365,13 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
                 .setMessage(getString(R.string.transmitting_not_supported_message))
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
+    }
+
+    private void checkFirstRun() {
+        if (preferences.getBoolean("firstrun", true)) {
+            startActivity(new Intent(getActivity(), TutorialActivity.class));
+            preferences.edit().putBoolean("firstrun", false).apply();
+        }
     }
 
     private void requestLocationPermission() {
