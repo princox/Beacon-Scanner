@@ -32,7 +32,5 @@ public class MainActivity extends SingleFragmentActivity implements OnBeaconSele
     public void onBeaconSelected(Beacon beacon) {
         BeaconFragment dialog = BeaconFragment.newInstance(beacon);
         dialog.show(getSupportFragmentManager(), "dialog");
-        // Overriding screen transition animation.
-        overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
     }
 }

@@ -60,7 +60,7 @@ import butterknife.OnClick;
 
 /**
  * Beacon Scanner, file created on 10/03/16.
- * <p/>
+ * <p>
  * This fragment scans for beacons and transmits as a beacon.
  * If there are beacons in the area a list will be displayed.
  *
@@ -97,7 +97,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private BeaconManager beaconManager;
     private BeaconScannerService beaconScannerService;
     private BeaconTransmitService beaconTransmitService;
-    private OnBeaconSelectedListener beaconSelectedCallback;
+    private OnBeaconSelectedListener onBeaconSelectedCallback;
     private List<Beacon> beacons = new ArrayList<>();
     private SharedPreferences preferences;
 
@@ -109,7 +109,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            beaconSelectedCallback = (OnBeaconSelectedListener) context;
+            onBeaconSelectedCallback = (OnBeaconSelectedListener) context;
         } catch (ClassCastException notImplementedException) {
             throw new ClassCastException(context.toString()
                     + " must implement OnBeaconSelectedListener");
@@ -161,8 +161,11 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
                 stopBluetoothProcess();
                 return true;
             case R.id.settings:
-                if (isScanning || isTransmitting) stopBluetoothProcess();
-                openSettings(new Intent(getActivity(), SettingsActivity.class));
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                getActivity().overridePendingTransition(
+                        R.anim.anim_transition_from_right,
+                        R.anim.anim_transition_fade_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -188,11 +191,6 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         }
     }
 
-    private void openSettings(Intent settingsIntent) {
-        startActivity(settingsIntent);
-        getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
-    }
-
     private void setToolbar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
@@ -202,7 +200,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     private void updateUI() {
-        beaconRecycler.setAdapter(new BeaconAdapter(beacons, beaconSelectedCallback, getActivity()));
+        beaconRecycler.setAdapter(new BeaconAdapter(beacons, onBeaconSelectedCallback, getActivity()));
         setSlidingList(beacons);
     }
 
@@ -369,6 +367,12 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
                 // Intentionally left blank
             }
         }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopBluetoothProcess();
     }
 
     @Override
