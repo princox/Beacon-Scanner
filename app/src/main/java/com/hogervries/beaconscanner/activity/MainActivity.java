@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
+import com.hogervries.beaconscanner.fragment.BeaconFragment;
 import com.hogervries.beaconscanner.fragment.MainFragment;
 
 import org.altbeacon.beacon.Beacon;
@@ -29,8 +30,8 @@ public class MainActivity extends SingleFragmentActivity implements OnBeaconSele
 
     @Override
     public void onBeaconSelected(Beacon beacon) {
-        Intent beaconIntent = BeaconActivity.newIntent(this, beacon);
-        startActivity(beaconIntent);
+        BeaconFragment dialog = BeaconFragment.newInstance(beacon);
+        dialog.show(getSupportFragmentManager(), "dialog");
         // Overriding screen transition animation.
         overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
     }
