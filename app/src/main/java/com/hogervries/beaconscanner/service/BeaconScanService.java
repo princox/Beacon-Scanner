@@ -22,7 +22,7 @@ import java.util.Collection;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconScannerService implements BeaconConsumer {
+public class BeaconScanService implements BeaconConsumer {
 
     private static final String REGION_ID = "Beacon_scanner_region";
 
@@ -44,7 +44,7 @@ public class BeaconScannerService implements BeaconConsumer {
         void onScanBeacons(Collection<Beacon> beacons);
     }
 
-    public BeaconScannerService(Context context, OnScanBeaconsListener callback, BeaconManager beaconManager) {
+    public BeaconScanService(Context context, OnScanBeaconsListener callback, BeaconManager beaconManager) {
         try {
             onScanBeaconsCallback = callback;
         } catch (ClassCastException notImplementedException) {

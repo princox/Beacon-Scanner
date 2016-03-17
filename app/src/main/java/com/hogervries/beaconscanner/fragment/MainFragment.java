@@ -42,8 +42,8 @@ import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.service.BeaconScannerService;
-import com.hogervries.beaconscanner.service.BeaconScannerService.OnScanBeaconsListener;
+import com.hogervries.beaconscanner.service.BeaconScanService;
+import com.hogervries.beaconscanner.service.BeaconScanService.OnScanBeaconsListener;
 import com.hogervries.beaconscanner.service.BeaconTransmitService;
 
 import org.altbeacon.beacon.Beacon;
@@ -96,7 +96,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     private MenuItem stopScanMenuItem;
     private BeaconManager beaconManager;
-    private BeaconScannerService beaconScannerService;
+    private BeaconScanService beaconScanService;
     private BeaconTransmitService beaconTransmitService;
     private OnBeaconSelectedListener onBeaconSelectedCallback;
     private List<Beacon> beacons = new ArrayList<>();
@@ -178,7 +178,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     private void initBeaconScanService() {
-        beaconScannerService = new BeaconScannerService(getActivity(), this, beaconManager);
+        beaconScanService = new BeaconScanService(getActivity(), this, beaconManager);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -277,7 +277,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         } else {
             isScanning = true;
             switchModeLayout.setVisibility(View.INVISIBLE);
-            beaconManager.bind(beaconScannerService); // Beacon manager binds the beacon consumer and starts service.
+            beaconManager.bind(beaconScanService); // Beacon manager binds the beacon consumer and starts service.
             startAnimation();
         }
     }
@@ -286,7 +286,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         isScanning = false;
         beacons.clear();
         switchModeLayout.setVisibility(View.VISIBLE);
-        beaconManager.unbind(beaconScannerService); // Beacon manager unbinds the beacon consumer and stops service.
+        beaconManager.unbind(beaconScanService); // Beacon manager unbinds the beacon consumer and stops service.
         stopAnimation();
     }
 
@@ -388,7 +388,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (isScanning) beaconManager.unbind(beaconScannerService);
+        if (isScanning) beaconManager.unbind(beaconScanService);
         else beaconTransmitService.stopTransmitting();
     }
 
