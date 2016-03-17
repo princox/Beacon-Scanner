@@ -14,7 +14,7 @@ In the settings screen you can customise scanning and transmitting settings. Som
 * How long beacons should remain in the cache
 * UUID, major, minor, frequency etc.
 
-This application is an open source project. Source code is available at: https://github.com/Boyd261/Beacon-Scanner. We're students in our 2nd year so any feedback is much appreciated!
+This application is an open source project. We're students in our 2nd year so any feedback is much appreciated!
 
 We're working hard on making this app as awesome as it could be. Some of the features we're working on right now are:
 * Saving and sending log files
