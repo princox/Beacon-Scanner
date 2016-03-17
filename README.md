@@ -1,20 +1,24 @@
 # Beacon-Scanner
 
-Scans and shows details of every iBeacon, Eddystone (TLM, UID, URL frames) and AltBeacon in your area.
-
-This application is an open source project. We're students in our 2nd year so any feedback is much appreciated! If you have a great idea and would like to help us, just submit a pull request!
+Scans, transmits and shows details of every iBeacon, Eddystone (UID, URL frames) and AltBeacon in your area.
 
 This app displays the following information of a beacon:
-* UUID, Minor and Major values for iBeacons/Altbeacons. TLM, URL and UID frames for Eddystone.
+* UUID, Minor and Major values
 * Distance to beacon
 * TX and RSSI values
 * Bluetooth information like MAC address and more
 
-For version 1.0 we kept it simple and clean. A new version is already in the works, some of the features we're working on are:
-* Better designed beacon detail view
-* Customisable scan settings
-* Adding your own beacon formats
+In the settings screen you can customise scanning and transmitting settings. Some of the settings include:
+* Scan period time
+* Between scan periods time
+* How long beacons should remain in the cache
+* UUID, major, minor, frequency etc.
+
+This application is an open source project. Source code is available at: https://github.com/Boyd261/Beacon-Scanner. We're students in our 2nd year so any feedback is much appreciated!
+
+We're working hard on making this app as awesome as it could be. Some of the features we're working on right now are:
 * Saving and sending log files
+* Adding beacon formats for scanning
 
 # Credits
 
