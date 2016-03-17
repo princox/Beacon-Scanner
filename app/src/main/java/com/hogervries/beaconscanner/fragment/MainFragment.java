@@ -140,9 +140,9 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         initBeaconScanService();
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) initBeaconTransmitService();
-        // Updates user interface so that all the right views are displayed.
-        disableSwitchDrag();
 
+        disableSwitchDrag();
+        // Updates user interface so that all the right views are displayed.
         updateUI();
 
         return beaconListView;
@@ -240,13 +240,14 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         }
     }
 
-    @OnClick({R.id.scan_transmit_switch, R.id.scan_switch_button, R.id.transmit_switch_button})
+    @OnClick(R.id.scan_transmit_switch)
     void switchMode() {
         if (mode == SCANNING) switchToTransmitting();
         else switchToScanning();
     }
 
-    private void switchToScanning() {
+    @OnClick(R.id.scan_switch_button)
+    void switchToScanning() {
         setToolbarTitleText(R.string.beacon_scanner);
         mode = SCANNING;
         scanTransmitSwitch.setChecked(false);
@@ -255,7 +256,8 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         startButton.setImageResource(R.drawable.ic_button_scan);
     }
 
-    private void switchToTransmitting() {
+    @OnClick(R.id.transmit_switch_button)
+    void switchToTransmitting() {
         setToolbarTitleText(R.string.beacon_transmitter);
         mode = TRANSMITTING;
         scanTransmitSwitch.setChecked(true);
@@ -387,7 +389,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     public void onPause() {
         super.onPause();
         if (isScanning) beaconManager.unbind(beaconScannerService);
-        else if (isTransmitting) beaconTransmitService.stopTransmitting();
+        else beaconTransmitService.stopTransmitting();
     }
 
     @Override
