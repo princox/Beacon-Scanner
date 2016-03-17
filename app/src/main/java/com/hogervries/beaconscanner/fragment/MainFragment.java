@@ -134,13 +134,13 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         setToolbar();
         // Setting linear layout manager as layout manager for the beacon recycler view.
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        // Getting instance of beacon manager.
         beaconManager = BeaconManager.getInstanceForApplication(getActivity());
-
+        // Initializing scan service.
         initBeaconScanService();
-
+        // Initializing transmit service.
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) initBeaconTransmitService();
-
+        // Disables dragging on switch button
         disableSwitchDrag();
         // Updates user interface so that all the right views are displayed.
         updateUI();
