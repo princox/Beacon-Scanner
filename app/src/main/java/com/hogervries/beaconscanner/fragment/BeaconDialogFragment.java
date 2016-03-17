@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
@@ -19,7 +18,6 @@ import org.altbeacon.beacon.Beacon;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTextChanged;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -27,7 +25,7 @@ import butterknife.OnTextChanged;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconFragment extends DialogFragment {
+public class BeaconDialogFragment extends DialogFragment {
 
     private static final String ARG_BEACON = "arg_beacon";
 
@@ -41,10 +39,10 @@ public class BeaconFragment extends DialogFragment {
 
     private Beacon mBeacon;
 
-    public static BeaconFragment newInstance(Beacon beacon) {
+    public static BeaconDialogFragment newInstance(Beacon beacon) {
         Bundle args = new Bundle();
         args.putParcelable(ARG_BEACON, beacon);
-        BeaconFragment fragment = new BeaconFragment();
+        BeaconDialogFragment fragment = new BeaconDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }

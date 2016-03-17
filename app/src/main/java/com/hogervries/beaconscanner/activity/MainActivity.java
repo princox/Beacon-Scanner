@@ -1,6 +1,5 @@
 package com.hogervries.beaconscanner.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.afollestad.assent.Assent;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.fragment.BeaconFragment;
+import com.hogervries.beaconscanner.fragment.BeaconDialogFragment;
 import com.hogervries.beaconscanner.fragment.MainFragment;
 
 import org.altbeacon.beacon.Beacon;
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnBeaconSelectedL
 
     @Override
     public void onBeaconSelected(Beacon beacon) {
-        BeaconFragment dialog = BeaconFragment.newInstance(beacon);
+        BeaconDialogFragment dialog = BeaconDialogFragment.newInstance(beacon);
         dialog.show(getSupportFragmentManager(), DIALOG_BEACON);
     }
 
