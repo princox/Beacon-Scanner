@@ -26,10 +26,6 @@ public class MainActivity extends AppCompatActivity implements OnBeaconSelectedL
 
     private static final String DIALOG_BEACON = "dialog_beacon";
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
