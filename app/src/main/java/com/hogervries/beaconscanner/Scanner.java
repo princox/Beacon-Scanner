@@ -1,4 +1,4 @@
-package com.hogervries.beaconscanner.service;
+package com.hogervries.beaconscanner;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import java.util.Collection;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconScanService implements BeaconConsumer {
+public class Scanner implements BeaconConsumer {
 
     private static final String REGION_ID = "Beacon_scanner_region";
 
@@ -44,7 +44,7 @@ public class BeaconScanService implements BeaconConsumer {
         void onScanBeacons(Collection<Beacon> beacons);
     }
 
-    public BeaconScanService(Context context, OnScanBeaconsListener callback, BeaconManager beaconManager) {
+    public Scanner(Context context, OnScanBeaconsListener callback, BeaconManager beaconManager) {
         try {
             onScanBeaconsCallback = callback;
         } catch (ClassCastException notImplementedException) {

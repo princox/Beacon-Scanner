@@ -9,14 +9,15 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.hogervries.beaconscanner.R;
 
 /**
- * Trifork
- * GuestAppSocial
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
  */
 public class TutorialActivity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
-
         addSlide(AppIntroFragment.newInstance("Beacon Scanner", "We will guide you through the new features of version 2.0",
                 R.drawable.ic_intro_logo, Color.parseColor("#212121")));
 
@@ -39,11 +40,11 @@ public class TutorialActivity extends AppIntro2 {
 
     @Override
     public void onNextPressed() {
-
+        // Intentionally left blank.
     }
 
     @Override
     public void onSlideChanged() {
-
+        // Intentionally left blank.
     }
 }

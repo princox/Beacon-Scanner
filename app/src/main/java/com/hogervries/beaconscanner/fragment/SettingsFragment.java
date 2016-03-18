@@ -9,8 +9,10 @@ import android.preference.PreferenceManager;
 import com.hogervries.beaconscanner.R;
 
 /**
- * Trifork
- * GuestAppSocial
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
  */
 public class SettingsFragment extends PreferenceFragment {
 

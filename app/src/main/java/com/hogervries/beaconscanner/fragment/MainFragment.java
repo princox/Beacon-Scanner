@@ -42,9 +42,9 @@ import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.hogervries.beaconscanner.service.BeaconScanService;
-import com.hogervries.beaconscanner.service.BeaconScanService.OnScanBeaconsListener;
-import com.hogervries.beaconscanner.service.BeaconTransmitService;
+import com.hogervries.beaconscanner.Scanner;
+import com.hogervries.beaconscanner.Scanner.OnScanBeaconsListener;
+import com.hogervries.beaconscanner.Transmitter;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
@@ -94,13 +94,13 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private boolean isScanning;
     private boolean isTransmitting;
 
-    private MenuItem stopScanMenuItem;
+    private Scanner scanner;
+    private Transmitter transmitter;
     private BeaconManager beaconManager;
-    private BeaconScanService beaconScanService;
-    private BeaconTransmitService beaconTransmitService;
     private OnBeaconSelectedListener onBeaconSelectedCallback;
     private List<Beacon> beacons = new ArrayList<>();
     private SharedPreferences preferences;
+    private MenuItem stopScanMenuItem;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -178,12 +178,12 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     private void initBeaconScanService() {
-        beaconScanService = new BeaconScanService(getActivity(), this, beaconManager);
+        scanner = new Scanner(getActivity(), this, beaconManager);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initBeaconTransmitService() {
-        beaconTransmitService = new BeaconTransmitService(getActivity());
+        transmitter = new Transmitter(getActivity());
     }
 
     private void setToolbar() {
@@ -277,7 +277,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         } else {
             isScanning = true;
             switchModeLayout.setVisibility(View.INVISIBLE);
-            beaconManager.bind(beaconScanService); // Beacon manager binds the beacon consumer and starts service.
+            beaconManager.bind(scanner); // Beacon manager binds the beacon consumer and starts service.
             startAnimation();
         }
     }
@@ -286,7 +286,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         isScanning = false;
         beacons.clear();
         switchModeLayout.setVisibility(View.VISIBLE);
-        beaconManager.unbind(beaconScanService); // Beacon manager unbinds the beacon consumer and stops service.
+        beaconManager.unbind(scanner); // Beacon manager unbinds the beacon consumer and stops service.
         stopAnimation();
     }
 
@@ -304,7 +304,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
             } else {
                 isTransmitting = true;
                 switchModeLayout.setVisibility(View.INVISIBLE);
-                beaconTransmitService.startTransmitting();
+                transmitter.startTransmitting();
                 startAnimation();
             }
         }
@@ -313,7 +313,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private void stopTransmitting() {
         isTransmitting = false;
         switchModeLayout.setVisibility(View.VISIBLE);
-        beaconTransmitService.stopTransmitting();
+        transmitter.stopTransmitting();
         stopAnimation();
     }
 
@@ -388,8 +388,8 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (isScanning) beaconManager.unbind(beaconScanService);
-        else beaconTransmitService.stopTransmitting();
+        if (isScanning) beaconManager.unbind(scanner);
+        else if (isTransmitting) transmitter.stopTransmitting();
     }
 
     @Override

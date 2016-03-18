@@ -1,14 +1,18 @@
 package com.hogervries.beaconscanner.activity;
 
-
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.fragment.SettingsFragment;
 
+/**
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -19,15 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                Intent scanTransmitIntent = MainActivity.newIntent(this);
-                scanTransmitIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(scanTransmitIntent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

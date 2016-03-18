@@ -1,4 +1,4 @@
-package com.hogervries.beaconscanner.service;
+package com.hogervries.beaconscanner;
 
 import android.annotation.TargetApi;
 import android.bluetooth.le.AdvertiseSettings;
@@ -20,13 +20,13 @@ import java.util.Arrays;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconTransmitService {
+public class Transmitter {
 
     private Context context;
     private SharedPreferences preferences;
     private BeaconTransmitter beaconTransmitter;
 
-    public BeaconTransmitService(Context context) {
+    public Transmitter(Context context) {
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         setUpTransmitter();
