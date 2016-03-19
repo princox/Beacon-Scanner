@@ -69,5 +69,7 @@
     <string name="pref_transmit_beacon_advertisement">Signal frequency(Higher is faster)</string>
     <string name="app_intro">Intro</string>
     <string name="beacon_detail_close_content_desc">Beacon detail close button</string>
+    <string name="beacon_detail_save_content_desc">Save logs</string>
+    <string name="pref_log_summary">Log scan activity and save it to a csv file located in the downloads folder</string>
 
 </resources>

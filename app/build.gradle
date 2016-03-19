@@ -32,4 +32,5 @@ dependencies {
     compile('com.github.afollestad:assent:0.2.0') {
         transitive = true
     }
+    compile files('/Users/MitchelldeVries/GitRepo/Beacon-Scanner/opencsv-3.7.jar')
 }
