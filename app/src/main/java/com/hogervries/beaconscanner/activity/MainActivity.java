@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements OnBeaconSelectedL
     protected void onResume() {
         super.onResume();
         Assent.setActivity(this, this);
+        resetFragment();
+    }
+
+    private void resetFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, MainFragment.newInstance())
+                .commit();
     }
 
     @Override
