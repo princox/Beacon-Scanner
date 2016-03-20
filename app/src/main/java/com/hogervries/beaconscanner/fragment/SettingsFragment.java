@@ -6,6 +6,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.hogervries.beaconscanner.R;
 
@@ -17,6 +18,7 @@ import com.hogervries.beaconscanner.R;
  */
 public class SettingsFragment extends PreferenceFragment {
 
+    private static final int MAX_VALUE_ID = 65535;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +32,10 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("key_minor"));
         bindPreferenceSummaryToValue(findPreference("key_power"));
         bindPreferenceSummaryToValue(findPreference("key_beacon_advertisement"));
-        bindPreferenceSummaryToValue(findPreference("key_logging"));
+//        bindPreferenceSummaryToValue(findPreference("key_logging"));
     }
 
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+    private Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
@@ -48,14 +50,15 @@ public class SettingsFragment extends PreferenceFragment {
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             } else if (preference instanceof CheckBoxPreference) {
                 // Intentionally left blank.
-            } else {
-                preference.setSummary(stringValue);
-            }
+            } else if (!(Integer.parseInt(value.toString()) < MAX_VALUE_ID)){
+                Toast.makeText(getActivity(), "Please enter a value between 0 - " + MAX_VALUE_ID, Toast.LENGTH_LONG).show();
+                return false;
+            } else preference.setSummary(stringValue);
             return true;
         }
     };
 
-    private static void bindPreferenceSummaryToValue(Preference preference) {
+    private void bindPreferenceSummaryToValue(Preference preference) {
 
         if (!(preference instanceof CheckBoxPreference)) {
             // Set the listener to watch for value changes.

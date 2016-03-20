@@ -241,7 +241,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Override
     public void onScanBeacons(Collection<Beacon> beacons) {
         this.beacons = (List<Beacon>) beacons;
-        logToFile((List<Beacon>) beacons);
+//        logToFile((List<Beacon>) beacons);
         if (isAdded()) getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -252,52 +252,53 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         });
     }
 
-    // Checks if external storage is available for read and write.
-    private boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    // Writes data from all beacons in scan range to a csv file in the downloads folder.
-    private void logToFile(List<Beacon> beacons) {
-
-        if (isExternalStorageWritable() && preferences.getBoolean("key_logging", false)) {
-            String fileName = "BeaconData.csv";
-            File beaconDataFile = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS), fileName);
-            CSVWriter writer;
-            try {
-                if (beaconDataFile.exists() && !beaconDataFile.isDirectory()) {
-                    FileWriter fileWriter = new FileWriter(beaconDataFile, true);
-                    writer = new CSVWriter(fileWriter);
-                } else {
-                    writer = new CSVWriter(new FileWriter(beaconDataFile));
-                }
-
-                List<String[]> data = new ArrayList<>();
-                for (Beacon beacon : beacons) {
-
-                    data.add(new String[]{"UUID", beacon.getId1().toString()});
-                    data.add(new String[]{"Major", beacon.getId2().toString()});
-                    data.add(new String[]{"Minor", beacon.getId3().toString()});
-                    data.add(new String[]{"Distance", getString(R.string.distance, String.format("%.2f", beacon.getDistance()))});
-                    data.add(new String[]{"Bluetooth Address", beacon.getBluetoothAddress()});
-                    data.add(new String[]{"Rssi", String.valueOf(beacon.getRssi())});
-                    data.add(new String[]{"TX-power", String.valueOf(beacon.getTxPower())});
-                }
-
-                writer.writeAll(data);
-
-                writer.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    // Checks if external storage is available for read and write.
+//    private boolean isExternalStorageWritable() {
+//        String state = Environment.getExternalStorageState();
+//        if (Environment.MEDIA_MOUNTED.equals(state)) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    // Writes data from all beacons in scan range to a csv file in the downloads folder.
+//    private void logToFile(List<Beacon> beacons) {
+//
+//        if (isExternalStorageWritable() && preferences.getBoolean("key_logging", false)) {
+//            String fileName = "BeaconData.csv";
+//            File beaconDataFile = new File(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_DOWNLOADS), fileName);
+//            CSVWriter writer;
+//            try {
+//                if (beaconDataFile.exists() && !beaconDataFile.isDirectory()) {
+//                    FileWriter fileWriter = new FileWriter(beaconDataFile, true);
+//                    writer = new CSVWriter(fileWriter);
+//                } else {
+//                    writer = new CSVWriter(new FileWriter(beaconDataFile));
+//                }
+//
+//                List<String[]> data = new ArrayList<>();
+//                for (Beacon beacon : beacons) {
+//
+//                    data.add(new String[]{"UUID", beacon.getId1().toString(),
+//                            "Major", beacon.getId2().toString(),
+//                            "Minor", beacon.getId3().toString(),
+//                            "Last distance measured", getString(R.string.distance, String.format("%.2f", beacon.getDistance())),
+//                            "Bluetooth Address", beacon.getBluetoothAddress(),
+//                            "Rssi", String.valueOf(beacon.getRssi()),
+//                            "TX-power", String.valueOf(beacon.getTxPower()),
+//                    });
+//                }
+//
+//                writer.writeAll(data);
+//
+//                writer.close();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
     void onScanButtonClick() {
