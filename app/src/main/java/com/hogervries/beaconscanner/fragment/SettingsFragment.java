@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("key_minor"));
         bindPreferenceSummaryToValue(findPreference("key_power"));
         bindPreferenceSummaryToValue(findPreference("key_beacon_advertisement"));
-//        bindPreferenceSummaryToValue(findPreference("key_logging"));
+        bindPreferenceSummaryToValue(findPreference("key_logging"));
     }
 
     private Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
