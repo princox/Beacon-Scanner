@@ -3,10 +3,8 @@ package com.hogervries.beaconscanner;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 
-import com.afollestad.assent.Assent;
-import com.afollestad.assent.AssentCallback;
-import com.afollestad.assent.PermissionResultSet;
 import com.opencsv.CSVWriter;
 
 import org.altbeacon.beacon.Beacon;
@@ -25,10 +23,13 @@ import java.util.List;
  */
 public class Logger {
 
-    private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 1;
+    private SharedPreferences preferences;
+    private Context context;
 
-    public Logger(List<Beacon> beacons, Context context, SharedPreferences preferences) {
-        logToFile(beacons, context, preferences);
+    public Logger(List<Beacon> beacons, Context context) {
+        this.context = context;
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        logToFile(beacons);
     }
 
     // Checks if external storage is available for read and write.
@@ -38,7 +39,7 @@ public class Logger {
     }
 
     // Writes data from all beacons in scan range to a csv file in the downloads folder.
-    private void logToFile(List<Beacon> beacons, Context context, SharedPreferences preferences) {
+    private void logToFile(List<Beacon> beacons) {
         if (isExternalStorageWritable() && preferences.getBoolean("key_logging", false)) {
             String fileName = "BeaconData.csv";
             File beaconDataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);

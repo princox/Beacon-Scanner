@@ -241,7 +241,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     @Override
     public void onScanBeacons(Collection<Beacon> beacons) {
         this.beacons = (List<Beacon>) beacons;
-        new Logger(this.beacons, getActivity(), preferences);
+        new Logger(this.beacons, getActivity());
         if (isAdded()) getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
