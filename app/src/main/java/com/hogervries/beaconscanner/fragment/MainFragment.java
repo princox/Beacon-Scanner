@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -47,19 +46,13 @@ import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.activity.TutorialActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListener;
-import com.opencsv.CSVWriter;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconTransmitter;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -79,6 +72,7 @@ import butterknife.OnClick;
 public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     private static final int PERMISSION_COARSE_LOCATION = 1;
+    private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 1;
 
     private static final int SCANNING = 0;
     private static final int TRANSMITTING = 1;
@@ -123,6 +117,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private List<Beacon> beacons = new ArrayList<>();
     private SharedPreferences preferences;
     private MenuItem stopScanMenuItem;
+    private boolean tabletSize;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -144,6 +139,8 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        tabletSize = getResources().getBoolean(R.bool.isTablet);
+        System.out.println(tabletSize);
         checkFirstRun();
     }
 
@@ -257,12 +254,14 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
     void onScanButtonClick() {
-        if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
-            requestLocationPermission();
-        } else {
-            if (mode == SCANNING) toggleScanning();
-            else toggleTransmitting();
-        }
+        if (preferences.getBoolean("key_logging", false) && !Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
+            requestWriteStoragePermission();
+        } else if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
+                requestLocationPermission();
+            } else {
+                if (mode == SCANNING) toggleScanning();
+                else toggleTransmitting();
+            }
     }
 
     @OnClick(R.id.scan_transmit_switch)
@@ -300,10 +299,10 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         if (!beaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
-            isScanning = true;
-            switchModeLayout.setVisibility(View.INVISIBLE);
+        isScanning = true;
+        switchModeLayout.setVisibility(View.INVISIBLE);
             beaconManager.bind(scanner); // Beacon manager binds the beacon consumer and starts service.
-            startAnimation();
+        startAnimation();
         }
     }
 
@@ -343,14 +342,16 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     private void startAnimation() {
-        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_in));
+        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                tabletSize ? R.anim.anim_zoom_in_tablet : R.anim.anim_zoom_in));
         startButton.setImageResource(R.drawable.ic_circle);
         stopButton.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
 
     private void stopAnimation() {
-        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_zoom_out));
+        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                tabletSize ? R.anim.anim_zoom_out_tablet : R.anim.anim_zoom_out));
         startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
         stopButton.setVisibility(View.INVISIBLE);
         pulsingRing.clearAnimation();
@@ -408,6 +409,15 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
                 // Intentionally left blank
             }
         }, PERMISSION_COARSE_LOCATION, Assent.ACCESS_COARSE_LOCATION);
+    }
+
+    private void requestWriteStoragePermission() {
+        Assent.requestPermissions(new AssentCallback() {
+            @Override
+            public void onPermissionResult(PermissionResultSet permissionResultSet) {
+                // Intentionally left blank
+            }
+        }, PERMISSION_WRITE_EXTERNAL_STORAGE, Assent.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override

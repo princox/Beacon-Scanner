@@ -37,20 +37,9 @@ public class Logger {
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    private void requestWriteStoragePermission() {
-        Assent.requestPermissions(new AssentCallback() {
-            @Override
-            public void onPermissionResult(PermissionResultSet permissionResultSet) {
-                // Intentionally left blank
-            }
-        }, PERMISSION_WRITE_EXTERNAL_STORAGE, Assent.WRITE_EXTERNAL_STORAGE);
-    }
-
     // Writes data from all beacons in scan range to a csv file in the downloads folder.
     private void logToFile(List<Beacon> beacons, Context context, SharedPreferences preferences) {
-        if (!Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
-            requestWriteStoragePermission();
-        } else if (isExternalStorageWritable() && preferences.getBoolean("key_logging", false)) {
+        if (isExternalStorageWritable() && preferences.getBoolean("key_logging", false)) {
             String fileName = "BeaconData.csv";
             File beaconDataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
             CSVWriter writer;
