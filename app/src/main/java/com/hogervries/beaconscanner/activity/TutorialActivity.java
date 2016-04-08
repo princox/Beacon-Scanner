@@ -18,7 +18,7 @@ public class TutorialActivity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        addSlide(AppIntroFragment.newInstance("Beacon Scanner", "We will guide you through the new features of version 2.0",
+        addSlide(AppIntroFragment.newInstance("Beacon Scanner", "We will guide you through the new features of version 3.0",
                 R.drawable.ic_intro_logo, Color.parseColor("#212121")));
 
         addSlide(AppIntroFragment.newInstance("Scan", "Detect nearby beacons and show their details",
@@ -26,6 +26,9 @@ public class TutorialActivity extends AppIntro2 {
 
         addSlide(AppIntroFragment.newInstance("Transmit", "You can now use your phone as a beacon",
                 R.drawable.ic_button_transmit, Color.parseColor("#4CAF50")));
+
+        addSlide(AppIntroFragment.newInstance("Logging", "Log all scan activity and save it in .csv",
+                R.drawable.ic_logger, Color.parseColor("#FF9800")));
 
         addSlide(AppIntroFragment.newInstance("Settings", "Fully customisable settings for scanning and transmitting",
                 R.drawable.ic_intro_setting, Color.parseColor("#2196F3")));

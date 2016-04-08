@@ -1,14 +1,26 @@
 package com.hogervries.beaconscanner.fragment;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hogervries.beaconscanner.R;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -19,11 +31,44 @@ import com.hogervries.beaconscanner.R;
 public class SettingsFragment extends PreferenceFragment {
 
     private static final int MAX_VALUE_ID = 65535;
+    @Bind(R.id.beacon_format_edit_text)
+    EditText beaconFormatEditText;
+    private Set<String> beaconFormatList;
+    private SharedPreferences sharedPreferences;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_scanning);
+        bindPreferenceToSummary();
+        setOnPreferenceClickListeners();
 
+        beaconFormatList = new HashSet<>();
+        sharedPreferences = getPreferenceManager().getSharedPreferences();
+    }
+
+    private void bindPreferenceSummaryToValue(Preference preference) {
+        if (!(preference instanceof CheckBoxPreference)) {
+            // Set the listener to watch for value changes.
+            preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+
+            // Trigger the listener immediately with the preference's current value.
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        }
+    }
+
+    private void setOnPreferenceClickListeners() {
+        Preference button = getPreferenceManager().findPreference("key_add_beacon_format");
+        button.setOnPreferenceClickListener(addBeaconFormat);
+
+        Preference advancedSwitchPreferences = getPreferenceManager().findPreference("key_beacon_use_advanced");
+        advancedSwitchPreferences.setOnPreferenceClickListener(advancedSwitch);
+    }
+
+    private void bindPreferenceToSummary() {
         bindPreferenceSummaryToValue(findPreference("key_tracking_age"));
         bindPreferenceSummaryToValue(findPreference("key_scan_period"));
         bindPreferenceSummaryToValue(findPreference("key_between_scan_period"));
@@ -33,6 +78,37 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference("key_power"));
         bindPreferenceSummaryToValue(findPreference("key_beacon_advertisement"));
         bindPreferenceSummaryToValue(findPreference("key_logging"));
+    }
+
+    private void openBeaconFormatDialog(final Set<String> beaconFormats, final SharedPreferences preferences) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_add_beacon_format, null);
+
+        ButterKnife.bind(this, dialogView);
+
+        dialogBuilder.setView(dialogView);
+
+        dialogBuilder.setTitle("Add beacon format");
+
+        dialogBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                beaconFormats.add(beaconFormatEditText.getText().toString());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putStringSet("key_beacon_formats", beaconFormatList).apply();
+                Toast.makeText(getActivity(), preferences.getStringSet("key_beacon_formats", beaconFormatList).toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+
+        dialogBuilder.create().show();
     }
 
     private Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -50,7 +126,7 @@ public class SettingsFragment extends PreferenceFragment {
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             } else if (preference instanceof CheckBoxPreference) {
                 // Intentionally left blank.
-            } else if (!(Integer.parseInt(value.toString()) < MAX_VALUE_ID)){
+            } else if (!(Integer.parseInt(value.toString()) < MAX_VALUE_ID)) {
                 Toast.makeText(getActivity(), "Please enter a value between 0 - " + MAX_VALUE_ID, Toast.LENGTH_LONG).show();
                 return false;
             } else preference.setSummary(stringValue);
@@ -58,17 +134,21 @@ public class SettingsFragment extends PreferenceFragment {
         }
     };
 
-    private void bindPreferenceSummaryToValue(Preference preference) {
-
-        if (!(preference instanceof CheckBoxPreference)) {
-            // Set the listener to watch for value changes.
-            preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-            // Trigger the listener immediately with the preference's current value.
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.getContext())
-                            .getString(preference.getKey(), ""));
+    private Preference.OnPreferenceClickListener advancedSwitch = new Preference.OnPreferenceClickListener() {
+        public boolean onPreferenceClick(Preference preference) {
+            boolean enabled = sharedPreferences.getBoolean("key_beacon_use_advanced", false);
+            getPreferenceScreen().findPreference("key_beacon_formats").setEnabled(enabled);
+            getPreferenceScreen().findPreference("key_add_beacon_format").setEnabled(enabled);
+            return true;
         }
-    }
+    };
+
+    private Preference.OnPreferenceClickListener addBeaconFormat = new Preference.OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            openBeaconFormatDialog(beaconFormatList, sharedPreferences);
+            return true;
+        }
+    };
+
 }

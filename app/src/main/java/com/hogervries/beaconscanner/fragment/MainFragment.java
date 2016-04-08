@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
@@ -53,6 +54,7 @@ import org.altbeacon.beacon.BeaconTransmitter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.Bind;
@@ -257,11 +259,11 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         if (preferences.getBoolean("key_logging", false) && !Assent.isPermissionGranted(Assent.WRITE_EXTERNAL_STORAGE)) {
             requestWriteStoragePermission();
         } else if (!Assent.isPermissionGranted(Assent.ACCESS_COARSE_LOCATION)) {
-                requestLocationPermission();
-            } else {
-                if (mode == SCANNING) toggleScanning();
-                else toggleTransmitting();
-            }
+            requestLocationPermission();
+        } else {
+            if (mode == SCANNING) toggleScanning();
+            else toggleTransmitting();
+        }
     }
 
     @OnClick(R.id.scan_transmit_switch)
@@ -299,10 +301,10 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
         if (!beaconManager.checkAvailability()) {
             requestBluetooth();
         } else {
-        isScanning = true;
-        switchModeLayout.setVisibility(View.INVISIBLE);
+            isScanning = true;
+            switchModeLayout.setVisibility(View.INVISIBLE);
             beaconManager.bind(scanner); // Beacon manager binds the beacon consumer and starts service.
-        startAnimation();
+            startAnimation();
         }
     }
 
