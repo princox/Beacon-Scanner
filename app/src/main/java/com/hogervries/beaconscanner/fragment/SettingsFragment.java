@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +18,9 @@ import android.widget.Toast;
 
 import com.hogervries.beaconscanner.R;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -45,6 +49,14 @@ public class SettingsFragment extends PreferenceFragment {
 
         beaconFormatList = new HashSet<>();
         sharedPreferences = getPreferenceManager().getSharedPreferences();
+
+        MultiSelectListPreference list = (MultiSelectListPreference) getPreferenceManager().findPreference("key_beacon_formats");
+
+        Set<String> beaconFormats = sharedPreferences.getStringSet("key_beacon_formats", beaconFormatList);
+        CharSequence[] sequences = beaconFormats.toArray(new CharSequence[beaconFormats.size()]);
+
+        list.setEntries(sequences);
+        list.setEntryValues(sequences);
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
@@ -66,6 +78,8 @@ public class SettingsFragment extends PreferenceFragment {
 
         Preference advancedSwitchPreferences = getPreferenceManager().findPreference("key_beacon_use_advanced");
         advancedSwitchPreferences.setOnPreferenceClickListener(advancedSwitch);
+
+
     }
 
     private void bindPreferenceToSummary() {

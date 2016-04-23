@@ -77,8 +77,6 @@
             android:title="@string/pref_use_beacon_formats"/>
 
         <MultiSelectListPreference
-            android:entries="@array/uuid"
-            android:entryValues="@array/uuid"
             android:key="key_beacon_formats"
             android:enabled="false"
             android:summary="@string/pref_beacon_format_summary"
