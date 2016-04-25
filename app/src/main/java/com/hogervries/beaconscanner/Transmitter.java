@@ -26,9 +26,9 @@ public class Transmitter {
     private SharedPreferences preferences;
     private BeaconTransmitter beaconTransmitter;
 
-    public Transmitter(Context context) {
+    public Transmitter(Context context, SharedPreferences preferences) {
         this.context = context;
-        preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        this.preferences = preferences;
         setUpTransmitter();
         setAdvertisingMode();
     }

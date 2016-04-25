@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.assent.Assent;
 import com.afollestad.assent.AssentCallback;
@@ -51,10 +50,10 @@ import com.hogervries.beaconscanner.adapter.BeaconAdapter.OnBeaconSelectedListen
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconTransmitter;
+import org.altbeacon.beacon.BleNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import butterknife.Bind;
@@ -64,7 +63,7 @@ import butterknife.OnClick;
 
 /**
  * Beacon Scanner, file created on 10/03/16.
- * <p/>
+ * <p>
  * This fragment scans for beacons and transmits as a beacon.
  * If there are beacons in the area a list will be displayed.
  *
@@ -79,34 +78,20 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private static final int SCANNING = 0;
     private static final int TRANSMITTING = 1;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitleText;
-    @Bind(R.id.scan_circle)
-    ImageView startButtonOuterCircle;
-    @Bind(R.id.start_scan_button)
-    ImageButton startButton;
-    @Bind(R.id.stop_scan_button)
-    ImageButton stopButton;
-    @Bind(R.id.pulse_ring)
-    ImageView pulsingRing;
-    @Bind(R.id.scan_transmit_layout)
-    RelativeLayout switchModeLayout;
-    @Bind(R.id.scan_transmit_switch)
-    Switch scanTransmitSwitch;
-    @Bind(R.id.scan_switch_button)
-    Button scanModeButton;
-    @Bind(R.id.transmit_switch_button)
-    Button transmitModeButton;
-    @Bind(R.id.slide_layout)
-    FrameLayout slidingList;
-    @Bind(R.id.beacon_recycler_view)
-    RecyclerView beaconRecycler;
-    @BindColor(R.color.colorWhite)
-    int white;
-    @BindColor(R.color.colorGrey)
-    int grey;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar_title) TextView toolbarTitleText;
+    @Bind(R.id.scan_circle) ImageView startButtonOuterCircle;
+    @Bind(R.id.start_scan_button) ImageButton startButton;
+    @Bind(R.id.stop_scan_button) ImageButton stopButton;
+    @Bind(R.id.pulse_ring) ImageView pulsingRing;
+    @Bind(R.id.scan_transmit_layout) RelativeLayout switchModeLayout;
+    @Bind(R.id.scan_transmit_switch) Switch scanTransmitSwitch;
+    @Bind(R.id.scan_switch_button) Button scanModeButton;
+    @Bind(R.id.transmit_switch_button) Button transmitModeButton;
+    @Bind(R.id.slide_layout) FrameLayout slidingList;
+    @Bind(R.id.beacon_recycler_view) RecyclerView beaconRecycler;
+    @BindColor(R.color.colorWhite) int white;
+    @BindColor(R.color.colorGrey) int grey;
 
     private int mode;
     private boolean isScanning;
@@ -204,7 +189,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initBeaconTransmitService() {
-        transmitter = new Transmitter(getActivity());
+        transmitter = new Transmitter(getActivity(), preferences);
     }
 
     private void setToolbar() {
@@ -322,17 +307,21 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     }
 
     private void startTransmitting() {
-        if (!beaconManager.checkAvailability()) {
-            requestBluetooth();
-        } else {
-            if (!(BeaconTransmitter.checkTransmissionSupported(getActivity()) == BeaconTransmitter.SUPPORTED)) {
-                notifyTransmittingNotSupported();
+        try {
+            if (!beaconManager.checkAvailability()) {
+                requestBluetooth();
             } else {
-                isTransmitting = true;
-                switchModeLayout.setVisibility(View.INVISIBLE);
-                transmitter.startTransmitting();
-                startAnimation();
+                if (!(BeaconTransmitter.checkTransmissionSupported(getActivity()) == BeaconTransmitter.SUPPORTED)) {
+                    notifyTransmittingNotSupported();
+                } else if (transmitter != null) {
+                    isTransmitting = true;
+                    switchModeLayout.setVisibility(View.INVISIBLE);
+                    transmitter.startTransmitting();
+                    startAnimation();
+                }
             }
+        } catch (BleNotAvailableException bleNotAvailableException) {
+            notifyTransmittingNotSupported();
         }
     }
 
@@ -354,6 +343,7 @@ public class MainFragment extends Fragment implements OnScanBeaconsListener {
     private void stopAnimation() {
         startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                 tabletSize ? R.anim.anim_zoom_out_tablet : R.anim.anim_zoom_out));
+
         startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
         stopButton.setVisibility(View.INVISIBLE);
         pulsingRing.clearAnimation();

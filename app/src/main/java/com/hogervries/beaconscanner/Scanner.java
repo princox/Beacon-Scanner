@@ -29,10 +29,24 @@ public class Scanner implements BeaconConsumer {
 
     private static final String REGION_ID = "Beacon_scanner_region";
 
-    private SharedPreferences preferences;
     private Context context;
     private BeaconManager beaconManager;
+    private SharedPreferences preferences;
     private OnScanBeaconsListener onScanBeaconsCallback;
+
+    /**
+     * This callback interface handles on scan events.
+     * Interface must be implemented by classes using this service.
+     */
+    public interface OnScanBeaconsListener {
+
+        /**
+         * Called when beacons are scanned.
+         *
+         * @param beacons List of beacons which are scanned.
+         */
+        void onScanBeacons(Collection<Beacon> beacons);
+    }
 
     public Scanner(Context context, OnScanBeaconsListener callback, BeaconManager beaconManager) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -108,19 +122,5 @@ public class Scanner implements BeaconConsumer {
     @Override
     public boolean bindService(Intent intent, ServiceConnection serviceConnection, int i) {
         return context.bindService(intent, serviceConnection, i);
-    }
-
-    /**
-     * This callback interface handles on scan events.
-     * Interface must be implemented by classes using this service.
-     */
-    public interface OnScanBeaconsListener {
-
-        /**
-         * Called when beacons are scanned.
-         *
-         * @param beacons List of beacons which are scanned.
-         */
-        void onScanBeacons(Collection<Beacon> beacons);
     }
 }
