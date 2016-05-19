@@ -13,7 +13,7 @@ import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,6 +23,10 @@ import butterknife.ButterKnife;
  * @author Mitchell de Vries.
  */
 public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHolder> {
+
+    private List<Beacon> beacons;
+    private OnBeaconSelectedListener beaconSelectedListener;
+    private Context context;
 
     /**
      * Callback which has to be implemented by the hosting activity.
@@ -40,38 +44,34 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         void onBeaconSelected(Beacon beacon);
     }
 
-    private List<Beacon> mBeacons;
-    private OnBeaconSelectedListener mCallback;
-    private Context mContext;
-
     /**
      * Creates a new Beacon adapter.
      *
-     * @param beacons List of beacons.
-     * @param callback OnBeaconSelected callback.
-     * @param context Context.
+     * @param beacons  List of beacons.
+     * @param beaconSelectedListener OnBeaconSelected callback.
+     * @param context  Context.
      */
-    public BeaconAdapter(List<Beacon> beacons, OnBeaconSelectedListener callback, Context context) {
-        mBeacons = beacons;
-        mCallback = callback;
-        mContext = context;
+    public BeaconAdapter(List<Beacon> beacons, OnBeaconSelectedListener beaconSelectedListener, Context context) {
+        this.beacons = beacons;
+        this.beaconSelectedListener = beaconSelectedListener;
+        this.context = context;
     }
 
     @Override
     public BeaconHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View beaconItemView = LayoutInflater.from(mContext).inflate(R.layout.list_item_beacon, parent, false);
+        View beaconItemView = LayoutInflater.from(context).inflate(R.layout.list_item_beacon, parent, false);
         return new BeaconHolder(beaconItemView);
     }
 
     @Override
     public void onBindViewHolder(BeaconHolder holder, int position) {
         // Binds beacon to view holder.
-        holder.bindBeacon(mBeacons.get(position));
+        holder.bindBeacon(beacons.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mBeacons.size();
+        return beacons.size();
     }
 
     /**
@@ -79,9 +79,9 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
      */
     class BeaconHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.list_item_beacon_title) TextView mBeaconTitle;
-        @Bind(R.id.list_item_beacon_distance) TextView mBeaconDistance;
-        @Bind(R.id.list_item_beacon_major_minor) TextView mBeaconMajorMinor;
+        @BindView(R.id.list_item_beacon_title) TextView mBeaconTitle;
+        @BindView(R.id.list_item_beacon_distance) TextView mBeaconDistance;
+        @BindView(R.id.list_item_beacon_major_minor) TextView mBeaconMajorMinor;
 
         private Beacon mBeacon;
 
@@ -104,13 +104,13 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         public void bindBeacon(Beacon beacon) {
             mBeacon = beacon;
             mBeaconTitle.setText(mBeacon.getId1().toString());
-            mBeaconDistance.setText(mContext.getString(R.string.list_item_distance, String.format("%.2f", mBeacon.getDistance())));
-            mBeaconMajorMinor.setText(mContext.getString(R.string.list_item_major_minor, mBeacon.getId2(), mBeacon.getId3()));
+            mBeaconDistance.setText(context.getString(R.string.list_item_distance, String.format("%.2f", mBeacon.getDistance())));
+            mBeaconMajorMinor.setText(context.getString(R.string.list_item_major_minor, mBeacon.getId2(), mBeacon.getId3()));
         }
 
         @Override
         public void onClick(View v) {
-            mCallback.onBeaconSelected(mBeacon);
+            // TODO: 19/05/16 implement listener action.
         }
     }
 }
