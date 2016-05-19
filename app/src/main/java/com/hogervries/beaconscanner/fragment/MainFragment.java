@@ -26,6 +26,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.adapter.BeaconAdapter;
+
+import org.altbeacon.beacon.Beacon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindView;
@@ -86,8 +92,19 @@ public class MainFragment extends Fragment {
         setToolbar();
         // Setting linear layout manager as layout manager for the beacon recycler view.
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        List<com.hogervries.beaconscanner.Beacon> beacons = new ArrayList<>();
+
+        for (int i = 1; i < 10; i++) {
+            com.hogervries.beaconscanner.Beacon beacon = new com.hogervries.beaconscanner.Beacon();
+            beacon.setId3("0000000-0-000000-000000"  + i);
+            beacon.setId1("IBEACON");
+            beacon.setDistance(i + "1." + i + " Meter");
+            beacons.add(beacon);
+        }
+        beaconRecycler.setAdapter(new BeaconAdapter(beacons, getActivity()));
         // Disables dragging on switch button
         disableSwitchDrag();
+
 
         return beaconListView;
     }
@@ -163,6 +180,7 @@ public class MainFragment extends Fragment {
     private void startScanning() {
         isScanning = true;
         switchModeLayout.setVisibility(View.INVISIBLE);
+        slidingList.setVisibility(View.VISIBLE);
         startAnimation();
     }
 

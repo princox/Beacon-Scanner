@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 
-import org.altbeacon.beacon.Beacon;
+//import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 
@@ -48,12 +49,12 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
      * Creates a new Beacon adapter.
      *
      * @param beacons  List of beacons.
-     * @param beaconSelectedListener OnBeaconSelected callback.
+//     * @param beaconSelectedListener OnBeaconSelected callback.
      * @param context  Context.
      */
-    public BeaconAdapter(List<Beacon> beacons, OnBeaconSelectedListener beaconSelectedListener, Context context) {
+    public BeaconAdapter(List<Beacon> beacons, Context context) {
         this.beacons = beacons;
-        this.beaconSelectedListener = beaconSelectedListener;
+//        this.beaconSelectedListener = beaconSelectedListener;
         this.context = context;
     }
 
@@ -103,9 +104,14 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
          */
         public void bindBeacon(Beacon beacon) {
             mBeacon = beacon;
-            mBeaconTitle.setText(mBeacon.getId1().toString());
-            mBeaconDistance.setText(context.getString(R.string.list_item_distance, String.format("%.2f", mBeacon.getDistance())));
-            mBeaconMajorMinor.setText(context.getString(R.string.list_item_major_minor, mBeacon.getId2(), mBeacon.getId3()));
+            System.out.println(beacon);
+//            mBeaconTitle.setText(mBeacon.getId1().toString());
+//            mBeaconDistance.setText(context.getString(R.string.list_item_distance, String.format("%.2f", mBeacon.getDistance())));
+//            mBeaconMajorMinor.setText(context.getString(R.string.list_item_major_minor, mBeacon.getId2(), mBeacon.getId3()));
+
+            mBeaconTitle.setText(mBeacon.getId1());
+            mBeaconDistance.setText(mBeacon.getId3());
+            mBeaconMajorMinor.setText(mBeacon.getDistance());
         }
 
         @Override

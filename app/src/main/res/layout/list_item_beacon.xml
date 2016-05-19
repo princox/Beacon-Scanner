@@ -16,10 +16,11 @@
         android:layout_height="@dimen/list_item_height"
         android:paddingEnd="@dimen/padding"
         android:paddingStart="@dimen/padding"
-        android:paddingTop="14dp">
+        android:paddingTop="16dp">
 
         <ImageView
             android:id="@+id/image_view_icon"
+            android:paddingLeft="-4dp"
             android:layout_width="@dimen/list_item_image_size"
             android:layout_height="@dimen/list_item_image_size"
             android:contentDescription="@string/logo"
@@ -35,7 +36,9 @@
             android:maxLines="1"
             android:textAllCaps="true"
             android:paddingEnd="@dimen/null_size"
-            android:paddingStart="@dimen/list_item_text_padding"
+            android:paddingStart="@dimen/padding"
+            android:textStyle="bold"
+            android:text="IBEACON"
             android:textColor="@android:color/black"
             android:textSize="@dimen/medium_text_size"/>
 
@@ -47,8 +50,9 @@
             android:layout_toEndOf="@id/image_view_icon"
             android:ellipsize="end"
             android:paddingEnd="@dimen/null_size"
-            android:paddingStart="@dimen/list_item_text_padding"
+            android:paddingStart="@dimen/padding"
             android:singleLine="true"
+            android:text="0000-0000000-0000-000000000"
             android:textColor="@android:color/black"
             android:textSize="@dimen/small_text_size"/>
 
@@ -59,10 +63,21 @@
             android:layout_below="@id/image_view_icon"
             android:layout_toEndOf="@id/image_view_icon"
             android:ellipsize="end"
-            android:paddingEnd="@dimen/list_item_text_padding"
-            android:paddingStart="@dimen/list_item_text_padding"
+            android:paddingEnd="@dimen/padding"
+            android:paddingStart="@dimen/padding"
             android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:text="31.12 Meter"
             android:textSize="@dimen/small_text_size"/>
+
+        <ImageView
+            android:id="@+id/image_view_action_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_width="24dp"
+            android:layout_centerVertical="true"
+            android:layout_height="24dp"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/ic_list_item_action"/>
 
     </RelativeLayout>
 
