@@ -51,7 +51,6 @@ public class MainFragment extends Fragment {
     @BindView(R.id.toolbar_title) TextView toolbarTitleText;
     @BindView(R.id.scan_circle) ImageView startButtonOuterCircle;
     @BindView(R.id.start_scan_button) ImageButton startButton;
-    @BindView(R.id.stop_scan_button) ImageButton stopButton;
     @BindView(R.id.pulse_ring) ImageView pulsingRing;
     @BindView(R.id.scan_transmit_layout) RelativeLayout switchModeLayout;
     @BindView(R.id.scan_transmit_switch) Switch scanTransmitSwitch;
@@ -124,7 +123,7 @@ public class MainFragment extends Fragment {
         toolbarTitleText.setText(title);
     }
 
-    @OnClick({R.id.start_scan_button, R.id.stop_scan_button, R.id.scan_circle})
+    @OnClick({R.id.start_scan_button, R.id.scan_circle})
     void onScanButtonClick() {
         if (mode == SCANNING) toggleScanning();
         else toggleTransmitting();
@@ -194,8 +193,8 @@ public class MainFragment extends Fragment {
         startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                 R.anim.anim_zoom_in));
 
-        startButton.setImageResource(R.drawable.ic_circle);
-        stopButton.setVisibility(View.VISIBLE);
+        startButton.setImageResource(R.drawable.ic_button_stop_2);
+        pulsingRing.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
 
@@ -204,8 +203,8 @@ public class MainFragment extends Fragment {
                 R.anim.anim_zoom_out));
 
         startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
-        stopButton.setVisibility(View.INVISIBLE);
         pulsingRing.clearAnimation();
+        pulsingRing.setVisibility(View.GONE);
     }
 
     private void pulseAnimation() {
