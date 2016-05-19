@@ -26,6 +26,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.adapter.BeaconAdapter;
+
+import org.altbeacon.beacon.Beacon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindView;
@@ -86,10 +92,17 @@ public class MainFragment extends Fragment {
         setToolbar();
         // Setting linear layout manager as layout manager for the beacon recycler view.
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        beaconRecycler.setAdapter(new BeaconAdapter(getBeacons(), null, getActivity()));
         // Disables dragging on switch button
         disableSwitchDrag();
 
         return beaconListView;
+    }
+
+    private List<com.hogervries.beaconscanner.Beacon> getBeacons() {
+        List<com.hogervries.beaconscanner.Beacon> beacons = new ArrayList<>();
+        for (int i = 0; i < 100; i++) beacons.add(new com.hogervries.beaconscanner.Beacon());
+        return beacons;
     }
 
     @Override
@@ -164,12 +177,16 @@ public class MainFragment extends Fragment {
         isScanning = true;
         switchModeLayout.setVisibility(View.INVISIBLE);
         startAnimation();
+        slidingList.setVisibility(View.VISIBLE);
+        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
     }
 
     private void stopScanning() {
         isScanning = false;
         switchModeLayout.setVisibility(View.VISIBLE);
         stopAnimation();
+        slidingList.setVisibility(View.INVISIBLE);
+        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
     }
 
     private void toggleTransmitting() {
