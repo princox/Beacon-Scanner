@@ -193,7 +193,7 @@ public class MainFragment extends Fragment {
         startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                 R.anim.anim_zoom_in));
 
-        startButton.setImageResource(R.drawable.ic_button_stop_2);
+        startButton.setImageResource(R.drawable.ic_button_stop);
         pulsingRing.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
