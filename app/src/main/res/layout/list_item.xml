@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="88dp"
+    android:layout_height="82dp"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -34,10 +34,10 @@
         android:id="@+id/beacon_uuid_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintBottom_toTopOf="@+id/beacon_distance_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/beacon_icon_image"
@@ -55,7 +55,7 @@
         android:id="@+id/beacon_distance_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -74,7 +74,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:contentDescription="Beacon type image"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_beacon"
@@ -89,8 +89,8 @@
         android:id="@+id/beacon_action_button"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="Beacon action button"
         android:scaleType="fitCenter"
@@ -100,7 +100,7 @@
         tools:layout_constraintRight_creator="0"
         tools:layout_constraintTop_creator="0"
         tools:layout_editor_absoluteX="330dp"
-        tools:layout_editor_absoluteY="34dp"/>
+        tools:layout_editor_absoluteY="30dp"/>
 
     <View
         android:id="@+id/divider"
@@ -117,6 +117,6 @@
         tools:layout_constraintLeft_creator="0"
         tools:layout_constraintRight_creator="0"
         tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="87dp"/>
+        tools:layout_editor_absoluteY="81dp"/>
 
 </android.support.constraint.ConstraintLayout>
