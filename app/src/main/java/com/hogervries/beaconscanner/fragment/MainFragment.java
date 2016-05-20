@@ -23,12 +23,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
-
-import org.altbeacon.beacon.Beacon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,21 +51,20 @@ public class MainFragment extends Fragment {
     private static final int TRANSMITTING = 1;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.toolbar_title) TextView toolbarTitleText;
-    @BindView(R.id.scan_circle) ImageView startButtonOuterCircle;
-    @BindView(R.id.start_scan_button) ImageButton startButton;
-    @BindView(R.id.pulse_ring) ImageView pulsingRing;
-    @BindView(R.id.scan_transmit_layout) RelativeLayout switchModeLayout;
-    @BindView(R.id.scan_transmit_switch) Switch scanTransmitSwitch;
-    @BindView(R.id.scan_switch_button) Button scanModeButton;
-    @BindView(R.id.transmit_switch_button) Button transmitModeButton;
-    @BindView(R.id.slide_layout) FrameLayout slidingList;
-    @BindView(R.id.beacon_recycler_view) RecyclerView beaconRecycler;
+    @BindView(R.id.start_button_circle) ImageView startButtonCircle;
+    @BindView(R.id.start_button) ImageButton startButton;
+    @BindView(R.id.pulse_ring) ImageView pulseRing;
+    @BindView(R.id.switch_layout) RelativeLayout switchLayout;
+    @BindView(R.id.mode_switch) Switch modeSwitch;
+    @BindView(R.id.scan_mode_button) Button scanModeButton;
+    @BindView(R.id.transmit_mode_button) Button transmitModeButton;
+    @BindView(R.id.list_layout) FrameLayout listLayout;
+    @BindView(R.id.beacon_recycler) RecyclerView beaconRecycler;
     @BindColor(R.color.colorWhite) int white;
     @BindColor(R.color.colorGrey) int grey;
 
-    private Unbinder butterknifeUnbinder;
-    private MenuItem stopScanMenuItem;
+    private Unbinder unbinder;
+    private MenuItem stopMenuItem;
     private boolean isScanning;
     private boolean isTransmitting;
     private int mode;
@@ -87,7 +83,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconListView = inflater.inflate(R.layout.fragment_main, container, false);
-        butterknifeUnbinder = ButterKnife.bind(this, beaconListView);
+        unbinder = ButterKnife.bind(this, beaconListView);
         // Setting toolbar.
         setToolbar();
         // Setting linear layout manager as layout manager for the beacon recycler view.
@@ -110,7 +106,7 @@ public class MainFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
         // Initializing item as member so changes to its properties can be done within other methods.
-        stopScanMenuItem = menu.findItem(R.id.stop_scanning);
+        stopMenuItem = menu.findItem(R.id.stop_scanning);
     }
 
     @Override
@@ -118,7 +114,7 @@ public class MainFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.stop_scanning:
                 stopScanning();
-                stopScanMenuItem.setVisible(false);
+                stopMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
                 // TODO: 19/05/16 implement settings intent and anim.
@@ -133,36 +129,36 @@ public class MainFragment extends Fragment {
     }
 
     private void setToolbarTitleText(@StringRes int title) {
-        toolbarTitleText.setText(title);
+
     }
 
-    @OnClick({R.id.start_scan_button, R.id.scan_circle})
+    @OnClick({R.id.start_button, R.id.start_button_circle})
     void onScanButtonClick() {
         if (mode == SCANNING) toggleScanning();
         else toggleTransmitting();
     }
 
-    @OnClick(R.id.scan_transmit_switch)
+    @OnClick(R.id.mode_switch)
     void switchMode() {
         if (mode == SCANNING) switchToTransmitting();
         else switchToScanning();
     }
 
-    @OnClick(R.id.scan_switch_button)
+    @OnClick(R.id.scan_mode_button)
     void switchToScanning() {
         setToolbarTitleText(R.string.beacon_scanner);
         mode = SCANNING;
-        scanTransmitSwitch.setChecked(false);
+        modeSwitch.setChecked(false);
         scanModeButton.setTextColor(white);
         transmitModeButton.setTextColor(grey);
         startButton.setImageResource(R.drawable.ic_button_scan);
     }
 
-    @OnClick(R.id.transmit_switch_button)
+    @OnClick(R.id.transmit_mode_button)
     void switchToTransmitting() {
         setToolbarTitleText(R.string.beacon_transmitter);
         mode = TRANSMITTING;
-        scanTransmitSwitch.setChecked(true);
+        modeSwitch.setChecked(true);
         scanModeButton.setTextColor(grey);
         transmitModeButton.setTextColor(white);
         startButton.setImageResource(R.drawable.ic_button_transmit);
@@ -175,18 +171,19 @@ public class MainFragment extends Fragment {
 
     private void startScanning() {
         isScanning = true;
-        switchModeLayout.setVisibility(View.INVISIBLE);
+        switchLayout.setVisibility(View.INVISIBLE);
         startAnimation();
-        slidingList.setVisibility(View.VISIBLE);
-        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
+        listLayout.setVisibility(View.VISIBLE);
+        listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
+        stopMenuItem.setVisible(true);
     }
 
     private void stopScanning() {
         isScanning = false;
-        switchModeLayout.setVisibility(View.VISIBLE);
+        switchLayout.setVisibility(View.VISIBLE);
         stopAnimation();
-        slidingList.setVisibility(View.INVISIBLE);
-        slidingList.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
+        listLayout.setVisibility(View.INVISIBLE);
+        listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
     }
 
     private void toggleTransmitting() {
@@ -196,42 +193,42 @@ public class MainFragment extends Fragment {
 
     private void startTransmitting() {
         isTransmitting = true;
-        switchModeLayout.setVisibility(View.INVISIBLE);
+        switchLayout.setVisibility(View.INVISIBLE);
         startAnimation();
     }
 
     private void stopTransmitting() {
         isTransmitting = false;
-        switchModeLayout.setVisibility(View.VISIBLE);
+        switchLayout.setVisibility(View.VISIBLE);
         stopAnimation();
     }
 
     private void startAnimation() {
-        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+        startButtonCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                 R.anim.anim_zoom_in));
 
         startButton.setImageResource(R.drawable.ic_button_stop);
-        pulsingRing.setVisibility(View.VISIBLE);
+        pulseRing.setVisibility(View.VISIBLE);
         pulseAnimation();
     }
 
     private void stopAnimation() {
-        startButtonOuterCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+        startButtonCircle.startAnimation(AnimationUtils.loadAnimation(getActivity(),
                 R.anim.anim_zoom_out));
 
         startButton.setImageResource(mode == SCANNING ? R.drawable.ic_button_scan : R.drawable.ic_button_transmit);
-        pulsingRing.clearAnimation();
-        pulsingRing.setVisibility(View.GONE);
+        pulseRing.clearAnimation();
+        pulseRing.setVisibility(View.GONE);
     }
 
     private void pulseAnimation() {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_pulse));
-        pulsingRing.startAnimation(set);
+        pulseRing.startAnimation(set);
     }
 
     private void disableSwitchDrag() {
-        scanTransmitSwitch.setOnTouchListener(new View.OnTouchListener() {
+        modeSwitch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return event.getActionMasked() == MotionEvent.ACTION_MOVE;
@@ -242,6 +239,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        butterknifeUnbinder.unbind();
+        unbinder.unbind();
     }
 }

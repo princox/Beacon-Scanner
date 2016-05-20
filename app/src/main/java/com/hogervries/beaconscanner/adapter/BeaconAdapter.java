@@ -59,7 +59,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
 
     @Override
     public BeaconHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View beaconItemView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        View beaconItemView = LayoutInflater.from(context).inflate(R.layout.list_item_beacon, parent, false);
         return new BeaconHolder(beaconItemView);
     }
 
@@ -79,11 +79,9 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
      */
     class BeaconHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.beacon_type_text) TextView mBeaconTitle;
-        @BindView(R.id.beacon_uuid_text) TextView mBeaconDistance;
-        @BindView(R.id.beacon_distance_text) TextView mBeaconMajorMinor;
-
-        private com.hogervries.beaconscanner.Beacon mBeacon;
+        @BindView(R.id.beacon_type_text) TextView beaconTypeTextView;
+        @BindView(R.id.beacon_uuid_text) TextView uuidTextView;
+        @BindView(R.id.beacon_distance_text) TextView distanceTextView;
 
         /**
          * Creates a new Beacon holder.
@@ -102,10 +100,9 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
          * @param beacon Beacon
          */
         public void bindBeacon(com.hogervries.beaconscanner.Beacon beacon) {
-            mBeacon = beacon;
-            mBeaconTitle.setText("Beacon");
-            mBeaconDistance.setText("UUID");
-            mBeaconMajorMinor.setText("Distance");
+            beaconTypeTextView.setText("Beacon");
+            uuidTextView.setText("UUID");
+            distanceTextView.setText("Distance");
         }
 
         @Override
