@@ -22,15 +22,15 @@
 
     <!--Detail page strings-->
     <string name="beacon_detail">Beacon details</string>
-    <string name="detail_uuid">UUID:</string>
-    <string name="detail_minor">Minor:</string>
-    <string name="detail_major">Major:</string>
-    <string name="detail_distance">Distance:</string>
-    <string name="detail_bluetooth_address">BLT address:</string>
-    <string name="detail_manufacturer">Bluetooth name:</string>
-    <string name="detail_rssi">Rssi:</string>
-    <string name="detail_service_uuid">Service UUID:</string>
-    <string name="detail_tx_power">TX power:</string>
+    <string name="detail_uuid">UUID</string>
+    <string name="detail_minor">Minor</string>
+    <string name="detail_major">Major</string>
+    <string name="detail_distance">Distance</string>
+    <string name="detail_bluetooth_address">BLT address</string>
+    <string name="detail_manufacturer">Bluetooth name</string>
+    <string name="detail_rssi">Rssi</string>
+    <string name="detail_service_uuid">Service UUID</string>
+    <string name="detail_tx_power">TX power</string>
     <string name="distance">%1$sm</string>
 
     <!-- Content descriptions -->

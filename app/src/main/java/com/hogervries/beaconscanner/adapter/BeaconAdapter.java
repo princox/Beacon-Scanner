@@ -1,6 +1,7 @@
 package com.hogervries.beaconscanner.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.activity.BeaconDetailActivity;
+import com.hogervries.beaconscanner.fragment.BeaconDetailFragment;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -108,6 +111,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         @Override
         public void onClick(View v) {
             // TODO: 19/05/16 implement listener action.
+            context.startActivity(new Intent(context, BeaconDetailActivity.class));
         }
     }
 }
