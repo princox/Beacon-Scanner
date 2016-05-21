@@ -3,38 +3,47 @@ package com.hogervries.beaconscanner.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Trifork Netherlands.
- * GuestApp Social.
- * Mitchell de Vries & Mohammed Ali.
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
  */
-
 public class BeaconDetailFragment extends Fragment {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
-    @BindView(R.id.detail_field_bluetooth_address) TextView detailFieldBluetoothAddress;
-    @BindView(R.id.detail_field_minor) TextView detailFieldMinor;
-    @BindView(R.id.detail_field_major) TextView detailFieldMajor;
-    @BindView(R.id.detail_field_rssi) TextView detailFieldRssi;
-    @BindView(R.id.detail_field_tx_power) TextView detailFieldTxPower;
+    @BindView(R.id.detail_field_uuid)
+    TextView detailFieldUuid;
+    @BindView(R.id.detail_field_blt_address)
+    TextView detailFieldBluetoothAddress;
+    @BindView(R.id.detail_field_minor)
+    TextView detailFieldMinor;
+    @BindView(R.id.detail_field_major)
+    TextView detailFieldMajor;
+    @BindView(R.id.detail_field_rssi)
+    TextView detailFieldRssi;
+    @BindView(R.id.detail_field_tx)
+    TextView detailFieldTxPower;
+    @BindView(R.id.detail_field_type)
+    TextView detailFieldType;
+    @BindView(R.id.detail_field_manufacturer)
+    TextView detailFieldManufacturer;
 
     public static BeaconDetailFragment newInstance() {
         return new BeaconDetailFragment();
     }
+
 
     @Nullable
     @Override
@@ -42,9 +51,10 @@ public class BeaconDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beacon_detail, container, false);
         ButterKnife.bind(this, view);
 
-        toolbar.setTitle("iBeacon");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+
         bindViews();
+
         return view;
     }
 
@@ -55,5 +65,7 @@ public class BeaconDetailFragment extends Fragment {
         detailFieldMajor.setText("13.7");
         detailFieldRssi.setText("-59");
         detailFieldTxPower.setText("10");
+        detailFieldType.setText("IBeacon");
+        detailFieldManufacturer.setText("Radius Labs");
     }
 }
