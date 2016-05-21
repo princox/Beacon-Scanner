@@ -26,7 +26,7 @@
     <string name="detail_minor">Minor</string>
     <string name="detail_major">Major</string>
     <string name="detail_distance">Distance</string>
-    <string name="detail_bluetooth_address">BLT address</string>
+    <string name="detail_bluetooth_address">Bluetooth address</string>
     <string name="detail_manufacturer">Bluetooth name</string>
     <string name="detail_rssi">Rssi</string>
     <string name="detail_service_uuid">Service UUID</string>
@@ -40,5 +40,14 @@
     <string name="scan_switch_label">Scanning</string>
     <string name="transmit_switch_label">Transmit</string>
     <string name="stop_circle_desc">Stop circle</string>
+    <string name="title_activity_tabbed_detail">TabbedDetailActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="action">Action</string>
+    <string name="detail_type_beacon">Beacon type</string>
+
+    <string name="tab_detail_title">Detail</string>
+    <string name="tab_log_title">Log</string>
+
 
 </resources>

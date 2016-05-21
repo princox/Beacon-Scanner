@@ -8,6 +8,13 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <!-- Application theme. -->
+    <style name="AppTheme.Detail" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkSettings</item>
+        <item name="colorAccent">@color/colorWhite</item>
+    </style>
+
     <style name="AppTheme.TextAppearance" parent="@style/TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorGrey</item>
@@ -23,5 +30,9 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
