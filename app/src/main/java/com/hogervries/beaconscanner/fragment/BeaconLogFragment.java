@@ -20,9 +20,10 @@ public class BeaconLogFragment extends Fragment {
     public static BeaconLogFragment newInstance() {
         return new BeaconLogFragment();
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_beacon_detail_log, container, false);
+        return inflater.inflate(R.layout.fragment_beacon_log, container, false);
     }
 }

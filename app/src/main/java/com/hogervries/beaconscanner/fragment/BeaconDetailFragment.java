@@ -23,32 +23,24 @@ import butterknife.ButterKnife;
  */
 public class BeaconDetailFragment extends Fragment {
 
-    @BindView(R.id.detail_field_uuid)
-    TextView detailFieldUuid;
-    @BindView(R.id.detail_field_blt_address)
-    TextView detailFieldBluetoothAddress;
-    @BindView(R.id.detail_field_minor)
-    TextView detailFieldMinor;
-    @BindView(R.id.detail_field_major)
-    TextView detailFieldMajor;
-    @BindView(R.id.detail_field_rssi)
-    TextView detailFieldRssi;
-    @BindView(R.id.detail_field_tx)
-    TextView detailFieldTxPower;
-    @BindView(R.id.detail_field_type)
-    TextView detailFieldType;
-    @BindView(R.id.detail_field_manufacturer)
-    TextView detailFieldManufacturer;
+    @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
+    @BindView(R.id.detail_field_blt_address) TextView detailFieldBluetoothAddress;
+    @BindView(R.id.detail_field_minor) TextView detailFieldMinor;
+    @BindView(R.id.detail_field_major) TextView detailFieldMajor;
+    @BindView(R.id.detail_field_rssi) TextView detailFieldRssi;
+    @BindView(R.id.detail_field_tx) TextView detailFieldTxPower;
+    @BindView(R.id.detail_field_type) TextView detailFieldType;
+    @BindView(R.id.detail_field_manufacturer) TextView detailFieldManufacturer;
 
     public static BeaconDetailFragment newInstance() {
         return new BeaconDetailFragment();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beacon_detail, container, false);
+
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);

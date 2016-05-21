@@ -3,6 +3,7 @@ package com.hogervries.beaconscanner.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -59,7 +59,7 @@ public class MainFragment extends Fragment {
     @BindView(R.id.mode_switch) Switch modeSwitch;
     @BindView(R.id.scan_mode_button) Button scanModeButton;
     @BindView(R.id.transmit_mode_button) Button transmitModeButton;
-    @BindView(R.id.list_layout) FrameLayout listLayout;
+    @BindView(R.id.list_layout) CoordinatorLayout listLayout;
     @BindView(R.id.beacon_recycler) RecyclerView beaconRecycler;
     @BindColor(R.color.colorWhite) int white;
     @BindColor(R.color.colorGrey) int grey;
@@ -84,6 +84,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconListView = inflater.inflate(R.layout.fragment_main, container, false);
+
         unbinder = ButterKnife.bind(this, beaconListView);
 
         setToolbar();

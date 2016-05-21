@@ -1,10 +1,11 @@
 package com.hogervries.beaconscanner.adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.hogervries.beaconscanner.fragment.BeaconActionFragment;
+import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.fragment.BeaconDetailFragment;
 import com.hogervries.beaconscanner.fragment.BeaconLogFragment;
 
@@ -14,13 +15,15 @@ import com.hogervries.beaconscanner.fragment.BeaconLogFragment;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int numberOfTabs;
+    private final int NUM_OF_TABS = 2;
 
-    public PagerAdapter(FragmentManager fm, int numberOfTabs) {
+    private Context context;
+
+    public TabPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-        this.numberOfTabs = numberOfTabs;
+        this.context = context;
     }
 
     @Override
@@ -30,15 +33,25 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return BeaconDetailFragment.newInstance();
             case 1:
                 return BeaconLogFragment.newInstance();
-            case 2:
-                return BeaconActionFragment.newInstance();
             default:
                 return BeaconDetailFragment.newInstance();
         }
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return context.getString(R.string.tab_detail_title);
+            case 1:
+                return context.getString(R.string.tab_log_title);
+            default:
+                return context.getString(R.string.tab_detail_title);
+        }
+    }
+
+    @Override
     public int getCount() {
-        return numberOfTabs;
+        return NUM_OF_TABS;
     }
 }

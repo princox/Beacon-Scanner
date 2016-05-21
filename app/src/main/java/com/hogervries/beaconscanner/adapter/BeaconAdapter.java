@@ -80,12 +80,9 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
      */
     class BeaconHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.beacon_type_text)
-        TextView beaconTypeTextView;
-        @BindView(R.id.beacon_uuid_text)
-        TextView uuidTextView;
-        @BindView(R.id.beacon_distance_text)
-        TextView distanceTextView;
+        @BindView(R.id.beacon_type_text) TextView beaconTypeTextView;
+        @BindView(R.id.beacon_uuid_text) TextView uuidTextView;
+        @BindView(R.id.beacon_distance_text) TextView distanceTextView;
 
         /**
          * Creates a new Beacon holder.

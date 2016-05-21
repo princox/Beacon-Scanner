@@ -74,24 +74,26 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/status_bar_height"
-        app:titleTextAppearance="@style/AppTheme.ToolBar.TextAppearance"/>
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextAppearance="@style/AppTheme.TextAppearance.Toolbar"/>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:id="@+id/list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/status_toolbar_height"
         android:background="@android:color/white"
-        android:elevation="@dimen/elevation_height"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        app:elevation="@dimen/elevation_height">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/beacon_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>
