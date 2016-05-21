@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
+import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 
@@ -52,8 +53,8 @@ public class MainFragment extends Fragment {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.start_button_circle) ImageView startButtonCircle;
-    @BindView(R.id.start_button) ImageButton startButton;
     @BindView(R.id.pulse_ring) ImageView pulseRing;
+    @BindView(R.id.start_button) ImageButton startButton;
     @BindView(R.id.switch_layout) RelativeLayout switchLayout;
     @BindView(R.id.mode_switch) Switch modeSwitch;
     @BindView(R.id.scan_mode_button) Button scanModeButton;
@@ -84,20 +85,20 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View beaconListView = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, beaconListView);
-        // Setting toolbar.
+
         setToolbar();
-        // Setting linear layout manager as layout manager for the beacon recycler view.
+
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         beaconRecycler.setAdapter(new BeaconAdapter(getBeacons(), null, getActivity()));
-        // Disables dragging on switch button
+
         disableSwitchDrag();
 
         return beaconListView;
     }
 
-    private List<com.hogervries.beaconscanner.Beacon> getBeacons() {
-        List<com.hogervries.beaconscanner.Beacon> beacons = new ArrayList<>();
-        for (int i = 0; i < 100; i++) beacons.add(new com.hogervries.beaconscanner.Beacon());
+    private List<Beacon> getBeacons() {
+        List<Beacon> beacons = new ArrayList<>();
+        for (int i = 0; i < 100; i++) beacons.add(new Beacon());
         return beacons;
     }
 
@@ -105,7 +106,6 @@ public class MainFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_beacon_list, menu);
-        // Initializing item as member so changes to its properties can be done within other methods.
         stopMenuItem = menu.findItem(R.id.stop_scanning);
     }
 
@@ -128,8 +128,8 @@ public class MainFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
-    private void setToolbarTitleText(@StringRes int title) {
-
+    private void setToolbarTitle(@StringRes int title) {
+        toolbar.setTitle(title);
     }
 
     @OnClick({R.id.start_button, R.id.start_button_circle})
@@ -146,7 +146,7 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.scan_mode_button)
     void switchToScanning() {
-        setToolbarTitleText(R.string.beacon_scanner);
+        setToolbarTitle(R.string.beacon_scanner);
         mode = SCANNING;
         modeSwitch.setChecked(false);
         scanModeButton.setTextColor(white);
@@ -156,7 +156,7 @@ public class MainFragment extends Fragment {
 
     @OnClick(R.id.transmit_mode_button)
     void switchToTransmitting() {
-        setToolbarTitleText(R.string.beacon_transmitter);
+        setToolbarTitle(R.string.beacon_transmitter);
         mode = TRANSMITTING;
         modeSwitch.setChecked(true);
         scanModeButton.setTextColor(grey);

@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.activity.BeaconDetailActivity;
-import com.hogervries.beaconscanner.fragment.BeaconDetailFragment;
-
-import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 
@@ -27,34 +25,18 @@ import butterknife.ButterKnife;
  */
 public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHolder> {
 
-    private List<com.hogervries.beaconscanner.Beacon> beacons;
+    private List<Beacon> beacons;
     private OnBeaconSelectedListener beaconSelectedListener;
     private Context context;
 
     /**
-     * Callback which has to be implemented by the hosting activity.
-     * <p/>
-     * Callback interface allows for a component to be a completely self-contained,
-     * modular component that defines its own layout and behaviour.
-     */
-    public interface OnBeaconSelectedListener {
-
-        /**
-         * Handles on beacon selected event.
-         *
-         * @param beacon Selected beacon.
-         */
-        void onBeaconSelected(Beacon beacon);
-    }
-
-    /**
      * Creates a new Beacon adapter.
      *
-     * @param beacons  List of beacons.
+     * @param beacons                List of beacons.
      * @param beaconSelectedListener OnBeaconSelected callback.
-     * @param context  Context.
+     * @param context                Context.
      */
-    public BeaconAdapter(List<com.hogervries.beaconscanner.Beacon> beacons, OnBeaconSelectedListener beaconSelectedListener, Context context) {
+    public BeaconAdapter(List<Beacon> beacons, OnBeaconSelectedListener beaconSelectedListener, Context context) {
         this.beacons = beacons;
         this.beaconSelectedListener = beaconSelectedListener;
         this.context = context;
@@ -78,13 +60,32 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
     }
 
     /**
+     * Callback which has to be implemented by the hosting activity.
+     * <p/>
+     * Callback interface allows for a component to be a completely self-contained,
+     * modular component that defines its own layout and behaviour.
+     */
+    public interface OnBeaconSelectedListener {
+
+        /**
+         * Handles on beacon selected event.
+         *
+         * @param beacon Selected beacon.
+         */
+        void onBeaconSelected(Beacon beacon);
+    }
+
+    /**
      * View holder for list items displaying beacon data.
      */
     class BeaconHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.beacon_type_text) TextView beaconTypeTextView;
-        @BindView(R.id.beacon_uuid_text) TextView uuidTextView;
-        @BindView(R.id.beacon_distance_text) TextView distanceTextView;
+        @BindView(R.id.beacon_type_text)
+        TextView beaconTypeTextView;
+        @BindView(R.id.beacon_uuid_text)
+        TextView uuidTextView;
+        @BindView(R.id.beacon_distance_text)
+        TextView distanceTextView;
 
         /**
          * Creates a new Beacon holder.
@@ -102,7 +103,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
          *
          * @param beacon Beacon
          */
-        public void bindBeacon(com.hogervries.beaconscanner.Beacon beacon) {
+        public void bindBeacon(Beacon beacon) {
             beaconTypeTextView.setText("Beacon");
             uuidTextView.setText("UUID");
             distanceTextView.setText("Distance");

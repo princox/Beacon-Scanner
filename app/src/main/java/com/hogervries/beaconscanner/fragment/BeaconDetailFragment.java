@@ -24,25 +24,17 @@ import butterknife.ButterKnife;
 
 public class BeaconDetailFragment extends Fragment {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.detail_field_uuid)
-    TextView detailFieldUuid;
-    @BindView(R.id.detail_field_bluetooth_address)
-    TextView detailFieldBluetoothAddress;
-    @BindView(R.id.detail_field_minor)
-    TextView detailFieldMinor;
-    @BindView(R.id.detail_field_major)
-    TextView detailFieldMajor;
-    @BindView(R.id.detail_field_rssi)
-    TextView detailFieldRssi;
-    @BindView(R.id.detail_field_tx_power)
-    TextView detailFieldTxPower;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
+    @BindView(R.id.detail_field_bluetooth_address) TextView detailFieldBluetoothAddress;
+    @BindView(R.id.detail_field_minor) TextView detailFieldMinor;
+    @BindView(R.id.detail_field_major) TextView detailFieldMajor;
+    @BindView(R.id.detail_field_rssi) TextView detailFieldRssi;
+    @BindView(R.id.detail_field_tx_power) TextView detailFieldTxPower;
 
     public static BeaconDetailFragment newInstance() {
         return new BeaconDetailFragment();
     }
-
 
     @Nullable
     @Override
