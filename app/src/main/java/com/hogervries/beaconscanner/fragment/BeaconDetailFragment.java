@@ -1,19 +1,31 @@
 package com.hogervries.beaconscanner.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.hogervries.beaconscanner.R;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -23,14 +35,9 @@ import butterknife.ButterKnife;
  */
 public class BeaconDetailFragment extends Fragment {
 
-    @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
-    @BindView(R.id.detail_field_blt_address) TextView detailFieldBluetoothAddress;
-    @BindView(R.id.detail_field_minor) TextView detailFieldMinor;
-    @BindView(R.id.detail_field_major) TextView detailFieldMajor;
-    @BindView(R.id.detail_field_rssi) TextView detailFieldRssi;
-    @BindView(R.id.detail_field_tx) TextView detailFieldTxPower;
-    @BindView(R.id.detail_field_type) TextView detailFieldType;
-    @BindView(R.id.detail_field_manufacturer) TextView detailFieldManufacturer;
+    @BindView(R.id.rssi_chart) LineChart rssiChart;
+
+    private Unbinder unbinder;
 
     public static BeaconDetailFragment newInstance() {
         return new BeaconDetailFragment();
@@ -39,25 +46,91 @@ public class BeaconDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_beacon_detail, container, false);
+        View view = inflater.inflate(R.layout.beacon_detail_with_graph, container, false);
 
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
-        setHasOptionsMenu(true);
+        LineData data = getData(36, 100);
 
-        bindViews();
+        setupChart(rssiChart, data, Color.WHITE);
 
         return view;
     }
 
-    private void bindViews() {
-        detailFieldUuid.setText("000000-0000000-0000000-000000-000000");
-        detailFieldBluetoothAddress.setText("SDAFG2345");
-        detailFieldMinor.setText("22.4");
-        detailFieldMajor.setText("13.7");
-        detailFieldRssi.setText("-59");
-        detailFieldTxPower.setText("10");
-        detailFieldType.setText("IBeacon");
-        detailFieldManufacturer.setText("Radius Labs");
+    private void setupChart(LineChart chart, LineData data, int color) {
+
+        ((LineDataSet) data.getDataSetByIndex(0)).setCircleColorHole(color);
+
+        // no description text
+        chart.setDescription("");
+        chart.setNoDataTextDescription("You need to provide data for the chart.");
+
+        chart.setDrawGridBackground(false);
+        // enable scaling and dragging
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(true);
+
+        // set custom chart offsets (automatic offset calculation is hereby disabled)
+        chart.setViewPortOffsets(10, 0, 10, 0);
+
+        // add data
+        chart.setData(data);
+
+        // get the legend (only possible after setting data)
+        Legend l = chart.getLegend();
+        l.setEnabled(true);
+
+        chart.getAxisLeft().setEnabled(false);
+//        chart.getAxisLeft().setSpaceTop(40);
+//        chart.getAxisLeft().setSpaceBottom(40);
+        chart.getAxisRight().setEnabled(false);
+
+        chart.getXAxis().setEnabled(false);
+
+        // animate calls invalidate()...
+        chart.animateX(2500);
     }
+
+    private LineData getData(int count, float range) {
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < count; i++) {
+            xVals.add("xVal");
+        }
+
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < count; i++) {
+            float val = (float) (Math.random() * range) + 3;
+            yVals.add(new Entry(val, i));
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+        // set1.setFillAlpha(110);
+        // set1.setFillColor(Color.RED);
+
+        int color = ContextCompat.getColor(getActivity(), R.color.colorPrimary);
+        set1.setLineWidth(1.75f);
+        set1.setCircleRadius(5f);
+        set1.setColor(color);
+        set1.setCircleColor(color);
+        set1.setHighLightColor(color);
+        set1.setDrawValues(false);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        return data;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
 }
