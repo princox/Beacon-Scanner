@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,18 +15,37 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_view_margin">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/rssi_chart"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="256dp"
-                android:layout_margin="16dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rssi_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/rssi_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
         <!-- Card with beacon details -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="250dp"
             android:layout_marginBottom="@dimen/card_view_margin"
             android:layout_marginEnd="@dimen/card_view_margin"
             android:layout_marginStart="@dimen/card_view_margin">

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.activity.BeaconDetailActivity;
+import com.hogervries.beaconscanner.activity.BeaconActivity;
 
 import java.util.List;
 
@@ -109,7 +109,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         @Override
         public void onClick(View v) {
             // TODO: 19/05/16 implement listener action.
-            context.startActivity(new Intent(context, BeaconDetailActivity.class));
+            context.startActivity(new Intent(context, BeaconActivity.class));
         }
     }
 }

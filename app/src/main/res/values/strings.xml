@@ -46,8 +46,11 @@
     <string name="action">Action</string>
     <string name="detail_type_beacon">Beacon type</string>
 
-    <string name="tab_detail_title">Detail</string>
+    <string name="tab_details_title">Details</string>
+    <string name="rssi_legend_label">"RSSI(Received Signal Strength Indicator)"</string>
     <string name="tab_log_title">Log</string>
+    <string name="rssi_text">RSSI: %1$s dBm</string>
+    <string name="chart_description"/>
 
 
 </resources>

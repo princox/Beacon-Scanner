@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class BeaconDetailActivity extends AppCompatActivity {
+public class BeaconActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tab_layout) TabLayout tabLayout;

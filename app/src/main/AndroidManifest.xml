@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".activity.BeaconDetailActivity"
+            android:name=".activity.BeaconActivity"
             android:label="@string/beacon_detail"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"

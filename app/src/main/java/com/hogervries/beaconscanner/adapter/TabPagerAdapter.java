@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.fragment.BeaconDetailFragment;
+import com.hogervries.beaconscanner.fragment.BeaconFragment;
 import com.hogervries.beaconscanner.fragment.BeaconLogFragment;
 
 /**
@@ -30,11 +30,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return BeaconDetailFragment.newInstance();
+                return BeaconFragment.newInstance();
             case 1:
                 return BeaconLogFragment.newInstance();
             default:
-                return BeaconDetailFragment.newInstance();
+                return BeaconFragment.newInstance();
         }
     }
 
@@ -42,11 +42,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getString(R.string.tab_detail_title);
+                return context.getString(R.string.tab_details_title);
             case 1:
                 return context.getString(R.string.tab_log_title);
             default:
-                return context.getString(R.string.tab_detail_title);
+                return context.getString(R.string.tab_details_title);
         }
     }
 

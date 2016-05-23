@@ -30,7 +30,7 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tab_detail_title"/>
+                android:text="@string/tab_details_title"/>
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
