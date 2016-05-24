@@ -32,12 +32,12 @@ public class BeaconFragment extends Fragment {
 
     @BindView(R.id.rssi_chart) LineChart rssiChart;
     @BindView(R.id.rssi_text_view) TextView rssiTextView;
-    @BindColor(R.color.colorPrimary) int red;
     @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
     @BindView(R.id.detail_field_blt_address) TextView detailFieldBltAddress;
     @BindView(R.id.detail_field_minor_major) TextView detailFieldMinorMajor;
     @BindView(R.id.detail_field_tx) TextView detailFieldTx;
     @BindView(R.id.detail_field_manufacturer) TextView detailFieldManufacturer;
+    @BindColor(R.color.colorPrimary) int red;
 
     private Unbinder unbinder;
 

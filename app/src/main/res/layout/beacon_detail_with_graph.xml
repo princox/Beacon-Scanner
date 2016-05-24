@@ -56,16 +56,16 @@
                 android:padding="@dimen/padding">
 
                 <TextView
-                    android:gravity="center_vertical"
                     android:id="@+id/detail_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding"
-                    android:text="@string/detail_type_beacon"
-                    android:drawableStart="@drawable/ic_eddystone"
                     android:drawablePadding="8dp"
-                    android:textSize="20sp"
-                    android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
+                    android:drawableStart="@drawable/ic_eddystone"
+                    android:gravity="center_vertical"
+                    android:text="@string/detail_type_beacon"
+                    android:textAppearance="@style/AppTheme.TextAppearance.Title"
+                    android:textSize="20sp"/>
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -79,9 +79,9 @@
                             android:id="@+id/detail_uuid"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="1"
                             android:text="@string/detail_uuid"
-                            android:textAppearance="@style/AppTheme.TextAppearance.Title" />
+                            android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                         <TextView
                             android:id="@+id/detail_field_uuid"
@@ -89,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textAppearance="@style/AppTheme.TextAppearance" />
+                            android:textAppearance="@style/AppTheme.TextAppearance"/>
 
                     </TableRow>
 
@@ -101,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/detail_bluetooth_address"
-                            android:textAppearance="@style/AppTheme.TextAppearance.Title" />
+                            android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                         <TextView
                             android:id="@+id/detail_field_blt_address"
@@ -109,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textAppearance="@style/AppTheme.TextAppearance" />
+                            android:textAppearance="@style/AppTheme.TextAppearance"/>
 
                     </TableRow>
 
@@ -121,7 +121,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/detail_minor"
-                            android:textAppearance="@style/AppTheme.TextAppearance.Title" />
+                            android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                         <TextView
                             android:id="@+id/detail_field_minor_major"
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textAppearance="@style/AppTheme.TextAppearance" />
+                            android:textAppearance="@style/AppTheme.TextAppearance"/>
 
                     </TableRow>
 
@@ -141,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/detail_tx_power"
-                            android:textAppearance="@style/AppTheme.TextAppearance.Title" />
+                            android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                         <TextView
                             android:id="@+id/detail_field_tx"
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textAppearance="@style/AppTheme.TextAppearance" />
+                            android:textAppearance="@style/AppTheme.TextAppearance"/>
 
                     </TableRow>
 
@@ -161,7 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/detail_manufacturer"
-                            android:textAppearance="@style/AppTheme.TextAppearance.Title" />
+                            android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                         <TextView
                             android:id="@+id/detail_field_manufacturer"
@@ -169,10 +169,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textAppearance="@style/AppTheme.TextAppearance" />
+                            android:textAppearance="@style/AppTheme.TextAppearance"/>
                     </TableRow>
 
                 </TableLayout>
+
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -180,15 +181,39 @@
         <!-- Card with defined beacon action -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="82dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_view_margin"
             android:layout_marginEnd="@dimen/card_view_margin"
             android:layout_marginStart="@dimen/card_view_margin">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Action"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="0dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:drawablePadding="16dp"
+                    android:drawableStart="@drawable/ic_action"
+                    android:text="Beacon Scanner"
+                    android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
+
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:clickable="false"
+                    android:text="Set Action"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
