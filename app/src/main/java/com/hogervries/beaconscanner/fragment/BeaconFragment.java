@@ -31,7 +31,7 @@ import butterknife.Unbinder;
 public class BeaconFragment extends Fragment {
 
     @BindView(R.id.rssi_chart) LineChart rssiChart;
-    @BindView(R.id.rssi_text_view) TextView rssiTextView;
+    @BindView(R.id.distance_text_view) TextView distanceTextView;
     @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
     @BindView(R.id.detail_field_blt_address) TextView detailFieldBltAddress;
     @BindView(R.id.detail_field_minor_major) TextView detailFieldMinorMajor;
@@ -40,6 +40,7 @@ public class BeaconFragment extends Fragment {
     @BindColor(R.color.colorPrimary) int red;
 
     private Unbinder unbinder;
+    private LineDataSet dataSet;
 
     public static BeaconFragment newInstance() {
         return new BeaconFragment();
@@ -62,6 +63,10 @@ public class BeaconFragment extends Fragment {
     }
 
     private void bindFields() {
+        // Distance.
+        distanceTextView.setText(getString(R.string.distance_text, "22"));
+
+        // Details.
         detailFieldUuid.setText("F7826DA64ADSFF5988024BC5BT67REIE");
         detailFieldBltAddress.setText("E3:0B:6F:0B:85:A8");
         detailFieldMinorMajor.setText("49279 / 48202");
@@ -83,8 +88,10 @@ public class BeaconFragment extends Fragment {
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setTextSize(12f);
 
+        createDataSet();
+
         rssiChart.setData(new LineData());
-        rssiChart.getData().addDataSet(createSet());
+        rssiChart.getData().addDataSet(dataSet);
 
         rssiChart.invalidate();
     }
@@ -112,23 +119,21 @@ public class BeaconFragment extends Fragment {
         rssiChart.animateX(2500);
         rssiChart.moveViewToAnimated(data.getXValCount(), 50f, YAxis.AxisDependency.LEFT, 5000);
 
-        rssiTextView.setText(getString(R.string.rssi_text, String.valueOf(rssi)));
+        dataSet.setLabel(getString(R.string.rssi_legend_label) + ": " + String.valueOf(rssi) + "dBm");
     }
 
-    private LineDataSet createSet() {
-        LineDataSet set = new LineDataSet(null, getString(R.string.rssi_legend_label));
+    private void createDataSet() {
+        dataSet = new LineDataSet(null, getString(R.string.rssi_legend_label));
 
-        set.setDrawCubic(true);
-        set.setDrawValues(false);
-        set.setCubicIntensity(0.2f);
-        set.setLineWidth(2.5f);
-        set.setCircleRadius(4.5f);
-        set.setColor(red);
-        set.setCircleColor(red);
-        set.setCircleColorHole(red);
-        set.setHighLightColor(red);
-
-        return set;
+        dataSet.setDrawCubic(true);
+        dataSet.setDrawValues(false);
+        dataSet.setCubicIntensity(0.2f);
+        dataSet.setLineWidth(2.5f);
+        dataSet.setCircleRadius(4.5f);
+        dataSet.setColor(red);
+        dataSet.setCircleColor(red);
+        dataSet.setCircleColorHole(red);
+        dataSet.setHighLightColor(red);
     }
 
     @Override
