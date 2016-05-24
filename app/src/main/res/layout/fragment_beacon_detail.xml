@@ -154,7 +154,7 @@
                         android:src="@drawable/ic_beacon"/>
 
                     <TextView
-                        android:id="@+id/detail_minor"
+                        android:id="@+id/detail_minor_major"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/minor_icon"
@@ -162,10 +162,10 @@
                         android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                     <TextView
-                        android:id="@+id/detail_field_minor"
+                        android:id="@+id/detail_field_minor_major"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/detail_minor"
+                        android:layout_below="@id/detail_minor_major"
                         android:layout_toEndOf="@+id/minor_icon"
                         android:textAppearance="@style/AppTheme.TextAppearance"/>
                 </RelativeLayout>

@@ -23,11 +23,11 @@
     <!--Detail page strings-->
     <string name="beacon_detail">Beacon details</string>
     <string name="detail_uuid">UUID</string>
-    <string name="detail_minor">Minor</string>
+    <string name="detail_minor">Major / Minor</string>
     <string name="detail_major">Major</string>
     <string name="detail_distance">Distance</string>
     <string name="detail_bluetooth_address">Bluetooth address</string>
-    <string name="detail_manufacturer">Bluetooth name</string>
+    <string name="detail_manufacturer">Manufacturer</string>
     <string name="detail_rssi">Rssi</string>
     <string name="detail_service_uuid">Service UUID</string>
     <string name="detail_tx_power">TX power</string>
@@ -44,7 +44,7 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action">Action</string>
-    <string name="detail_type_beacon">Beacon type</string>
+    <string name="detail_type_beacon">EddyStone</string>
 
     <string name="tab_details_title">Details</string>
     <string name="rssi_legend_label">"RSSI(Received Signal Strength Indicator)"</string>
