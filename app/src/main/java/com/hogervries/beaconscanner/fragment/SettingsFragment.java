@@ -35,8 +35,9 @@ import butterknife.ButterKnife;
 public class SettingsFragment extends PreferenceFragment {
 
     private static final int MAX_VALUE_ID = 65535;
-    @Bind(R.id.beacon_format_edit_text)
-    EditText beaconFormatEditText;
+
+    @Bind(R.id.beacon_format_edit_text) EditText beaconFormatEditText;
+
     private Set<String> beaconFormatList;
     private SharedPreferences sharedPreferences;
 

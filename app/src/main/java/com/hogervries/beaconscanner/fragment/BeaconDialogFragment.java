@@ -25,6 +25,7 @@ import butterknife.OnClick;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
+@SuppressWarnings("WeakerAccess")
 public class BeaconDialogFragment extends DialogFragment {
 
     private static final String ARG_BEACON = "arg_beacon";
@@ -74,8 +75,8 @@ public class BeaconDialogFragment extends DialogFragment {
 
     private void bindBeacon(Beacon beacon) {
         detailFieldUuid.setText(beacon.getId1().toString());
-        detailFieldMajor.setText(beacon.getId2().toString());
-        detailFieldMinor.setText(beacon.getId3().toString());
+        detailFieldMajor.setText(beacon.getId2() != null ? beacon.getId2().toString() : "Not available");
+        detailFieldMinor.setText(beacon.getId3() != null ? beacon.getId3().toString() : "Not available");
         detailFieldDistance.setText(getString(R.string.distance, String.format("%.2f", beacon.getDistance())));
         detailFieldBluetoothAddress.setText(beacon.getBluetoothAddress());
         detailFieldRssi.setText(String.valueOf(beacon.getRssi()));

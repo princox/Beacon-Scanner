@@ -102,10 +102,16 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
          * @param beacon Beacon
          */
         public void bindBeacon(Beacon beacon) {
+            String majorMinorText = "Not available";
+            if (beacon.getId2() != null && beacon.getId3() != null) {
+                majorMinorText = mContext.getString(R.string.list_item_major_minor,
+                        mBeacon.getId2(),
+                        mBeacon.getId3());
+            }
             mBeacon = beacon;
             mBeaconTitle.setText(mBeacon.getId1().toString());
             mBeaconDistance.setText(mContext.getString(R.string.list_item_distance, String.format("%.2f", mBeacon.getDistance())));
-            mBeaconMajorMinor.setText(mContext.getString(R.string.list_item_major_minor, mBeacon.getId2(), mBeacon.getId3()));
+            mBeaconMajorMinor.setText(majorMinorText);
         }
 
         @Override
