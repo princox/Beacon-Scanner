@@ -49,7 +49,7 @@ public class BeaconFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.beacon_detail_with_graph, container, false);
+        View view = inflater.inflate(R.layout.fragment_beacon_details, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 

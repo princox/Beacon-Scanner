@@ -89,7 +89,7 @@
         android:layout_height="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@android:color/transparent"
         android:contentDescription="Beacon action button"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_action"
