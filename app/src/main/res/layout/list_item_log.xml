@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/log_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:ellipsize="end"
+        android:textAppearance="@style/AppTheme.TextAppearance.Title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/log_icon_image"
+        app:layout_constraintRight_toLeftOf="@+id/log_action_button"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        tools:layout_constraintLeft_creator="0"
+        tools:layout_constraintRight_creator="0"
+        tools:layout_constraintTop_creator="0"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:text="Beacon Disconnected" />
+
+    <ImageView
+        android:id="@+id/log_icon_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:contentDescription="Log type image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_wifi_notification"
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        tools:layout_constraintLeft_creator="0"
+        tools:layout_constraintTop_creator="0"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/log_time_stamp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        tools:layout_constraintRight_creator="0"
+        tools:layout_constraintTop_creator="0"
+        tools:layout_editor_absoluteX="330dp"
+        tools:layout_editor_absoluteY="30dp"
+        tools:text="26 Jan 2016 15:26:31" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
+        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
+        tools:layout_constraintBottom_creator="0"
+        tools:layout_constraintLeft_creator="0"
+        tools:layout_constraintRight_creator="0"
+        tools:layout_editor_absoluteX="72dp"
+        tools:layout_editor_absoluteY="81dp" />
+
+</android.support.constraint.ConstraintLayout>
