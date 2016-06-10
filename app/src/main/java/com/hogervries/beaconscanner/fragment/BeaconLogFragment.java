@@ -53,8 +53,9 @@ public class BeaconLogFragment extends Fragment {
         List<LogItem> logItems = new ArrayList<>();
         for (int i = 29; i > 20; i--) {
             logItems.add(new LogItem(R.drawable.ic_log_stop, "Stopped Scanning", i + "-06-2016 14:56:12"));
-            logItems.add(new LogItem(R.drawable.ic_wifi_notification, "Beacon Lost",  i + "-06-2016 14:56:24"));
-            logItems.add(new LogItem(R.drawable.ic_beacon, "Beacon Found", i + "-06-2016 14:56:14"));
+            logItems.add(new LogItem(R.drawable.ic_log_distance, "Distance: " + i + "m", i + "-06-2016 14:56:14"));
+            logItems.add(new LogItem(R.drawable.ic_log_rssi, "Rssi value: -59", i + "-06-2016 14:56:14"));
+            logItems.add(new LogItem(R.drawable.ic_beacon, "iBeacon Found", i + "-06-2016 14:56:14"));
             logItems.add(new LogItem(R.drawable.ic_log_start, "Started Scanning", i + "-06-2016 14:56:12"));
         }
         return logItems;

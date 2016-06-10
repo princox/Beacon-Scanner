@@ -1,5 +1,6 @@
 package com.hogervries.beaconscanner.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -26,6 +27,7 @@ import android.widget.Switch;
 
 import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 
 import java.util.ArrayList;
@@ -118,7 +120,7 @@ public class MainFragment extends Fragment {
                 stopMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
-                // TODO: 19/05/16 implement settings intent and anim.
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

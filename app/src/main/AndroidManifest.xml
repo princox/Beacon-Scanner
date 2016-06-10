@@ -29,6 +29,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Detail"/>
 
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Detail"/>
+
     </application>
 
 </manifest>
