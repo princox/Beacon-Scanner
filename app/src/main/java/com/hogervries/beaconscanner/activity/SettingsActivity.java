@@ -1,24 +1,39 @@
 package com.hogervries.beaconscanner.activity;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
+import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.fragment.SettingsFragment;
 
 /**
- * Trifork Netherlands.
- * GuestApp Social.
- * Mitchell de Vries & Mohammed Ali.
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
  */
-
 public class SettingsActivity extends SingleFragmentActivity {
 
     @NonNull
     @Override
     protected Fragment createFragment() {
         return SettingsFragment.newInstance();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_transition_fade_in, R.anim.anim_transition_exit_right);
     }
 }

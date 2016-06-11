@@ -55,10 +55,16 @@ public class BeaconActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            finish();
             onBackPressed();
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_transition_fade_in, R.anim.anim_transition_exit_left);
     }
 }

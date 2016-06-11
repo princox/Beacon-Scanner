@@ -3,9 +3,10 @@ package com.hogervries.beaconscanner;
 import android.support.annotation.DrawableRes;
 
 /**
- * Trifork Netherlands.
- * GuestApp Social.
- * Mitchell de Vries & Mohammed Ali.
+ * Beacon Scanner, file created on 07/03/16.
+ *
+ * @author Boyd Hogerheijde
+ * @author Mitchell de Vries
  */
 public class LogItem {
 
@@ -13,7 +14,7 @@ public class LogItem {
     private String action;
     private String timeStamp;
 
-    public LogItem(int logo, String action, String timeStamp) {
+    public LogItem(@DrawableRes int logo, String action, String timeStamp) {
         this.logo = logo;
         this.action = action;
         this.timeStamp = timeStamp;

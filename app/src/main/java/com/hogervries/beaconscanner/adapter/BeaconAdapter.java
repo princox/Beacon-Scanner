@@ -2,6 +2,7 @@ package com.hogervries.beaconscanner.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,8 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         public void onClick(View v) {
             // TODO: 19/05/16 implement listener action.
             context.startActivity(new Intent(context, BeaconActivity.class));
+            ((AppCompatActivity)context).overridePendingTransition(R.anim.anim_transition_from_left, R.anim.anim_transition_fade_out);
+
         }
     }
 }

@@ -120,7 +120,9 @@ public class MainFragment extends Fragment {
                 stopMenuItem.setVisible(false);
                 return true;
             case R.id.settings:
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
