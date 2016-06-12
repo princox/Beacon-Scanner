@@ -113,7 +113,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
         public void onClick(View v) {
             // TODO: 19/05/16 implement listener action.
             context.startActivity(new Intent(context, BeaconActivity.class));
-            ((AppCompatActivity)context).overridePendingTransition(R.anim.anim_transition_from_left, R.anim.anim_transition_fade_out);
+            ((AppCompatActivity)context).overridePendingTransition(R.anim.anim_transition_from_right, R.anim.anim_transition_fade_out);
         }
 
         @OnClick(R.id.beacon_action_button)

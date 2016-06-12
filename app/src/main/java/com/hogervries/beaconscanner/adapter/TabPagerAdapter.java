@@ -29,8 +29,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
-                return BeaconFragment.newInstance();
             case 1:
                 return BeaconLogFragment.newInstance();
             default:
@@ -41,8 +39,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0:
-                return context.getString(R.string.tab_details_title);
             case 1:
                 return context.getString(R.string.tab_log_title);
             default:
