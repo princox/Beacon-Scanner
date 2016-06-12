@@ -389,63 +389,29 @@
                         android:id="@+id/divider_2"
                         android:layout_width="match_parent"
                         android:layout_height="1px"
-                        android:layout_below="@id/about_us"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginEnd="0dp"
                         android:background="@color/colorDivider" />
 
-                    <LinearLayout
-                        android:id="@+id/scan_settings_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/divider_2"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
                             android:text="Contact Us"
+                            android:padding="@dimen/padding"
+                            android:drawableEnd="@drawable/ic_settings_arrow"
                             android:textAppearance="@style/AppTheme.TextAppearance.Title" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_settings_arrow" />
-
-                    </LinearLayout>
-
                     <View
                         android:id="@+id/divider_3"
                         android:layout_width="match_parent"
                         android:layout_height="1px"
-                        android:layout_below="@id/scan_settings_3"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginEnd="0dp"
                         android:background="@color/colorDivider" />
 
-                    <LinearLayout
-                        android:id="@+id/scan_settings_4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/divider_3"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
                         <TextView
-                            android:layout_width="0dp"
+                            android:padding="@dimen/padding"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:drawableEnd="@drawable/ic_settings_arrow"
                             android:text="Rate App On Play Store"
                             android:textAppearance="@style/AppTheme.TextAppearance.Title" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_settings_arrow" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

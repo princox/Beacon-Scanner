@@ -16,10 +16,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.fragment.dialog.ActionDialog;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -30,14 +32,22 @@ import butterknife.Unbinder;
  */
 public class BeaconFragment extends Fragment {
 
-    @BindView(R.id.rssi_chart) LineChart rssiChart;
-    @BindView(R.id.distance_text_view) TextView distanceTextView;
-    @BindView(R.id.detail_field_uuid) TextView detailFieldUuid;
-    @BindView(R.id.detail_field_blt_address) TextView detailFieldBltAddress;
-    @BindView(R.id.detail_field_minor_major) TextView detailFieldMinorMajor;
-    @BindView(R.id.detail_field_tx) TextView detailFieldTx;
-    @BindView(R.id.detail_field_manufacturer) TextView detailFieldManufacturer;
-    @BindColor(R.color.colorPrimary) int red;
+    @BindView(R.id.rssi_chart)
+    LineChart rssiChart;
+    @BindView(R.id.distance_text_view)
+    TextView distanceTextView;
+    @BindView(R.id.detail_field_uuid)
+    TextView detailFieldUuid;
+    @BindView(R.id.detail_field_blt_address)
+    TextView detailFieldBltAddress;
+    @BindView(R.id.detail_field_minor_major)
+    TextView detailFieldMinorMajor;
+    @BindView(R.id.detail_field_tx)
+    TextView detailFieldTx;
+    @BindView(R.id.detail_field_manufacturer)
+    TextView detailFieldManufacturer;
+    @BindColor(R.color.colorPrimary)
+    int red;
 
     private Unbinder unbinder;
     private LineDataSet dataSet;
@@ -142,4 +152,8 @@ public class BeaconFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.detail_set_action)
+    public void onClick() {
+        ActionDialog.newInstance().show(getActivity().getSupportFragmentManager(), "Action");
+    }
 }

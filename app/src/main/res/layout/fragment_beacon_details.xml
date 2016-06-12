@@ -175,6 +175,7 @@
                     android:textAppearance="@style/AppTheme.TextAppearance.Title"/>
 
                 <Button
+                    android:id="@+id/detail_set_action"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

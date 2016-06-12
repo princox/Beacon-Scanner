@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.activity.BeaconActivity;
+import com.hogervries.beaconscanner.fragment.dialog.ActionDialog;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Beacon Scanner, file created on 07/03/16.
@@ -112,7 +114,11 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.BeaconHold
             // TODO: 19/05/16 implement listener action.
             context.startActivity(new Intent(context, BeaconActivity.class));
             ((AppCompatActivity)context).overridePendingTransition(R.anim.anim_transition_from_left, R.anim.anim_transition_fade_out);
+        }
 
+        @OnClick(R.id.beacon_action_button)
+        public void onClick() {
+            ActionDialog.newInstance().show(((AppCompatActivity) context).getSupportFragmentManager(), "Action");
         }
     }
 }

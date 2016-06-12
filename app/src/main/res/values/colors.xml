@@ -9,4 +9,10 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#616161</color>
     <color name="colorDivider">#d3d3d3</color>
+
+    <color name="colorYellow">#FFC107</color>
+    <color name="colorBlue">#03A9F4</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorOrange">#FF5722</color>
+
 </resources>
