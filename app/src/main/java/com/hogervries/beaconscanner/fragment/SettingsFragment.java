@@ -1,8 +1,8 @@
 package com.hogervries.beaconscanner.fragment;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hogervries.beaconscanner.R;
+import com.hogervries.beaconscanner.fragment.dialog.GeneralDialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Trifork Netherlands.
@@ -44,5 +46,28 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.settings_tracking)
+    void onTrackingSettingClick(){
+        GeneralDialogFragment fragment = new GeneralDialogFragment();
+        fragment.newInstance("TrackingAge", "test", new GeneralDialogFragment.OnDialogFragmentClickListener() {
+            @Override
+            public void onSaveClicked() {
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("Test", "test").apply();
+            }
+        });
+        fragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    @OnClick(R.id.settings_notifications)
+    void onNotificationSettingClick(){
+        GeneralDialogFragment fragment = new GeneralDialogFragment();
+        fragment.newInstance("Notification", "test", new GeneralDialogFragment.OnDialogFragmentClickListener() {
+            @Override
+            public void onSaveClicked() {
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putString("Test", "test").apply();
+            }
+        });
+        fragment.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
 
 }
