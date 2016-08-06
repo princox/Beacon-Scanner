@@ -9,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hogervries.beaconscanner.Beacon;
-import com.hogervries.beaconscanner.LogItem;
+import com.hogervries.beaconscanner.domain.LogItem;
 import com.hogervries.beaconscanner.R;
-import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 import com.hogervries.beaconscanner.adapter.LogAdapter;
 
 import java.util.ArrayList;

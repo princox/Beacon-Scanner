@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Scanning">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_notification"
+            android:title="Notifications" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_background_scanning"
+            android:title="Background scanning" />
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:inputType="number"
+            android:key="@string/pref_tracking_age"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Test"
+            android:title="Tracking age (ms)" />
+        <EditTextPreference
+            android:defaultValue="1100"
+            android:inputType="number"
+            android:key="@string/pref_scan_frequency"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Test"
+            android:title="Scan frequency (ms)" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="@string/pref_between_scan_period"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Between scan period (ms)" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Transmitting">
+        <ListPreference
+            android:defaultValue="00000000&#8211;0000&#8211;0000&#8211;0000&#8211;000000000000"
+            android:entries="@array/uuidArray"
+            android:entryValues="@array/uuidValues"
+            android:key="@string/pref_uuid"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="UUID" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_major"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Major" />
+        <EditTextPreference
+            android:defaultValue="1"
+            android:inputType="number"
+            android:key="@string/pref_minor"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Minor" />
+        <EditTextPreference
+            android:defaultValue="-59"
+            android:inputType="number"
+            android:key="@string/pref_tx_power"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="TX-Power" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Logging">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference_logs"
+            android:title="Save logs" />
+        <EditTextPreference
+            android:defaultValue="/Downloads"
+            android:key="@string/pref_save_location"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Save location" />
+        <EditTextPreference
+            android:defaultValue="1000"
+            android:inputType="number"
+            android:key="@string/pref_max_lines"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Max lines" />
+        <Preference
+            android:key="@string/pref_show_log"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Show log file" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Info &amp; Contact">
+        <Preference
+            android:key="preference_about_us"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="About us" />
+
+        <Preference
+            android:key="preference_contact_us"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Contact us">
+            <intent
+                android:action="android.intent.action.SENDTO"
+                android:data="mailto:mdvries1@gmail.com" />
+        </Preference>
+
+        <Preference
+            android:key="preference_rate"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Rate app on play store">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://play.google.com/store/apps/details?id=com.hogervries.beaconscanner" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

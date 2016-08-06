@@ -1,4 +1,4 @@
-package com.hogervries.beaconscanner;
+package com.hogervries.beaconscanner.domain;
 
 /**
  * Beacon Scanner, file created on 19/05/16.

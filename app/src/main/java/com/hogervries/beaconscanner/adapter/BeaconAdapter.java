@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hogervries.beaconscanner.Beacon;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.activity.BeaconActivity;
 import com.hogervries.beaconscanner.fragment.dialog.ActionDialog;
+
+import org.altbeacon.beacon.Beacon;
 
 import java.util.List;
 

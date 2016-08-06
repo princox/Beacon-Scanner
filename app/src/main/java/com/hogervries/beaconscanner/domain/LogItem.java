@@ -1,4 +1,4 @@
-package com.hogervries.beaconscanner;
+package com.hogervries.beaconscanner.domain;
 
 import android.support.annotation.DrawableRes;
 

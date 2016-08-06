@@ -1,0 +1,13 @@
+<resources>
+    <string-array name="uuidArray">
+        <item>00000000&#8211;0000&#8211;0000&#8211;0000&#8211;000000000000</item>
+        <item>f7826da6&#8211;4fa2&#8211;4e98&#8211;8024&#8211;bc5b71e0893e</item>
+        <item>f7826da6&#8211;4fa2&#8211;4e98&#8211;8024&#8211;bc5b71e0893e</item>
+    </string-array>
+
+    <string-array name="uuidValues">
+        <item>00000000&#8211;0000&#8211;0000&#8211;0000&#8211;000000000000</item>
+        <item>f7826da6&#8211;4fa2&#8211;4e98&#8211;8024&#8211;bc5b71e0893e</item>
+        <item>f7826da6&#8211;4fa2&#8211;4e98&#8211;8024&#8211;bc5b71e0893e</item>
+    </string-array>
+</resources>

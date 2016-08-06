@@ -1,11 +1,14 @@
 package com.hogervries.beaconscanner.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,13 +27,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
-import com.hogervries.beaconscanner.Beacon;
+import com.hogervries.beaconscanner.Scanner;
 import com.hogervries.beaconscanner.R;
 import com.hogervries.beaconscanner.activity.SettingsActivity;
 import com.hogervries.beaconscanner.adapter.BeaconAdapter;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BleNotAvailableException;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindColor;
@@ -38,6 +47,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.hogervries.beaconscanner.Scanner.*;
 
 /**
  * Beacon Scanner, file created on 10/03/16.
@@ -48,7 +59,7 @@ import butterknife.Unbinder;
  * @author Boyd Hogerheijde
  * @author Mitchell de Vries
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements OnScanBeaconsListener {
 
     private static final int SCANNING = 0;
     private static final int TRANSMITTING = 1;
@@ -66,11 +77,15 @@ public class MainFragment extends Fragment {
     @BindColor(R.color.colorWhite) int white;
     @BindColor(R.color.colorGrey) int grey;
 
+    private Scanner scanner;
+    private BeaconManager beaconManager;
     private Unbinder unbinder;
     private MenuItem stopMenuItem;
     private boolean isScanning;
     private boolean isTransmitting;
     private int mode;
+
+    private List<Beacon> beacons = new ArrayList<>();
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -92,17 +107,23 @@ public class MainFragment extends Fragment {
         setToolbar();
 
         beaconRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        beaconRecycler.setAdapter(new BeaconAdapter(getBeacons(), null, getActivity()));
+        updateUI();
+
+        beaconManager = BeaconManager.getInstanceForApplication(getActivity());
+
+        initBeaconScanService();
 
         disableSwitchDrag();
 
         return beaconListView;
     }
 
-    private List<Beacon> getBeacons() {
-        List<Beacon> beacons = new ArrayList<>();
-        for (int i = 0; i < 100; i++) beacons.add(new Beacon());
-        return beacons;
+    private void updateUI() {
+        beaconRecycler.setAdapter(new BeaconAdapter(beacons, null, getActivity()));
+        if (beacons.size() > 0) {
+            listLayout.setVisibility(View.VISIBLE);
+            listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
+        }
     }
 
     @Override
@@ -135,6 +156,10 @@ public class MainFragment extends Fragment {
 
     private void setToolbarTitle(@StringRes int title) {
         toolbar.setTitle(title);
+    }
+
+    private void initBeaconScanService() {
+        scanner = new Scanner(getActivity(), beaconManager, this);
     }
 
     @OnClick({R.id.start_button, R.id.start_button_circle})
@@ -175,20 +200,40 @@ public class MainFragment extends Fragment {
     }
 
     private void startScanning() {
-        isScanning = true;
-        switchLayout.setVisibility(View.INVISIBLE);
-        startAnimation();
-        listLayout.setVisibility(View.VISIBLE);
-        listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_up));
-        stopMenuItem.setVisible(true);
+        boolean bleAvailable = false;
+
+        try {
+            bleAvailable = beaconManager.checkAvailability();
+        } catch (BleNotAvailableException e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        if (bleAvailable) {
+            isScanning = true;
+            switchLayout.setVisibility(View.INVISIBLE);
+            startAnimation();
+            beaconManager.bind(scanner);
+            stopMenuItem.setVisible(true);
+        } else {
+            requestBluetooth();
+        }
     }
 
     private void stopScanning() {
         isScanning = false;
         switchLayout.setVisibility(View.VISIBLE);
         stopAnimation();
-        listLayout.setVisibility(View.INVISIBLE);
-        listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
+        unbindBeaconManager();
+        stopMenuItem.setVisible(false);
+        if (listLayout.getVisibility() == View.VISIBLE) {
+            beacons.clear();
+            listLayout.setVisibility(View.INVISIBLE);
+            listLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.anim_slide_down));
+        }
+    }
+
+    private void unbindBeaconManager() {
+        beaconManager.unbind(scanner);
     }
 
     private void toggleTransmitting() {
@@ -242,8 +287,42 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (isScanning) unbindBeaconManager();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void requestBluetooth() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.bluetooth_not_enabled))
+                .setMessage(getString(R.string.please_enable_bluetooth))
+                .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Initializing intent to go to bluetooth settings.
+                        Intent bltSettingsIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                        startActivity(bltSettingsIntent);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onScanBeacons(Collection<Beacon> beacons) {
+        this.beacons = (List<Beacon>) beacons;
+        if (isAdded()) getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isScanning) {
+                    updateUI();
+                }
+            }
+        });
     }
 }

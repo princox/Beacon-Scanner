@@ -1,48 +1,30 @@
 package com.hogervries.beaconscanner.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public class SettingsFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+            setHasOptionsMenu(true);
 
-import com.hogervries.beaconscanner.R;
+            bindPreferenceSummaryToValue(findPreference("preference_tracking_age"));
+            bindPreferenceSummaryToValue(findPreference("preference_scan_frequency"));
+            bindPreferenceSummaryToValue(findPreference("preference_between_scan_period"));
+            bindPreferenceSummaryToValue(findPreference("preference_uuid"));
+            bindPreferenceSummaryToValue(findPreference("preference_major"));
+            bindPreferenceSummaryToValue(findPreference("preference_minor"));
+            bindPreferenceSummaryToValue(findPreference("preference_tx_power"));
+            bindPreferenceSummaryToValue(findPreference("preference_log_max_lines"));
+        }
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-/**
- * Trifork Netherlands.
- * GuestApp Social.
- * Mitchell de Vries & Mohammed Ali.
- */
-
-public class SettingsFragment extends Fragment {
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ButterKnife.bind(this, view);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        actionBar.setTitle("Settings");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        return view;
-    }
-
-
-}

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hogervries.beaconscanner.LogItem;
+import com.hogervries.beaconscanner.domain.LogItem;
 import com.hogervries.beaconscanner.R;
 
 import java.util.List;
